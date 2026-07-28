@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="styles-fixed.css">
+    <link rel="stylesheet" href="stroke-animation.css">
 </head>
 <body>
     <!-- Navigation -->
@@ -316,10 +317,14 @@
                     <div class="stroke-description" id="stroke-desc"></div>
                     <div class="stroke-visual" id="stroke-visual"></div>
                 </div>
-                <div class="modal-cta">
-                    <p>📚 Ingin melihat urutan goresan lebih detail + penjelasan materi lebih lengkap?</p>
-                    <p>Dapatkan <strong>Mini E-Book</strong> dengan harga murah!</p>
-                    <a href="https://lynk.id/panmise/p5p96jjydow8" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Buy E-Book</a>
+                <div class="stroke-anim-section">
+                    <div class="stroke-anim-header">
+                        <h4>🖊️ Animasi Urutan Goresan</h4>
+                        <button type="button" class="stroke-anim-replay" id="stroke-anim-replay">🔄 Ulangi</button>
+                    </div>
+                    <div class="stroke-anim-grid" id="stroke-anim-grid">
+                        <!-- Animasi SVG urutan goresan diisi otomatis oleh stroke-animation.js -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -360,6 +365,7 @@
 
     <script src="data.js"></script>
     <script src="script.js"></script>
+    <script src="stroke-animation.js"></script>
     <script src="script-bg.js"></script>
 </body>
 </html>

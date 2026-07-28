@@ -129,6 +129,11 @@ function showCharacterModal(charData) {
     }
     
     modal.classList.add('active');
+
+    // Render animasi urutan goresan (stroke order) untuk karakter yang dipilih
+    if (typeof renderStrokeAnimation === 'function') {
+        renderStrokeAnimation(charData.char);
+    }
 }
 
 function closeModal() {
