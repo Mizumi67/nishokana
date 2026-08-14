@@ -6,7 +6,7 @@
     <title>Game Quiz - パンミセ</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,7 +16,7 @@
         
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #FCE4EC 0%, #FFF9C4 100%);
+            background: linear-gradient(135deg, #FDE7F3 0%, #E8E1FF 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -24,6 +24,28 @@
             padding: 20px;
             position: relative;
             overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(108, 43, 217, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(108, 43, 217, 0.05) 1px, transparent 1px);
+            background-size: 46px 46px;
+        }
+
+        body.dark-mode::before {
+            background-image:
+                linear-gradient(rgba(0, 229, 255, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 61, 166, 0.05) 1px, transparent 1px);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
         }
 
         /* Floating background characters */
@@ -41,7 +63,7 @@
             position: absolute;
             font-family: 'Noto Sans JP', sans-serif;
             font-size: 4rem;
-            color: rgba(230, 57, 70, 0.12);
+            color: rgba(255, 46, 126, 0.12);
             font-weight: 300;
             animation: floatFade 8s ease-in-out forwards;
         }
@@ -59,7 +81,8 @@
             padding: 40px;
             max-width: 600px;
             width: 100%;
-            box-shadow: 0 20px 60px rgba(230, 57, 70, 0.15);
+            box-shadow: 0 20px 60px rgba(255, 46, 126, 0.15);
+            border: 1px solid rgba(108, 43, 217, 0.15);
             position: relative;
             z-index: 1;
         }
@@ -72,12 +95,12 @@
         .game-title {
             font-family: 'Noto Sans JP', sans-serif;
             font-size: 2.5rem;
-            color: #E63946;
+            color: #FF2E7E;
             margin-bottom: 10px;
         }
         
         .game-subtitle {
-            color: #8D99AE;
+            color: #6E668C;
             font-size: 1.1rem;
         }
         
@@ -97,7 +120,7 @@
         
         .game-type-btn {
             padding: 30px;
-            background: linear-gradient(135deg, #FF6B6B 0%, #E63946 100%);
+            background: linear-gradient(135deg, #FF6BC8 0%, #FF2E7E 100%);
             color: white;
             border: none;
             border-radius: 15px;
@@ -109,11 +132,11 @@
         
         .game-type-btn:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(230, 57, 70, 0.35);
+            box-shadow: 0 10px 25px rgba(255, 46, 126, 0.35);
         }
         
         .game-description {
-            background: #F8F9FA;
+            background: #F3EEFF;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
@@ -128,7 +151,7 @@
         .settings-group label {
             display: block;
             font-weight: 600;
-            color: #2B2D42;
+            color: #1A1033;
             margin-bottom: 10px;
             font-size: 1.1rem;
         }
@@ -136,7 +159,7 @@
         .settings-group input {
             width: 100%;
             padding: 15px;
-            border: 2px solid #E0E0E0;
+            border: 2px solid #E4DBFF;
             border-radius: 10px;
             font-size: 1rem;
             transition: all 0.3s ease;
@@ -144,11 +167,11 @@
         
         .settings-group input:focus {
             outline: none;
-            border-color: #E63946;
+            border-color: #FF2E7E;
         }
         
         .settings-info {
-            color: #8D99AE;
+            color: #6E668C;
             font-size: 0.9rem;
             margin-top: 5px;
         }
@@ -160,29 +183,31 @@
             border-radius: 10px;
             font-size: 1.1rem;
             font-weight: 600;
+            font-family: 'Orbitron', 'Poppins', sans-serif;
+            letter-spacing: 0.3px;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 10px;
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #FF6B6B 0%, #E63946 100%);
+            background: linear-gradient(135deg, #FF6BC8 0%, #FF2E7E 100%);
             color: white;
         }
         
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(230, 57, 70, 0.35);
+            box-shadow: 0 5px 15px rgba(255, 46, 126, 0.35);
         }
         
         .btn-secondary {
-            background: #F8F9FA;
-            color: #2B2D42;
-            border: 2px solid #E0E0E0;
+            background: #F3EEFF;
+            color: #1A1033;
+            border: 2px solid #E4DBFF;
         }
         
         .btn-secondary:hover {
-            background: #E0E0E0;
+            background: #E4DBFF;
         }
         
         /* Game Screen */
@@ -195,7 +220,7 @@
         }
         
         .status-item {
-            background: #F8F9FA;
+            background: #F3EEFF;
             padding: 15px 25px;
             border-radius: 10px;
             text-align: center;
@@ -205,18 +230,19 @@
         
         .status-label {
             font-size: 0.9rem;
-            color: #8D99AE;
+            color: #6E668C;
             margin-bottom: 5px;
         }
         
         .status-value {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #2B2D42;
+            font-family: 'Orbitron', 'Poppins', sans-serif;
+            color: #1A1033;
         }
         
         .timer-warning {
-            color: #E63946 !important;
+            color: #FF2E7E !important;
             animation: pulse 1s infinite;
         }
         
@@ -226,7 +252,7 @@
         }
         
         .question-card {
-            background: linear-gradient(135deg, #FCE4EC 0%, #FFF9C4 100%);
+            background: linear-gradient(135deg, #FDE7F3 0%, #E8E1FF 100%);
             padding: 50px;
             border-radius: 15px;
             text-align: center;
@@ -236,12 +262,12 @@
         .question-text {
             font-family: 'Noto Sans JP', sans-serif;
             font-size: 5rem;
-            color: #2B2D42;
+            color: #1A1033;
             margin-bottom: 20px;
         }
         
         .question-label {
-            color: #8D99AE;
+            color: #6E668C;
             font-size: 1.1rem;
         }
         
@@ -249,7 +275,7 @@
             width: 100%;
             padding: 20px;
             font-size: 1.3rem;
-            border: 3px solid #E63946;
+            border: 3px solid #FF2E7E;
             border-radius: 10px;
             text-align: center;
             font-weight: 600;
@@ -257,8 +283,8 @@
         
         .answer-input:focus {
             outline: none;
-            border-color: #c92a35;
-            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.2);
+            border-color: #D6006F;
+            box-shadow: 0 0 0 3px rgba(255, 46, 126, 0.2);
         }
         
         .answer-feedback {
@@ -293,18 +319,20 @@
         .result-grade {
             font-size: 4rem;
             font-weight: 700;
-            color: #E63946;
+            font-family: 'Orbitron', 'Poppins', sans-serif;
+            color: #FF2E7E;
+            text-shadow: 0 0 24px rgba(255, 46, 126, 0.35);
             margin-bottom: 20px;
         }
         
         .result-score {
             font-size: 2rem;
-            color: #2B2D42;
+            color: #1A1033;
             margin-bottom: 30px;
         }
         
         .result-stats {
-            background: #F8F9FA;
+            background: #F3EEFF;
             padding: 30px;
             border-radius: 15px;
             margin-bottom: 30px;
@@ -314,7 +342,7 @@
             display: flex;
             justify-content: space-between;
             padding: 10px 0;
-            border-bottom: 1px solid #E0E0E0;
+            border-bottom: 1px solid #E4DBFF;
         }
         
         .stat-row:last-child {
@@ -322,12 +350,12 @@
         }
         
         .stat-label {
-            color: #8D99AE;
+            color: #6E668C;
         }
         
         .stat-value {
             font-weight: 600;
-            color: #2B2D42;
+            color: #1A1033;
         }
         
         /* Dark/Light Mode Toggle */
@@ -337,7 +365,7 @@
             right: 20px;
             z-index: 100;
             background: rgba(255,255,255,0.15);
-            border: 2px solid #E63946;
+            border: 2px solid #FF2E7E;
             border-radius: 8px;
             padding: 8px 12px;
             cursor: pointer;
@@ -351,79 +379,80 @@
 
         .game-theme-toggle:hover {
             transform: translateY(-2px);
-            background: rgba(230, 57, 70, 0.15);
+            background: rgba(255, 46, 126, 0.15);
         }
 
         /* Dark Mode - Body & Background */
         body.dark-mode {
-            background: linear-gradient(135deg, #2D1B2E 0%, #1A1A2E 100%);
+            background: linear-gradient(135deg, #150E29 0%, #0A0714 100%);
         }
 
         body.dark-mode .floating-char-bg {
-            color: rgba(230, 57, 70, 0.18);
+            color: rgba(255, 46, 126, 0.18);
         }
 
         /* Dark Mode - Game Container */
         body.dark-mode .game-container {
-            background: #2D2D2D;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            color: #E8E8E8;
+            background: #150E29;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(0, 229, 255, 0.12);
+            border-color: rgba(0, 229, 255, 0.2);
+            color: #EDE9FE;
         }
 
-        body.dark-mode .game-subtitle { color: #B0B0B0; }
+        body.dark-mode .game-subtitle { color: #A29BC7; }
 
         body.dark-mode .game-description {
-            background: #3D3D3D;
-            color: #E8E8E8;
+            background: #2A1F4A;
+            color: #EDE9FE;
         }
 
-        body.dark-mode .settings-group label { color: #E8E8E8; }
+        body.dark-mode .settings-group label { color: #EDE9FE; }
 
         body.dark-mode .settings-group input {
-            background: #3D3D3D;
-            border-color: #555;
-            color: #E8E8E8;
+            background: #2A1F4A;
+            border-color: #4A3B6E;
+            color: #EDE9FE;
         }
 
-        body.dark-mode .settings-info { color: #B0B0B0; }
+        body.dark-mode .settings-info { color: #A29BC7; }
 
         body.dark-mode .btn-secondary {
-            background: #3D3D3D;
-            color: #E8E8E8;
-            border-color: #555;
+            background: #2A1F4A;
+            color: #EDE9FE;
+            border-color: #4A3B6E;
         }
 
-        body.dark-mode .btn-secondary:hover { background: #4D4D4D; }
+        body.dark-mode .btn-secondary:hover { background: #3A2D5C; }
 
         body.dark-mode .status-item {
-            background: #3D3D3D;
-            color: #E8E8E8;
+            background: #2A1F4A;
+            color: #EDE9FE;
         }
 
-        body.dark-mode .status-label { color: #B0B0B0; }
-        body.dark-mode .status-value { color: #E8E8E8; }
+        body.dark-mode .status-label { color: #A29BC7; }
+        body.dark-mode .status-value { color: #EDE9FE; }
 
         body.dark-mode .question-card {
-            background: linear-gradient(135deg, #3A1B2E 0%, #2D2040 100%);
+            background: linear-gradient(135deg, #241640 0%, #2A1F4A 100%);
         }
 
-        body.dark-mode .question-text { color: #E8E8E8; }
-        body.dark-mode .question-label { color: #B0B0B0; }
+        body.dark-mode .question-text { color: #EDE9FE; }
+        body.dark-mode .question-label { color: #A29BC7; }
 
         body.dark-mode .answer-input {
-            background: #3D3D3D;
-            color: #E8E8E8;
-            border-color: #E63946;
+            background: #2A1F4A;
+            color: #EDE9FE;
+            border-color: #FF2E7E;
         }
 
         body.dark-mode .result-stats {
-            background: #3D3D3D;
+            background: #2A1F4A;
         }
 
-        body.dark-mode .stat-row { border-color: #555; }
-        body.dark-mode .stat-label { color: #B0B0B0; }
-        body.dark-mode .stat-value { color: #E8E8E8; }
-        body.dark-mode .result-score { color: #E8E8E8; }
+        body.dark-mode .stat-row { border-color: #4A3B6E; }
+        body.dark-mode .stat-label { color: #A29BC7; }
+        body.dark-mode .stat-value { color: #EDE9FE; }
+        body.dark-mode .result-score { color: #EDE9FE; }
 
         @media (max-width: 600px) {
             .game-container {

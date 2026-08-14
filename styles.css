@@ -6,50 +6,58 @@
 }
 
 :root {
-    --primary-color: #E63946;
-    --secondary-color: #1D3557;
-    --accent-color: #F4A261;
-    --text-dark: #2B2D42;
-    --text-light: #8D99AE;
-    --bg-white: #FFFFFF;
-    --bg-light: #F8F9FA;
-    --bg-soft: #FCE4EC;
-    --sakura: #FFB7C5;
-    --success: #2A9D8F;
-    --warning: #E76F51;
-    
+    --primary-color: #FF2E7E;
+    --secondary-color: #6C2BD9;
+    --accent-color: #00C2D1;
+    --text-dark: #1A1033;
+    --text-light: #6E668C;
+    --bg-white: #FBF9FF;
+    --bg-light: #F3EEFF;
+    --bg-soft: #FDE7F3;
+    --sakura: #FF7AC6;
+    --success: #00C896;
+    --warning: #FFB020;
+
+    --neon-pink: #FF2E9A;
+    --neon-cyan: #00E5FF;
+    --neon-purple: #8B5CF6;
+
     --font-japanese: 'Noto Sans JP', sans-serif;
     --font-main: 'Poppins', sans-serif;
-    
+    --font-display: 'Orbitron', 'Poppins', sans-serif;
+
     --spacing-xs: 0.5rem;
     --spacing-sm: 1rem;
     --spacing-md: 1.5rem;
     --spacing-lg: 2rem;
     --spacing-xl: 3rem;
-    
+
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 16px;
-    
-    --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
-    --shadow-lg: 0 8px 32px rgba(0,0,0,0.16);
+
+    --shadow-sm: 0 2px 14px rgba(255, 46, 126, 0.14);
+    --shadow-md: 0 6px 22px rgba(108, 43, 217, 0.16);
+    --shadow-lg: 0 10px 40px rgba(0, 194, 209, 0.18);
 }
 
 /* Dark Mode Variables */
 body.dark-mode {
-    --text-dark: #E8E8E8;
-    --text-light: #B0B0B0;
-    --bg-white: #1A1A1A;
-    --bg-light: #2D2D2D;
-    --bg-soft: #3A2A2F;
-    --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
-    --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+    --text-dark: #EDE9FE;
+    --text-light: #A29BC7;
+    --bg-white: #0A0714;
+    --bg-light: #150E29;
+    --bg-soft: #241640;
+    --primary-color: #FF3DA6;
+    --secondary-color: #8B5CF6;
+    --accent-color: #00E5FF;
+    --shadow-sm: 0 0 14px rgba(0, 229, 255, 0.16), 0 2px 8px rgba(0,0,0,0.4);
+    --shadow-md: 0 0 26px rgba(255, 61, 166, 0.22), 0 4px 16px rgba(0,0,0,0.5);
+    --shadow-lg: 0 0 46px rgba(139, 92, 246, 0.28), 0 8px 32px rgba(0,0,0,0.6);
 }
 
 body.dark-mode .home-section {
-    background: linear-gradient(135deg, #2D1B2E 0%, #3D3349 100%);
+    background: linear-gradient(135deg, #150E29 0%, #241640 100%);
 }
 
 body.dark-mode .hero-description-simple p {
@@ -57,7 +65,7 @@ body.dark-mode .hero-description-simple p {
 }
 
 body.dark-mode .encouragement-simple {
-    background-color: rgba(42, 42, 42, 0.8);
+    background-color: rgba(21, 14, 41, 0.75);
 }
 
 body.dark-mode .floating-char {
@@ -65,47 +73,47 @@ body.dark-mode .floating-char {
 }
 
 body.dark-mode .content-card {
-    background-color: #2D2D2D;
-    border: 1px solid #3D3D3D;
+    background-color: #150E29;
+    border: 1px solid #2A1F4A;
 }
 
 body.dark-mode .kana-item {
-    background-color: #2D2D2D;
-    border: 2px solid #3D3D3D;
+    background-color: #150E29;
+    border: 2px solid #2A1F4A;
 }
 
 body.dark-mode .kana-item:hover {
-    background-color: #3A2A2F;
+    background-color: #241640;
 }
 
 body.dark-mode .kotoba-card {
-    background-color: #2D2D2D;
-    border-color: #3D3D3D;
+    background-color: #150E29;
+    border-color: #2A1F4A;
 }
 
 body.dark-mode .search-box input {
-    background-color: #2D2D2D;
+    background-color: #150E29;
     color: var(--text-dark);
-    border-color: #3D3D3D;
+    border-color: #2A1F4A;
 }
 
 body.dark-mode .filter-btn {
-    background-color: #2D2D2D;
+    background-color: #150E29;
     color: var(--primary-color);
     border-color: var(--primary-color);
 }
 
 body.dark-mode .modal-content {
-    background-color: #2D2D2D;
+    background-color: #150E29;
 }
 
 body.dark-mode .examples,
 body.dark-mode .stroke-description {
-    background-color: #3D3D3D;
+    background-color: #2A1F4A;
 }
 
 body.dark-mode .footer {
-    background-color: #0D1B2A;
+    background-color: #0A0714;
 }
 
 html {
@@ -201,7 +209,7 @@ body {
     left: 0;
     top: calc(100% + 10px);
     transform: none;
-    background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+    background: linear-gradient(135deg, #FF6BC8 0%, #8B5CF6 100%);
     color: white;
     padding: 6px 14px;
     border-radius: 20px;
@@ -222,7 +230,7 @@ body {
     height: 0;
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-bottom: 8px solid #FF6B6B;
+    border-bottom: 8px solid #FF6BC8;
 }
 
 @keyframes popupBounce {
@@ -343,7 +351,7 @@ body:not(.dark-mode) .moon-icon {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    background: linear-gradient(135deg, #FCE4EC 0%, #FFF9C4 100%);
+    background: linear-gradient(135deg, #FDE7F3 0%, #E8E1FF 100%);
     position: relative;
     overflow: hidden;
     margin-top: 70px;
@@ -438,7 +446,7 @@ body:not(.dark-mode) .moon-icon {
 }
 
 .btn-primary:hover {
-    background-color: #c92a35;
+    background-color: #D6006F;
     transform: translateY(-3px);
     box-shadow: var(--shadow-md);
 }
@@ -449,7 +457,7 @@ body:not(.dark-mode) .moon-icon {
 }
 
 .btn-secondary:hover {
-    background-color: #152841;
+    background-color: #4A1FAE;
     transform: translateY(-3px);
     box-shadow: var(--shadow-md);
 }
@@ -644,7 +652,7 @@ body:not(.dark-mode) .moon-icon {
 
 /* ===== Kotoba Section ===== */
 .note-card {
-    background: linear-gradient(135deg, #FFE5E5 0%, #FFF9E6 100%);
+    background: linear-gradient(135deg, #FFE3F0 0%, #ECE4FF 100%);
     border-left: 4px solid var(--warning);
 }
 
@@ -743,7 +751,7 @@ body:not(.dark-mode) .moon-icon {
 }
 
 .game-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
     color: white;
     padding: var(--spacing-xl);
     border-radius: var(--radius-lg);
@@ -776,7 +784,7 @@ body:not(.dark-mode) .moon-icon {
 
 .game-btn {
     background-color: white;
-    color: #667eea;
+    color: var(--secondary-color);
     font-weight: 700;
 }
 
@@ -836,7 +844,7 @@ body:not(.dark-mode) .moon-icon {
     text-align: center;
     margin-bottom: var(--spacing-lg);
     padding: var(--spacing-lg);
-    background: linear-gradient(135deg, #FCE4EC 0%, #FFF9C4 100%);
+    background: linear-gradient(135deg, #FDE7F3 0%, #E8E1FF 100%);
     border-radius: var(--radius-md);
 }
 
@@ -878,7 +886,7 @@ body:not(.dark-mode) .moon-icon {
 .modal-cta {
     margin-top: var(--spacing-lg);
     padding: var(--spacing-lg);
-    background: linear-gradient(135deg, #FFE5E5 0%, #FFF9E6 100%);
+    background: linear-gradient(135deg, #FFE3F0 0%, #ECE4FF 100%);
     border-radius: var(--radius-md);
     text-align: center;
 }
@@ -1026,7 +1034,7 @@ body:not(.dark-mode) .moon-icon {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #c92a35;
+    background: #D6006F;
 }
 
 ::selection {
@@ -1045,7 +1053,7 @@ body:not(.dark-mode) .moon-icon {
 }
 
 .pagination-btn {
-    background: linear-gradient(135deg, #E63946 0%, #c92a35 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, #D6006F 100%);
     color: white;
     border: none;
     border-radius: 50%;
