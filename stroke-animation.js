@@ -8,13 +8,25 @@
     const strokeSvgCache = {};
 
     // File SVG dari AnimCJK ikut nyimpen <style> sendiri di dalamnya buat
-    // ngatur animasi goresan. Situs ini makein CSP yang ngelarang inline
-    // style, jadi <style> itu kepotong browser dan animasinya nggak pernah
-    // jalan (hurufnya cuma nongol diem, nggak gerak). CSS yang setara sudah
-    // dipindah ke styles.css (yang aman lewat CSP), makanya di sini
-    // <style>-nya dibuang dari markup sebelum ditempel ke halaman.
-    function stripEmbeddedStyle(svgText) {
-        return svgText.replace(/<style[\s\S]*?<\/style>/i, '');
+    // ngatur animasi goresan, dan tiap <path> goresan juga punya atribut
+    // style="--d:Xs" buat ngatur jeda urutannya. Situs ini makein CSP yang
+    // ngelarang inline style (baik <style> maupun atribut style=""), jadi
+    // dua-duanya kepotong browser dan animasinya nggak pernah jalan (hurufnya
+    // cuma nongol diem, nggak gerak). CSS-nya udah dipindah ke styles.css
+    // (yang aman lewat CSP). Buat jeda per-goresan, atribut style="--d:..."
+    // diganti jadi data-delay biasa, terus nilainya diterapkan lewat
+    // element.style.setProperty() dari JS setelah SVG-nya nempel ke halaman —
+    // itu jalan meskipun CSP-nya ketat, soalnya bukan atribut style mentah.
+    function sanitizeStrokeSvg(svgText) {
+        return svgText
+            .replace(/<style[\s\S]*?<\/style>/i, '')
+            .replace(/style="--d:([^;"]+);?"/g, 'data-delay="$1"');
+    }
+
+    function applyStrokeDelays(root) {
+        root.querySelectorAll('[data-delay]').forEach((el) => {
+            el.style.setProperty('--d', el.getAttribute('data-delay'));
+        });
     }
 
     let activeChar = '';
@@ -27,7 +39,7 @@
 
         const pending = fetch(`${SVG_FOLDER}/${codePoint}.svg`)
             .then((response) => (response.ok ? response.text() : null))
-            .then((svgText) => (svgText ? stripEmbeddedStyle(svgText) : null))
+            .then((svgText) => (svgText ? sanitizeStrokeSvg(svgText) : null))
             .catch(() => null);
 
         strokeSvgCache[codePoint] = pending;
@@ -42,6 +54,7 @@
 
         if (svgText) {
             card.innerHTML = svgText;
+            applyStrokeDelays(card);
         } else {
             card.classList.add('stroke-anim-missing');
             card.innerHTML = '<span>Animasi belum tersedia untuk huruf ini</span>';
