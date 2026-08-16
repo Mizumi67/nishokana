@@ -75,6 +75,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeParam) {
         gameType = typeParam;
         showScreen('settings-screen');
+        // Class ini cuma buat cegah kedip pas awal render (lihat game.css +
+        // type-preselect.js). Begitu game.js ambil alih lewat showScreen(),
+        // class-nya harus dicabut -- kalau enggak, nanti pas user klik
+        // "Kembali" ke selection-screen, CSS override ini bakal terus
+        // nge-hidden selection-screen walau class 'active'-nya udah dikasih.
+        document.documentElement.classList.remove('has-type-param');
     }
     
     // Setup answer input listener

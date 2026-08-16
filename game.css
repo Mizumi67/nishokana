@@ -76,6 +76,19 @@ body {
     display: block;
 }
 
+/* Anti-flash: kalau halaman dibuka lewat ?type=..., langsung tampilin
+   settings-screen dari awal (sebelum game.js sempat jalan), biar gak ada
+   kedipan nampilin selection-screen dulu sekilas. Class 'has-type-param'
+   dipasang sesegera mungkin oleh type-preselect.js di <head>. Pakai ID
+   selector supaya prioritasnya otomatis menang dibanding rule di atas. */
+html.has-type-param #selection-screen {
+    display: none;
+}
+
+html.has-type-param #settings-screen {
+    display: block;
+}
+
 /* Selection Screen */
 .game-selection {
     display: grid;
