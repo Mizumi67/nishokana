@@ -209,7 +209,7 @@ function toggleTimeLimit() {
 
 function startGame() {
     const questionCount = parseInt(document.getElementById('question-count').value);
-    if (questionCount < 5 || questionCount > 100) {
+    if (isNaN(questionCount) || questionCount < 5 || questionCount > 100) {
         showAlert('Jumlah soal harus antara 5 dan 100');
         return;
     }
@@ -217,7 +217,7 @@ function startGame() {
     const noTimeLimitCheck = document.getElementById('no-time-limit').checked;
     if (!noTimeLimitCheck) {
         const tl = parseInt(document.getElementById('time-limit').value);
-        if (tl < 10 || tl > 180) {
+        if (isNaN(tl) || tl < 10 || tl > 180) {
             showAlert('Batas waktu harus antara 10 dan 180 detik');
             return;
         }
