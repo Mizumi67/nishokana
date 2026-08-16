@@ -1,5 +1,10 @@
 (function () {
-    const SVG_FOLDER = 'stroke-svgs';
+    // Base folder di-hitung dari lokasi file script ini sendiri, bukan dari
+    // URL halaman saat ini. Soalnya address bar bisa aja udah diubah jadi
+    // path yang lebih rapi (lihat script.js / game-init.js), jadi kalau
+    // fetch-nya pakai path relatif ke URL halaman bisa salah folder.
+    const scriptSrc = document.currentScript.src;
+    const SVG_FOLDER = scriptSrc.substring(0, scriptSrc.lastIndexOf('/') + 1) + 'stroke-svgs';
     const strokeSvgCache = {};
 
     let activeChar = '';

@@ -346,3 +346,32 @@ function setupKotobaSearch() {
 function openGame(gameType) {
     window.open(`game.html?type=${gameType}`, '_blank', 'noopener');
 }
+
+// ===== Pretty URL untuk navigasi section =====
+// Navigasi antar section tetap pakai hash (#hiragana, dst) supaya scroll
+// bawaan browser jalan seperti biasa. Begitu section-nya kebuka, hash-nya
+// diganti diam-diam jadi path biasa (hiragana/, katakana/, dst) lewat
+// replaceState, jadi address bar-nya kelihatan rapi tanpa reload apa pun.
+// rootBase dihitung ulang tiap kali dari pathname yang berjalan sekarang
+// (sama seperti perhitungan di error-redirect.js) supaya hasilnya selalu
+// mengarah ke folder root situs, nggak numpuk jadi /hiragana/katakana/ dst.
+(function() {
+    const prettySections = ['home', 'hiragana', 'katakana', 'kotoba', 'games'];
+
+    function getRootBase() {
+        return window.location.pathname.split('/').slice(0, 2).join('/') + '/';
+    }
+
+    function prettifyUrl() {
+        const id = window.location.hash.replace('#', '');
+        if (!prettySections.includes(id)) return;
+        const rootBase = getRootBase();
+        const newPath = id === 'home' ? rootBase : rootBase + id + '/';
+        history.replaceState(null, '', newPath);
+    }
+
+    if (window.location.hash) {
+        prettifyUrl();
+    }
+    window.addEventListener('hashchange', prettifyUrl);
+})();
