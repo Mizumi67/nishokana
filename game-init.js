@@ -1,8 +1,14 @@
 // ==== Dark Mode Toggle (halaman game) ====
+// Pakai localStorage key "theme" yang sama kayak di halaman utama (lihat
+// script.js), supaya preferensinya nyambung dua arah antara halaman utama
+// dan halaman game manapun. Penerapan awalnya sendiri udah ditangani lebih
+// dulu sama theme-init.js (biar nggak kedip), di sini cuma perlu nanganin
+// klik tombolnya aja.
 (function() {
     const btn = document.getElementById('game-theme-toggle');
     btn.addEventListener('click', function() {
         document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
     });
 })();
 
