@@ -12,38 +12,76 @@
             var gameTypes = ['kana', 'kotoba', 'kanji', 'mix'];
 
             var gameMatch = path.match(/\/game\/([a-z]+)\/?$/);
-            if (gameMatch && gameTypes.indexOf(gameMatch[1]) !== -1) {
-                window.location.replace(rootBase + 'game.html?type=' + gameMatch[1]);
-                return;
+            if (gameMatch) {
+                if (gameTypes.indexOf(gameMatch[1]) !== -1) {
+                    window.location.replace(rootBase + 'game.html?type=' + gameMatch[1]);
+                    return;
+                }
+                window.NISHO_ERROR = {
+                    label: 'Tipe Game Salah',
+                    title: 'Game-nya Nggak Ada',
+                    desc: 'Tipe game "' + gameMatch[1] + '" nggak dikenal sama NishoKana. Yang ada cuma kana, kotoba, kanji, sama mix.'
+                };
             }
 
-            if (path.match(/\/game\/?$/)) {
+            if (!window.NISHO_ERROR && path.match(/\/game\/?$/)) {
                 window.location.replace(rootBase + 'game.html');
                 return;
             }
 
-            for (var i = 0; i < sections.length; i++) {
-                if (path.match(new RegExp('/' + sections[i] + '/?$'))) {
-                    window.location.replace(rootBase + '#' + sections[i]);
-                    return;
+            if (!window.NISHO_ERROR) {
+                for (var i = 0; i < sections.length; i++) {
+                    if (path.match(new RegExp('/' + sections[i] + '/?$'))) {
+                        window.location.replace(rootBase + '#' + sections[i]);
+                        return;
+                    }
                 }
             }
 
-            window.location.replace(rootBase);
+            if (!window.NISHO_ERROR) {
+                window.NISHO_ERROR = {
+                    label: 'Halaman Nggak Ada',
+                    title: 'Alamatnya Nyasar',
+                    desc: 'Halaman yang kamu tuju nggak ketemu di NishoKana. Coba cek lagi ejaan link-nya, atau mungkin halamannya emang udah dipindah.'
+                };
+            }
+
+            window.NISHO_PATH = path;
         })();
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NishoKana</title>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Halaman Nggak Ketemu - NishoKana</title>
+    <link rel="icon" type="image/png" href="favicon.png?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="error.css">
 </head>
 <body>
-    <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 2rem;">
-        <div>
-            <p style="font-family: var(--font-jp); font-size: 3rem; color: var(--red); margin-bottom: 1rem;">迷子</p>
-            <p style="color: var(--ink-soft); margin-bottom: 1.5rem;">Halaman tidak ditemukan.</p>
-            <a href="./" class="btn btn-primary">Kembali ke Beranda</a>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+    <div class="lost-page">
+        <div class="lost-card">
+            <div class="lost-stamp"><span>迷</span></div>
+            <p class="lost-eyebrow" id="lost-label"></p>
+            <h1 class="lost-title" id="lost-title"></h1>
+            <p class="lost-desc" id="lost-desc"></p>
+            <code class="lost-path" id="lost-path"></code>
+            <div class="lost-actions">
+                <a href="./" class="btn btn-primary">Balik ke Beranda</a>
+                <a href="./#games" class="btn btn-secondary">Lihat Daftar Game</a>
+            </div>
         </div>
     </div>
+    <script>
+        document.getElementById('lost-label').textContent = window.NISHO_ERROR.label;
+        document.getElementById('lost-title').textContent = window.NISHO_ERROR.title;
+        document.getElementById('lost-desc').textContent = window.NISHO_ERROR.desc;
+        document.getElementById('lost-path').textContent = window.NISHO_PATH;
+    </script>
 </body>
 </html>
