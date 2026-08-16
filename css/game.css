@@ -1,5 +1,3 @@
-/* ===== Game Quiz page ===== */
-
 body {
     display: flex;
     justify-content: center;
@@ -76,11 +74,6 @@ body {
     display: block;
 }
 
-/* Anti-flash: kalau halaman dibuka lewat ?type=..., langsung tampilin
-   settings-screen dari awal (sebelum game.js sempat jalan), biar gak ada
-   kedipan nampilin selection-screen dulu sekilas. Class 'has-type-param'
-   dipasang sesegera mungkin oleh type-preselect.js di <head>. Pakai ID
-   selector supaya prioritasnya otomatis menang dibanding rule di atas. */
 html.has-type-param #selection-screen {
     display: none;
 }
@@ -89,7 +82,6 @@ html.has-type-param #settings-screen {
     display: block;
 }
 
-/* Selection Screen */
 .game-selection {
     display: grid;
     gap: var(--space-sm);
@@ -128,7 +120,6 @@ html.has-type-param #settings-screen {
     color: var(--ink-soft);
 }
 
-/* Settings Screen */
 .settings-group {
     margin-bottom: var(--space-md);
 }
@@ -193,7 +184,6 @@ html.has-type-param #settings-screen {
     pointer-events: none;
 }
 
-/* Game Screen */
 .game-status {
     display: flex;
     justify-content: space-between;
@@ -303,7 +293,6 @@ html.has-type-param #settings-screen {
     color: var(--red);
 }
 
-/* Result Screen */
 .result-card {
     text-align: center;
     padding: var(--space-md) 0;
@@ -364,7 +353,6 @@ html.has-type-param #settings-screen {
     .status-item { flex: 1 1 45%; }
 }
 
-/* ===== Custom Alert Modal (pengganti alert() bawaan browser) ===== */
 .custom-alert-overlay {
     display: none;
     position: fixed;

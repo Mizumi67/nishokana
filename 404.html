@@ -2,35 +2,18 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <!--
-      PENTING soal path di halaman ini:
-      GitHub Pages nyajiin file 404.html ini apa adanya buat URL APAPUN yang
-      nggak ketemu file aslinya - alamat di address bar TETAP alamat yang
-      salah tadi (nggak beneran redirect). Efeknya, kalau di sini pasang src
-      relatif kayak "error-redirect.js", browser bakal nyari file itu relatif
-      ke alamat yang salah itu (misal /nishokana/game/kana/error-redirect.js),
-      yang jelas nggak ada - makanya script pembetul alamatnya sendiri malah
-      gagal ke-load, dan halaman ini nyangkut, nggak pernah mental balik ke
-      halaman yang benar.
-      Makanya, DUA script paling awal ini sengaja ditulis pake path absolut
-      dari root domain (bukan relatif), supaya selalu ketemu file aslinya
-      nggak peduli seberapa dalam alamat yang salah tadi. Base path-nya sesuai
-      nama folder repo GitHub Pages situs ini ("/nishokana/") - kalau suatu
-      saat repo-nya dipindah/diganti nama, dua baris src ini yang perlu
-      disesuaikan.
-    -->
-    <script src="/nishokana/frame-guard.js"></script>
+    <script src="/nishokana/js/frame-guard.js"></script>
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
     <meta name="referrer" content="strict-origin-when-cross-origin">
-    <script src="/nishokana/error-redirect.js"></script>
+    <script src="/nishokana/js/error-redirect.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Nggak Ketemu - NishoKana</title>
-    <link rel="icon" type="image/png" href="favicon.png?v=3">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png?v=3">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="error.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/error.css">
 </head>
 <body>
     <div class="lost-page">
@@ -46,6 +29,6 @@
             </div>
         </div>
     </div>
-    <script src="error-fill.js"></script>
+    <script src="js/error-fill.js"></script>
 </body>
 </html>

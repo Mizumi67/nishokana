@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="google" content="notranslate">
-    <script src="frame-guard.js"></script>
-    <script src="type-preselect.js"></script>
+    <script src="js/frame-guard.js"></script>
+    <script src="js/type-preselect.js"></script>
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Quiz - NishoKana</title>
-    <link rel="icon" type="image/png" href="favicon.png?v=3">
-    <link rel="apple-touch-icon" href="favicon.png?v=3">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png?v=3">
+    <link rel="apple-touch-icon" href="assets/images/favicon.png?v=3">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="game.css">
-    <link rel="stylesheet" href="protect-media.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/game.css">
+    <link rel="stylesheet" href="css/protect-media.css">
 </head>
 <body>
-    <script src="theme-init.js"></script>
+    <script src="js/theme-init.js"></script>
     <button class="game-theme-toggle" id="game-theme-toggle" title="Toggle Dark/Light Mode">
         <span class="sun-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/>
             <line x1="12" y1="2" x2="12" y2="4.5"/>
@@ -32,7 +32,6 @@
     </button>
     <div id="bg-characters"></div>
 
-    <!-- Custom Alert Modal -->
     <div id="custom-alert-overlay" class="custom-alert-overlay">
         <div class="custom-alert-box" role="alertdialog" aria-modal="true" aria-labelledby="custom-alert-message">
             <div class="custom-alert-icon">
@@ -47,7 +46,6 @@
         </div>
     </div>
 
-    <!-- Refresh Warning Modal -->
     <div id="refresh-warning-overlay" class="custom-alert-overlay">
         <div class="custom-alert-box" role="alertdialog" aria-modal="true" aria-labelledby="refresh-warning-message">
             <div class="custom-alert-icon">
@@ -63,7 +61,6 @@
         </div>
     </div>
 
-    <!-- Leave/Refresh Confirm Modal (custom, muncul saat user tekan F5 / Ctrl+R di tengah game) -->
     <div id="leave-confirm-overlay" class="custom-alert-overlay">
         <div class="custom-alert-box" role="alertdialog" aria-modal="true" aria-labelledby="leave-confirm-message">
             <div class="custom-alert-icon">
@@ -88,7 +85,6 @@
             <p class="game-subtitle">Quiz Hiragana, Katakana, Kotoba & Kanji</p>
         </div>
         
-        <!-- Selection Screen -->
         <div id="selection-screen" class="screen active">
             <div class="game-description">
                 <p><strong>Cara Bermain:</strong></p>
@@ -115,7 +111,6 @@
             </div>
         </div>
         
-        <!-- Settings Screen -->
         <div id="settings-screen" class="screen">
             <div class="settings-group">
                 <label for="question-count">Jumlah Soal</label>
@@ -140,7 +135,6 @@
             <button class="btn btn-secondary back-to-selection-btn">Kembali</button>
         </div>
         
-        <!-- Game Screen -->
         <div id="game-screen" class="screen">
             <div class="game-status">
                 <div class="status-item">
@@ -166,7 +160,6 @@
             <div class="answer-feedback" id="feedback"></div>
         </div>
         
-        <!-- Result Screen -->
         <div id="result-screen" class="screen">
             <div class="result-card">
                 <div class="result-icon" id="result-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v3a5 5 0 0 1-5 5 5 5 0 0 1-5-5V4Z"/>
@@ -209,11 +202,11 @@
         </div>
     </div>
     
-    <script src="icons.js"></script>
-    <script src="data.js"></script>
-    <script src="game.js"></script>
-    <script src="game-init.js"></script>
-    <script src="script-bg.js"></script>
-    <script src="protect-media.js"></script>
+    <script src="js/icons.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/game-init.js"></script>
+    <script src="js/script-bg.js"></script>
+    <script src="js/protect-media.js"></script>
 </body>
 </html>

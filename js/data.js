@@ -1,4 +1,3 @@
-// Data Hiragana Dasar
 const hiragana_dasar = [
     { char: 'あ', romaji: 'a', strokes: 'Mulai dari kiri ke kanan, kemudian dari atas ke bawah' },
     { char: 'い', romaji: 'i', strokes: 'Dua garis vertikal dari atas ke bawah' },
@@ -48,7 +47,6 @@ const hiragana_dasar = [
     { char: 'ん', romaji: 'n', strokes: 'Satu goresan melengkung seperti gelombang' }
 ];
 
-// Data Hiragana Dakuten
 const hiragana_dakuten = [
     { char: 'が', romaji: 'ga' }, { char: 'ぎ', romaji: 'gi' }, { char: 'ぐ', romaji: 'gu' },
     { char: 'げ', romaji: 'ge' }, { char: 'ご', romaji: 'go' },
@@ -60,13 +58,11 @@ const hiragana_dakuten = [
     { char: 'べ', romaji: 'be' }, { char: 'ぼ', romaji: 'bo' }
 ];
 
-// Data Hiragana Handakuten
 const hiragana_handakuten = [
     { char: 'ぱ', romaji: 'pa' }, { char: 'ぴ', romaji: 'pi' }, { char: 'ぷ', romaji: 'pu' },
     { char: 'ぺ', romaji: 'pe' }, { char: 'ぽ', romaji: 'po' }
 ];
 
-// Data Hiragana Youon
 const hiragana_youon = [
     { char: 'きゃ', romaji: 'kya' }, { char: 'きゅ', romaji: 'kyu' }, { char: 'きょ', romaji: 'kyo' },
     { char: 'しゃ', romaji: 'sha' }, { char: 'しゅ', romaji: 'shu' }, { char: 'しょ', romaji: 'sho' },
@@ -82,7 +78,6 @@ const hiragana_youon = [
     { char: 'ぴゃ', romaji: 'pya' }, { char: 'ぴゅ', romaji: 'pyu' }, { char: 'ぴょ', romaji: 'pyo' }
 ];
 
-// Data Katakana Dasar
 const katakana_dasar = [
     { char: 'ア', romaji: 'a', strokes: 'Dua goresan diagonal dari atas' },
     { char: 'イ', romaji: 'i', strokes: 'Dua garis vertikal' },
@@ -132,7 +127,6 @@ const katakana_dasar = [
     { char: 'ン', romaji: 'n', strokes: 'Satu garis diagonal dengan ekor' }
 ];
 
-// Data Katakana Dakuten
 const katakana_dakuten = [
     { char: 'ガ', romaji: 'ga' }, { char: 'ギ', romaji: 'gi' }, { char: 'グ', romaji: 'gu' },
     { char: 'ゲ', romaji: 'ge' }, { char: 'ゴ', romaji: 'go' },
@@ -144,13 +138,11 @@ const katakana_dakuten = [
     { char: 'ベ', romaji: 'be' }, { char: 'ボ', romaji: 'bo' }
 ];
 
-// Data Katakana Handakuten
 const katakana_handakuten = [
     { char: 'パ', romaji: 'pa' }, { char: 'ピ', romaji: 'pi' }, { char: 'プ', romaji: 'pu' },
     { char: 'ペ', romaji: 'pe' }, { char: 'ポ', romaji: 'po' }
 ];
 
-// Data Katakana Youon
 const katakana_youon = [
     { char: 'キャ', romaji: 'kya' }, { char: 'キュ', romaji: 'kyu' }, { char: 'キョ', romaji: 'kyo' },
     { char: 'シャ', romaji: 'sha' }, { char: 'シュ', romaji: 'shu' }, { char: 'ショ', romaji: 'sho' },
@@ -166,7 +158,6 @@ const katakana_youon = [
     { char: 'ピャ', romaji: 'pya' }, { char: 'ピュ', romaji: 'pyu' }, { char: 'ピョ', romaji: 'pyo' }
 ];
 
-// Data Katakana Modern
 const katakana_modern = [
     { char: 'ウィ', romaji: 'wi' }, { char: 'ウェ', romaji: 'we' }, { char: 'ウォ', romaji: 'wo' },
     { char: 'ヴァ', romaji: 'va' }, { char: 'ヴィ', romaji: 'vi' }, { char: 'ヴ', romaji: 'vu' },
@@ -180,9 +171,7 @@ const katakana_modern = [
     { char: 'チェ', romaji: 'che' }, { char: 'シェ', romaji: 'she' }, { char: 'ジェ', romaji: 'je' }
 ];
 
-// Data Kotoba - 200+ kosakata
 const kotoba = [
-    // Greetings (Salam)
     { jp: 'おはようございます', romaji: 'ohayou gozaimasu', meaning: 'Selamat Pagi', category: 'greetings' },
     { jp: 'こんにちは', romaji: 'konnichiwa', meaning: 'Selamat Siang', category: 'greetings' },
     { jp: 'こんばんは', romaji: 'konbanwa', meaning: 'Selamat Malam', category: 'greetings' },
@@ -211,7 +200,6 @@ const kotoba = [
     { jp: 'ちょっとまって', romaji: 'chotto matte', meaning: 'Tunggu sebentar', category: 'greetings' },
     { jp: 'おつかれさまです', romaji: 'otsukaresama desu', meaning: 'Terimakasih atas kerja kerasnya', category: 'greetings' },
 
-    // Basic Words (Kata Dasar)
     { jp: 'わたし', romaji: 'watashi', meaning: 'Saya', category: 'basic' },
     { jp: 'ぼく', romaji: 'boku', meaning: 'Saya (laki-laki)', category: 'basic' },
     { jp: 'かれら', romaji: 'karera', meaning: 'Mereka (laki-laki)', category: 'basic' },
@@ -230,7 +218,6 @@ const kotoba = [
     { jp: 'ほん', romaji: 'hon', meaning: 'Buku', category: 'basic' },
     { jp: 'じしょ', romaji: 'jisho', meaning: 'Kamus', category: 'basic' },
 
-    // Food (Makanan)
     { jp: 'ごはん', romaji: 'gohan', meaning: 'Nasi', category: 'food' },
     { jp: 'みず', romaji: 'mizu', meaning: 'Air', category: 'food' },
     { jp: 'おちゃ', romaji: 'ocha', meaning: 'Teh', category: 'food' },
@@ -247,7 +234,6 @@ const kotoba = [
     { jp: 'パスタ', romaji: 'pasuta', meaning: 'Pasta', category: 'food' },
     { jp: 'サラダ', romaji: 'sarada', meaning: 'Salad', category: 'food' },
 
-    // Family (Keluarga)
     { jp: 'かぞく', romaji: 'kazoku', meaning: 'Keluarga', category: 'family' },
     { jp: 'おとうさん', romaji: 'otousan', meaning: 'Ayah', category: 'family' },
     { jp: 'おかあさん', romaji: 'okaasan', meaning: 'Ibu', category: 'family' },
@@ -258,7 +244,6 @@ const kotoba = [
     { jp: 'おじさん', romaji: 'ojisan', meaning: 'Paman', category: 'family' },
     { jp: 'おばさん', romaji: 'obasan', meaning: 'Bibi', category: 'family' },
 
-    // Numbers (Angka)
     { jp: 'いち', romaji: 'ichi', meaning: 'Satu', category: 'numbers' },
     { jp: 'に', romaji: 'ni', meaning: 'Dua', category: 'numbers' },
     { jp: 'さん', romaji: 'san', meaning: 'Tiga', category: 'numbers' },
@@ -276,7 +261,6 @@ const kotoba = [
     { jp: 'せん', romaji: 'sen', meaning: 'Seribu', category: 'numbers' },
     { jp: 'まん', romaji: 'man', meaning: 'Sepuluh ribu', category: 'numbers' },
 
-    // Time (Waktu)
     { jp: 'きょう', romaji: 'kyou', meaning: 'Hari ini', category: 'time' },
     { jp: 'きのう', romaji: 'kinou', meaning: 'Kemarin', category: 'time' },
     { jp: 'あした', romaji: 'ashita', meaning: 'Besok', category: 'time' },
@@ -288,7 +272,6 @@ const kotoba = [
     { jp: 'とし', romaji: 'toshi', meaning: 'Tahun', category: 'time' },
     { jp: 'まいにち', romaji: 'mainichi', meaning: 'Setiap hari', category: 'time' },
 
-    // Adjectives (Sifat)
     { jp: 'おいしい', romaji: 'oishii', meaning: 'Enak / Lezat', category: 'adjectives' },
     { jp: 'こわい', romaji: 'kowai', meaning: 'Seram / Menakutkan', category: 'adjectives' },
     { jp: 'たのしい', romaji: 'tanoshii', meaning: 'Seru / Menyenangkan', category: 'adjectives' },
@@ -310,7 +293,6 @@ const kotoba = [
     { jp: 'あかい', romaji: 'akai', meaning: 'Merah', category: 'adjectives' },
     { jp: 'あおい', romaji: 'aoi', meaning: 'Biru', category: 'adjectives' },
 
-    // Verbs (Kata Kerja)
     { jp: 'おこる', romaji: 'okoru', meaning: 'Marah', category: 'verbs' },
     { jp: 'わらう', romaji: 'warau', meaning: 'Tertawa', category: 'verbs' },
     { jp: 'みる', romaji: 'miru', meaning: 'Melihat', category: 'verbs' },
@@ -326,7 +308,6 @@ const kotoba = [
     { jp: 'はなす', romaji: 'hanasu', meaning: 'Berbicara', category: 'verbs' },
     { jp: 'べんきょうする', romaji: 'benkyou suru', meaning: 'Belajar', category: 'verbs' },
 
-    // Places (Tempat)
     { jp: 'がっこう', romaji: 'gakkou', meaning: 'Sekolah', category: 'places' },
     { jp: 'まち', romaji: 'machi', meaning: 'Kota', category: 'places' },
     { jp: 'いなか', romaji: 'inaka', meaning: 'Desa / Kampung', category: 'places' },
@@ -343,7 +324,6 @@ const kotoba = [
     { jp: 'うち', romaji: 'uchi', meaning: 'Rumah', category: 'places' },
     { jp: 'へや', romaji: 'heya', meaning: 'Kamar', category: 'places' },
 
-    // Nature (Alam)
     { jp: 'はな', romaji: 'hana', meaning: 'Bunga', category: 'nature' },
     { jp: 'ひかり', romaji: 'hikari', meaning: 'Cahaya', category: 'nature' },
     { jp: 'そら', romaji: 'sora', meaning: 'Langit', category: 'nature' },
@@ -359,7 +339,6 @@ const kotoba = [
     { jp: 'き', romaji: 'ki', meaning: 'Pohon', category: 'nature' },
     { jp: 'ほし', romaji: 'hoshi', meaning: 'Bintang', category: 'nature' },
 
-    // Katakana Words (Kata-kata Katakana)
     { jp: 'タクシー', romaji: 'takushii', meaning: 'Taksi', category: 'katakana' },
     { jp: 'サッカー', romaji: 'sakkaa', meaning: 'Sepak bola', category: 'katakana' },
     { jp: 'テレビ', romaji: 'terebi', meaning: 'Televisi', category: 'katakana' },
@@ -394,7 +373,6 @@ const kotoba = [
     { jp: 'ソックス', romaji: 'sokkusu', meaning: 'Kaos kaki', category: 'katakana' }
 ];
 
-// Data Kanji - 100 Kanji Dasar
 const kanji = [
     { jp: '魚', romaji: 'sakana', meaning: 'Ikan', category: 'makanan' },
     { jp: '肉', romaji: 'niku', meaning: 'Daging', category: 'makanan' },

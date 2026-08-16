@@ -1,4 +1,3 @@
-// ===== Game Variables =====
 let gameType = '';
 let questions = [];
 let currentQuestionIndex = 0;
@@ -11,14 +10,8 @@ let endTime = null;
 let noTimeLimit = false;
 let isGameInProgress = false;
 
-// Baca ?type= dari URL SEKARANG JUGA, jangan nanti di dalam DOMContentLoaded.
-// Soalnya game-init.js (dimuat setelah file ini) langsung ganti address bar
-// pakai replaceState begitu dia jalan, dan itu bikin query string ?type= ilang
-// dari URL. Kalau typeParam baru dibaca belakangan pas DOMContentLoaded,
-// nilainya udah keburu kosong duluan. Jadi diambil & disimpan di sini dulu.
 const initialTypeParam = new URLSearchParams(window.location.search).get('type');
 
-// ===== Audio Context for Timer Sounds =====
 let audioContext = null;
 
 function initAudio() {
@@ -65,66 +58,47 @@ function playTimeUpSound() {
     oscillator.stop(audioContext.currentTime + 0.5);
 }
 
-// ===== Initialize Game =====
 document.addEventListener('DOMContentLoaded', () => {
-    // Pakai nilai yang udah ditangkap di awal file (lihat komentar di atas),
-    // bukan baca ulang window.location.search di sini -- soalnya address bar
-    // udah keburu diubah sama game-init.js pas titik ini dieksekusi.
     const typeParam = initialTypeParam;
     
     if (typeParam) {
         gameType = typeParam;
         showScreen('settings-screen');
-        // Class ini cuma buat cegah kedip pas awal render (lihat game.css +
-        // type-preselect.js). Begitu game.js ambil alih lewat showScreen(),
-        // class-nya harus dicabut -- kalau enggak, nanti pas user klik
-        // "Kembali" ke selection-screen, CSS override ini bakal terus
-        // nge-hidden selection-screen walau class 'active'-nya udah dikasih.
         document.documentElement.classList.remove('has-type-param');
     }
     
-    // Setup answer input listener
     const answerInput = document.getElementById('answer-input');
     answerInput.addEventListener('input', checkAnswer);
     
-    // Focus on input when game starts
     answerInput.addEventListener('focus', () => {
         initAudio();
     });
 
-    // Tombol pilihan jenis game di selection screen
     document.querySelectorAll('.game-type-btn[data-game-type]').forEach((btn) => {
         btn.addEventListener('click', () => {
             selectGameType(btn.getAttribute('data-game-type'));
         });
     });
 
-    // Checkbox "Tanpa Batas Waktu"
     const noTimeLimitCheckbox = document.getElementById('no-time-limit');
     if (noTimeLimitCheckbox) {
         noTimeLimitCheckbox.addEventListener('change', toggleTimeLimit);
     }
 
-    // Tombol "Mulai Game!"
     const startGameBtn = document.getElementById('start-game-btn');
     if (startGameBtn) {
         startGameBtn.addEventListener('click', startGame);
     }
 
-    // Tombol "Main Lagi"
     const playAgainBtn = document.getElementById('play-again-btn');
     if (playAgainBtn) {
         playAgainBtn.addEventListener('click', playAgain);
     }
 
-    // Tombol "Kembali" / "Pilih Game Lain" (muncul di beberapa screen)
     document.querySelectorAll('.back-to-selection-btn').forEach((btn) => {
         btn.addEventListener('click', backToSelection);
     });
 
-    // Lapisan tambahan: kalau user coba refresh pakai keyboard (F5 /
-    // Ctrl+R / Cmd+R) saat game masih berlangsung, tampilkan modal
-    // konfirmasi custom (bukan dialog bawaan browser) dulu.
     document.addEventListener('keydown', (e) => {
         const isRefreshShortcut = e.key === 'F5' ||
             ((e.ctrlKey || e.metaKey) && (e.key === 'r' || e.key === 'R'));
@@ -136,7 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// ===== Leave/Refresh Confirm Modal (custom, bukan dialog bawaan browser) =====
 function showLeaveConfirm() {
     const overlay = document.getElementById('leave-confirm-overlay');
     const confirmBtn = document.getElementById('leave-confirm-yes');
@@ -156,14 +129,6 @@ function showLeaveConfirm() {
     function onConfirm() {
         close();
         isGameInProgress = false;
-        // Sengaja BUKAN window.location.reload() - soalnya alamat di address
-        // bar saat ini biasanya udah "dipercantik" (mis. .../game/kana/)
-        // lewat replaceState di game-init.js, bukan alamat file yang
-        // beneran ada di server. Kalau di-reload apa adanya, browser bakal
-        // minta path itu ke server, nggak ketemu, dan malah nyasar ke
-        // halaman 404. Jadi di sini diarahkan langsung ke file game.html
-        // yang asli, dengan tipe game yang lagi dimainkan tetap dibawa lewat
-        // ?type=.
         const rootBase = window.location.pathname.split('/').slice(0, 2).join('/') + '/';
         const target = gameType ? `${rootBase}game.html?type=${gameType}` : `${rootBase}game.html`;
         window.location.href = target;
@@ -183,7 +148,6 @@ function showLeaveConfirm() {
     document.addEventListener('keydown', escClose);
 }
 
-// ===== Custom Alert Modal (pengganti alert() bawaan browser) =====
 function showAlert(message) {
     const overlay = document.getElementById('custom-alert-overlay');
     const messageEl = document.getElementById('custom-alert-message');
@@ -213,7 +177,6 @@ function showAlert(message) {
     document.addEventListener('keydown', escClose);
 }
 
-// ===== Screen Navigation =====
 function showScreen(screenId) {
     const screens = document.querySelectorAll('.screen');
     screens.forEach(screen => screen.classList.remove('active'));
@@ -230,7 +193,6 @@ function backToSelection() {
     resetGame();
 }
 
-// ===== Toggle Time Limit =====
 function toggleTimeLimit() {
     const checkbox = document.getElementById('no-time-limit');
     const group = document.getElementById('time-limit-group');
@@ -245,14 +207,7 @@ function toggleTimeLimit() {
     }
 }
 
-// ===== Start Game =====
-// Sebelum benar-benar memulai game, tampilkan peringatan dulu bahwa
-// refresh/menutup halaman akan menghilangkan progres. Peringatan ini
-// cukup ditampilkan sekali per sesi tab (tersimpan di sessionStorage)
-// supaya tidak mengganggu kalau user main berkali-kali.
 function startGame() {
-    // Validate settings dulu sebelum munculin peringatan, biar user
-    // gak diminta konfirmasi kalau settingannya aja belum valid.
     const questionCount = parseInt(document.getElementById('question-count').value);
     if (questionCount < 5 || questionCount > 100) {
         showAlert('Jumlah soal harus antara 5 dan 100');
@@ -305,7 +260,6 @@ function showRefreshWarning() {
 }
 
 function actuallyStartGame() {
-    // Get settings
     const questionCount = parseInt(document.getElementById('question-count').value);
     noTimeLimit = document.getElementById('no-time-limit').checked;
 
@@ -315,44 +269,33 @@ function actuallyStartGame() {
         timeLimit = parseInt(document.getElementById('time-limit').value);
     }
     
-    // Generate questions
     generateQuestions(questionCount);
     
-    // Reset game state
     currentQuestionIndex = 0;
     correctAnswers = 0;
     timeRemaining = timeLimit;
     
-    // Update UI
     document.getElementById('total-questions').textContent = questions.length;
     updateTimerDisplay();
     document.getElementById('current-question').textContent = 1;
     document.getElementById('correct-count').textContent = 0;
     
-    // Show first question
     showQuestion();
     
-    // Start timer
     startTime = Date.now();
     startTimer();
     
-    // Show game screen
     showScreen('game-screen');
     
-    // Focus on input
     document.getElementById('answer-input').focus();
 
-    // Aktifkan peringatan browser bawaan kalau user coba refresh/nutup tab
-    // di tengah game supaya ada lapisan pengingat tambahan selain modal.
     isGameInProgress = true;
 }
 
-// ===== Generate Questions =====
 function generateQuestions(count) {
     let pool = [];
     
     if (gameType === 'kana') {
-        // Combine all hiragana and katakana
         pool = [
             ...hiragana_dasar,
             ...hiragana_dakuten,
@@ -373,11 +316,9 @@ function generateQuestions(count) {
         return;
     }
     
-    // Shuffle and take count
     questions = shuffleArray(pool).slice(0, Math.min(count, pool.length));
 }
 
-// Ambil soal campuran dari kana, kotoba, dan kanji dengan porsi rata
 function generateMixQuestions(count) {
     const kanaPool = [
         ...hiragana_dasar,
@@ -418,7 +359,6 @@ function shuffleArray(array) {
     return newArray;
 }
 
-// ===== Show Question =====
 function showQuestion() {
     if (currentQuestionIndex >= questions.length) {
         endGame();
@@ -431,24 +371,20 @@ function showQuestion() {
     const feedback = document.getElementById('feedback');
     const questionLabel = document.getElementById('question-label');
     
-    // Untuk mode mix, tiap soal bisa berasal dari sumber berbeda (kana/kotoba/kanji)
     const questionSource = question.source || gameType;
     
-    // Set question
     if (questionSource === 'kana') {
         questionChar.textContent = question.char;
     } else {
         questionChar.textContent = question.jp;
     }
     
-    // Adjust font size for longer kanji words so they still fit nicely
     if (questionSource === 'kanji' && question.jp.length > 2) {
         questionChar.classList.add('question-text-small');
     } else {
         questionChar.classList.remove('question-text-small');
     }
     
-    // Adjust instruction label per game type
     if (questionLabel) {
         if (questionSource === 'kana') {
             questionLabel.textContent = 'Tuliskan bacaan huruf di atas (romaji)';
@@ -459,19 +395,13 @@ function showQuestion() {
         }
     }
     
-    // Clear input and feedback
     answerInput.value = '';
     feedback.textContent = '';
     feedback.className = 'answer-feedback';
     
-    // Update question number
     document.getElementById('current-question').textContent = currentQuestionIndex + 1;
 }
 
-// ===== Check Answer =====
-// Mendapatkan semua kemungkinan jawaban yang benar untuk satu soal.
-// Mendukung romaji berupa string tunggal ATAU array (untuk kanji/kata yang
-// punya lebih dari satu cara baca yang sama-sama benar, mis. 何人 -> nanijin/nannin)
 function getAcceptedAnswers(question) {
     const romaji = question.romaji;
     const list = Array.isArray(romaji) ? romaji : [romaji];
@@ -481,9 +411,6 @@ function getAcceptedAnswers(question) {
         const normalized = r.toLowerCase().trim().replace(/\s+/g, ' ');
         answers.add(normalized);
 
-        // Untuk kotoba/kanji yang terdiri dari lebih dari satu kata
-        // (mis. "ohayou gozaimasu"), terima juga versi tanpa spasi
-        // ("ohayougozaimasu") supaya user tidak perlu repot mengetik spasi.
         if (normalized.includes(' ')) {
             answers.add(normalized.replace(/\s+/g, ''));
         }
@@ -501,17 +428,14 @@ function checkAnswer() {
     const question = questions[currentQuestionIndex];
     const acceptedAnswers = getAcceptedAnswers(question);
     
-    // Check if answer is correct (case insensitive, terima semua bacaan yang valid)
     if (acceptedAnswers.includes(userAnswer)) {
         correctAnswers++;
         document.getElementById('correct-count').textContent = correctAnswers;
         
-        // Show feedback briefly
         const feedback = document.getElementById('feedback');
         feedback.innerHTML = iconSvg('icon-check') + 'Benar!';
         feedback.className = 'answer-feedback feedback-correct';
         
-        // Move to next question
         setTimeout(() => {
             currentQuestionIndex++;
             showQuestion();
@@ -519,7 +443,6 @@ function checkAnswer() {
     }
 }
 
-// ===== Timer =====
 function updateTimerDisplay() {
     const timerElement = document.getElementById('timer');
     if (noTimeLimit) {
@@ -533,7 +456,6 @@ function updateTimerDisplay() {
 function startTimer() {
     clearInterval(timerInterval);
 
-    // Mode tanpa batas waktu: jangan jalankan countdown sama sekali
     if (noTimeLimit) {
         updateTimerDisplay();
         return;
@@ -544,13 +466,11 @@ function startTimer() {
         const timerElement = document.getElementById('timer');
         timerElement.textContent = timeRemaining;
         
-        // Warning when less than 10 seconds
         if (timeRemaining <= 10) {
             timerElement.classList.add('timer-warning');
             playTickSound();
         }
         
-        // Time's up
         if (timeRemaining <= 0) {
             clearInterval(timerInterval);
             playTimeUpSound();
@@ -559,7 +479,6 @@ function startTimer() {
     }, 1000);
 }
 
-// ===== End Game =====
 function endGame() {
     clearInterval(timerInterval);
     endTime = Date.now();
@@ -571,11 +490,9 @@ function endGame() {
     const wrongAnswers = answeredQuestions - correctAnswers;
     const accuracy = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
     
-    // Calculate grade
     const grade = calculateGrade(accuracy);
     const icon = getGradeIcon(grade);
     
-    // Update result screen
     document.getElementById('result-icon').innerHTML = iconSvg(icon);
     document.getElementById('result-grade').textContent = grade;
     document.getElementById('final-correct').textContent = correctAnswers;
@@ -586,11 +503,9 @@ function endGame() {
     document.getElementById('stat-accuracy').textContent = accuracy + '%';
     document.getElementById('stat-time').textContent = timeUsed + ' detik';
     
-    // Show result screen
     showScreen('result-screen');
 }
 
-// ===== Calculate Grade =====
 function calculateGrade(accuracy) {
     if (accuracy >= 95) return 'A+';
     if (accuracy >= 90) return 'A';
@@ -616,34 +531,26 @@ function getGradeIcon(grade) {
     return icons[grade] || 'icon-medal';
 }
 
-// ===== Play Again =====
 function playAgain() {
-    // Generate new questions with same settings
     const questionCount = questions.length;
     generateQuestions(questionCount);
     
-    // Reset and start
     currentQuestionIndex = 0;
     correctAnswers = 0;
     timeRemaining = timeLimit;
     
-    // Update UI
     document.getElementById('timer').classList.remove('timer-warning');
     updateTimerDisplay();
     document.getElementById('current-question').textContent = 1;
     document.getElementById('correct-count').textContent = 0;
     
-    // Show first question
     showQuestion();
     
-    // Start timer
     startTime = Date.now();
     startTimer();
     
-    // Show game screen
     showScreen('game-screen');
     
-    // Focus on input
     document.getElementById('answer-input').focus();
 
     isGameInProgress = true;
@@ -658,7 +565,6 @@ function resetGame() {
     noTimeLimit = false;
     isGameInProgress = false;
 
-    // Reset UI batas waktu ke kondisi awal
     const checkbox = document.getElementById('no-time-limit');
     const group = document.getElementById('time-limit-group');
     const timeInput = document.getElementById('time-limit');

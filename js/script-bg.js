@@ -1,7 +1,5 @@
-// ==== Background Character Animation ====
 (function() {
     const kanaChars = [
-        // Hiragana
         'あ', 'い', 'う', 'え', 'お',
         'か', 'き', 'く', 'け', 'こ',
         'さ', 'し', 'す', 'せ', 'そ',
@@ -12,7 +10,6 @@
         'や', 'ゆ', 'よ',
         'ら', 'り', 'る', 'れ', 'ろ',
         'わ', 'を', 'ん',
-        // Katakana
         'ア', 'イ', 'ウ', 'エ', 'オ',
         'カ', 'キ', 'ク', 'ケ', 'コ',
         'サ', 'シ', 'ス', 'セ', 'ソ',
@@ -33,7 +30,6 @@
         char.className = 'floating-char-bg';
         char.textContent = kanaChars[Math.floor(Math.random() * kanaChars.length)];
         
-        // Random position
         const x = Math.random() * 100;
         const y = Math.random() * 100;
         
@@ -42,7 +38,6 @@
         
         container.appendChild(char);
         
-        // Remove after animation
         setTimeout(() => {
             if (char.parentNode) {
                 char.parentNode.removeChild(char);
@@ -50,14 +45,11 @@
         }, 8000);
     }
     
-    // Start animation when page loads
     document.addEventListener('DOMContentLoaded', function() {
-        // Create initial characters
         for (let i = 0; i < 3; i++) {
             setTimeout(() => createFloatingChar(), i * 1000);
         }
         
-        // Continue creating characters
         setInterval(createFloatingChar, 2500);
     });
 })();

@@ -1,9 +1,3 @@
-// ==== Dark Mode Toggle (halaman game) ====
-// Pakai localStorage key "theme" yang sama kayak di halaman utama (lihat
-// script.js), supaya preferensinya nyambung dua arah antara halaman utama
-// dan halaman game manapun. Penerapan awalnya sendiri udah ditangani lebih
-// dulu sama theme-init.js (biar nggak kedip), di sini cuma perlu nanganin
-// klik tombolnya aja.
 (function() {
     const btn = document.getElementById('game-theme-toggle');
     btn.addEventListener('click', function() {
@@ -12,12 +6,6 @@
     });
 })();
 
-// ==== Pretty URL untuk halaman game ====
-// Kalau halaman ini kebuka lewat ?type=..., address bar-nya diganti diam-diam
-// jadi game/<tipe>/ lewat replaceState (bukan reload, jadi game-nya tetap
-// jalan normal). Kalau user milih tipe game langsung dari selection screen,
-// URL-nya juga ikut diperbarui pas itu. rootBase dihitung dari pathname asli
-// halaman (sama seperti error-redirect.js) biar selalu ke folder root situs.
 (function() {
     const validTypes = ['kana', 'kotoba', 'kanji', 'mix'];
 

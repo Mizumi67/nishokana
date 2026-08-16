@@ -1,12 +1,9 @@
-/* ===== NishoKana — stylesheet ===== */
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* ===== Ikon SVG custom (pengganti emote) ===== */
 .icon {
     width: 1em;
     height: 1em;
@@ -26,7 +23,6 @@
 }
 
 :root {
-    /* -- warna dasar (kertas & tinta) -- */
     --ink: #292620;
     --ink-soft: #6f6a5e;
     --paper: #faf7f0;
@@ -34,7 +30,6 @@
     --paper-sunken: #f1ece0;
     --line: #e4dcc8;
 
-    /* -- warna aksen: merah stempel, indigo, sawo matang -- */
     --red: #b3473a;
     --red-deep: #93392e;
     --indigo: #3e4f68;
@@ -117,7 +112,6 @@ a {
     color: var(--red);
 }
 
-/* ===== Navbar ===== */
 .navbar {
     position: fixed;
     top: 0;
@@ -192,7 +186,6 @@ a {
     color: var(--red);
 }
 
-/* Theme toggle */
 .theme-toggle {
     background: none;
     border: 1px solid var(--line);
@@ -236,7 +229,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* ===== Sections ===== */
 .section {
     padding: 5rem 0;
     border-bottom: 1px solid var(--line);
@@ -266,7 +258,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
     border-bottom: 2px solid var(--red);
 }
 
-/* ===== Home / Hero ===== */
 .home-section {
     min-height: 92vh;
     display: flex;
@@ -361,7 +352,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
     vertical-align: -0.18em;
 }
 
-/* ===== Buttons ===== */
 .btn {
     padding: 0.8rem 1.8rem;
     border-radius: var(--radius-md);
@@ -407,7 +397,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
     justify-content: center;
 }
 
-/* ===== Content Cards ===== */
 .content-card {
     background-color: var(--paper-raised);
     padding: var(--space-lg);
@@ -487,7 +476,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
     font-weight: bold;
 }
 
-/* ===== Kana Grid ===== */
 .kana-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
@@ -524,7 +512,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
     font-weight: 500;
 }
 
-/* ===== Rules / Examples ===== */
 .rule-section {
     margin-bottom: var(--space-md);
 }
@@ -559,7 +546,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
     font-size: 0.9rem;
 }
 
-/* ===== Kotoba ===== */
 .kotoba-filters {
     display: flex;
     flex-wrap: wrap;
@@ -698,7 +684,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
     text-align: center;
 }
 
-/* ===== Games ===== */
 .games-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -743,7 +728,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
     flex-grow: 1;
 }
 
-/* ===== Modal ===== */
 .modal {
     display: none;
     position: fixed;
@@ -854,7 +838,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
     margin-bottom: var(--space-xs);
 }
 
-/* ===== Stroke Order Animation ===== */
 .stroke-anim-section {
     margin-top: var(--space-md);
     padding-top: var(--space-md);
@@ -962,10 +945,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
     font-size: 0.9rem;
 }
 
-/* Animasi urutan goresan datang dari file SVG di /stroke-svgs, tapi CSS-nya
-   sengaja dipindah ke sini (bukan dibiarkan nempel sebagai <style> di dalam
-   tiap SVG) karena Content-Security-Policy situs ini melarang inline style.
-   Sekalian warnanya diselaraskan sama tema situs, bukan abu-abu generik. */
 .stroke-anim-card svg.acjk path[clip-path] {
     --stroke-anim-duration: 0.8s;
     animation: strokeDraw var(--stroke-anim-duration) linear forwards var(--d);
@@ -978,10 +957,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
 }
 
 .stroke-anim-card svg.acjk path[id] {
-    /* Kotaknya sengaja tetap putih di light maupun dark mode (kayak kertas
-       tulis), jadi warna bayangan hurufnya juga dikunci gelap tetap -
-       kalau ikut var(--ink) (yang jadi terang pas dark mode), bayangannya
-       nyaris nggak kelihatan di atas kotak putih itu. */
     fill: #292620;
     opacity: 0.12;
 }
@@ -992,7 +967,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
     }
 }
 
-/* ===== Footer ===== */
 .footer {
     background-color: var(--ink);
     color: var(--paper);
@@ -1065,7 +1039,6 @@ body.dark-mode .footer-bottom {
     border-top-color: var(--line);
 }
 
-/* ===== Responsive ===== */
 @media (max-width: 1024px) and (min-width: 769px) {
     .games-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -1149,7 +1122,6 @@ body.dark-mode .footer-bottom {
     .stroke-anim-card { width: 42vw; max-width: 140px; }
 }
 
-/* ===== Print ===== */
 @media print {
     .navbar, .hamburger, .theme-toggle, .modal, .footer {
         display: none !important;
@@ -1158,7 +1130,6 @@ body.dark-mode .footer-bottom {
     body { background: #fff !important; color: #000 !important; }
 }
 
-/* ===== Motion & touch ===== */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation: none !important;

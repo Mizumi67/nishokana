@@ -1,20 +1,15 @@
-// ===== Wait for DOM to load =====
 document.addEventListener('DOMContentLoaded', function() {
-    // Dark Mode Toggle
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
     
-    // Check for saved theme preference
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
         body.classList.add('dark-mode');
     }
     
-    // Toggle theme
     themeToggle.addEventListener('click', () => {
         body.classList.toggle('dark-mode');
         
-        // Save preference
         if (body.classList.contains('dark-mode')) {
             localStorage.setItem('theme', 'dark');
         } else {
@@ -22,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Navbar scroll effect
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
@@ -32,20 +26,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Tombol "Ayo Main Sekarang!" di tiap kartu game
     document.querySelectorAll('[data-game-type]').forEach((btn) => {
         btn.addEventListener('click', () => {
             openGame(btn.getAttribute('data-game-type'));
         });
     });
 
-    // Tombol close pada modal detail karakter
     const modalCloseBtn = document.getElementById('modal-close-btn');
     if (modalCloseBtn) {
         modalCloseBtn.addEventListener('click', closeModal);
     }
     
-    // Hamburger menu
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('nav-menu');
     
@@ -57,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Close mobile menu when clicking nav link
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
@@ -67,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Close menu when clicking outside
     document.addEventListener('click', (e) => {
         if (!navMenu.contains(e.target) && !hamburger.contains(e.target) && navMenu.classList.contains('active')) {
             navMenu.classList.remove('active');
@@ -76,7 +65,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Render all kana
     renderKana('hiragana-dasar', hiragana_dasar);
     renderKana('hiragana-dakuten', hiragana_dakuten);
     renderKana('hiragana-handakuten', hiragana_handakuten);
@@ -88,13 +76,11 @@ document.addEventListener('DOMContentLoaded', function() {
     renderKana('katakana-youon', katakana_youon);
     renderKana('katakana-modern', katakana_modern);
     
-    // Render kotoba
     renderKotoba();
     setupKotobaFilters();
     setupKotobaSearch();
 });
 
-// ===== Render Kana =====
 function renderKana(containerId, dataArray) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -117,7 +103,6 @@ function renderKana(containerId, dataArray) {
     });
 }
 
-// ===== Character Modal =====
 function showCharacterModal(charData) {
     const modal = document.getElementById('char-modal');
     const modalChar = document.getElementById('modal-char');
@@ -138,7 +123,6 @@ function showCharacterModal(charData) {
     
     modal.classList.add('active');
 
-    // Render animasi urutan goresan (stroke order) untuk karakter yang dipilih
     if (typeof renderStrokeAnimation === 'function') {
         renderStrokeAnimation(charData.char);
     }
@@ -148,7 +132,6 @@ function closeModal() {
     document.getElementById('char-modal').classList.remove('active');
 }
 
-// Close modal on outside click
 document.addEventListener('click', (e) => {
     const modal = document.getElementById('char-modal');
     if (e.target === modal) {
@@ -156,7 +139,6 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// ===== Render Kotoba =====
 let currentKotoba = [...kotoba];
 let currentFilter = 'all';
 let currentPage = 0;
@@ -177,7 +159,6 @@ function renderKotoba(kotobaList = currentKotoba) {
     }
 
     if (currentFilter === 'all') {
-        // Mode pagination untuk tab Semua
         const totalPages = Math.ceil(kotobaList.length / ITEMS_PER_PAGE);
         if (currentPage >= totalPages) currentPage = 0;
 
@@ -195,9 +176,6 @@ function renderKotoba(kotobaList = currentKotoba) {
             container.appendChild(card);
         });
 
-        // Samakan tinggi grid di setiap halaman supaya halaman terakhir yang
-        // jumlah kartunya lebih sedikit tidak bikin tinggi halaman menyusut
-        // mendadak (ini yang bikin posisi scroll lompat ke section bawahnya)
         if (pageItems.length === ITEMS_PER_PAGE) {
             container.style.minHeight = '';
             kotobaGridFullHeight = container.scrollHeight;
@@ -208,7 +186,6 @@ function renderKotoba(kotobaList = currentKotoba) {
 
         renderPagination(totalPages, kotobaList);
     } else {
-        // Mode normal untuk tab kategori — tampil semua tanpa pagination
         removePagination();
         container.style.minHeight = '';
         kotobaList.forEach(item => {
@@ -281,15 +258,10 @@ function removePagination() {
     if (existing) existing.remove();
 }
 
-// Beberapa kotoba punya lebih dari satu cara baca yang sama-sama benar
-// (mis. 'shi'/'yon'), disimpan sebagai array di data.js. Helper ini
-// menyatukannya jadi satu string supaya aman dipakai untuk ditampilkan
-// maupun untuk pencarian (search).
 function romajiText(romaji) {
     return Array.isArray(romaji) ? romaji.join(' / ') : romaji;
 }
 
-// ===== Kotoba Filters =====
 function setupKotobaFilters() {
     const filterBtns = document.querySelectorAll('.filter-btn');
     
@@ -301,7 +273,6 @@ function setupKotobaFilters() {
             currentFilter = btn.getAttribute('data-filter');
             currentPage = 0; // reset ke halaman pertama saat ganti filter
 
-            // Jika ada pencarian aktif, tetap filter berdasarkan search
             const searchTerm = document.getElementById('kotoba-search').value.toLowerCase();
 
             if (currentFilter === 'all') {
@@ -324,7 +295,6 @@ function setupKotobaFilters() {
     });
 }
 
-// ===== Kotoba Search =====
 function setupKotobaSearch() {
     const searchInput = document.getElementById('kotoba-search');
     
@@ -342,24 +312,11 @@ function setupKotobaSearch() {
     });
 }
 
-// ===== Open Game =====
 function openGame(gameType) {
-    // Pakai path absolut dari root situs (bukan relatif), soalnya address bar
-    // bisa aja lagi "disamarkan" (mis. .../games/) lewat replaceState di atas.
-    // Kalau pakai path relatif, browser bakal ngitung dari lokasi palsu itu
-    // dan hasilnya 404 (mis. jadi .../games/game.html yang nggak ada).
     const rootBase = window.location.pathname.split('/').slice(0, 2).join('/') + '/';
     window.open(`${rootBase}game.html?type=${gameType}`, '_blank', 'noopener');
 }
 
-// ===== Pretty URL untuk navigasi section =====
-// Navigasi antar section tetap pakai hash (#hiragana, dst) supaya scroll
-// bawaan browser jalan seperti biasa. Begitu section-nya kebuka, hash-nya
-// diganti diam-diam jadi path biasa (hiragana/, katakana/, dst) lewat
-// replaceState, jadi address bar-nya kelihatan rapi tanpa reload apa pun.
-// rootBase dihitung ulang tiap kali dari pathname yang berjalan sekarang
-// (sama seperti perhitungan di error-redirect.js) supaya hasilnya selalu
-// mengarah ke folder root situs, nggak numpuk jadi /hiragana/katakana/ dst.
 (function() {
     const prettySections = ['home', 'hiragana', 'katakana', 'kotoba', 'games'];
 

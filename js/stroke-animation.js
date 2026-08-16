@@ -1,22 +1,8 @@
 (function () {
-    // Base folder di-hitung dari lokasi file script ini sendiri, bukan dari
-    // URL halaman saat ini. Soalnya address bar bisa aja udah diubah jadi
-    // path yang lebih rapi (lihat script.js / game-init.js), jadi kalau
-    // fetch-nya pakai path relatif ke URL halaman bisa salah folder.
-    const scriptSrc = document.currentScript.src;
-    const SVG_FOLDER = scriptSrc.substring(0, scriptSrc.lastIndexOf('/') + 1) + 'stroke-svgs';
+    const rootBase = window.location.pathname.split('/').slice(0, 2).join('/') + '/';
+    const SVG_FOLDER = rootBase + 'assets/stroke-svgs';
     const strokeSvgCache = {};
 
-    // File SVG dari AnimCJK ikut nyimpen <style> sendiri di dalamnya buat
-    // ngatur animasi goresan, dan tiap <path> goresan juga punya atribut
-    // style="--d:Xs" buat ngatur jeda urutannya. Situs ini makein CSP yang
-    // ngelarang inline style (baik <style> maupun atribut style=""), jadi
-    // dua-duanya kepotong browser dan animasinya nggak pernah jalan (hurufnya
-    // cuma nongol diem, nggak gerak). CSS-nya udah dipindah ke styles.css
-    // (yang aman lewat CSP). Buat jeda per-goresan, atribut style="--d:..."
-    // diganti jadi data-delay biasa, terus nilainya diterapkan lewat
-    // element.style.setProperty() dari JS setelah SVG-nya nempel ke halaman —
-    // itu jalan meskipun CSP-nya ketat, soalnya bukan atribut style mentah.
     function sanitizeStrokeSvg(svgText) {
         return svgText
             .replace(/<style[\s\S]*?<\/style>/i, '')
@@ -95,10 +81,6 @@
         }
     }
 
-    // Ambil semua huruf yang udah kelihatan di kartu-kartu kana pada halaman
-    // (hiragana/katakana) dan mulai unduh SVG-nya di belakang layar begitu
-    // halaman selesai dimuat. Jadi pas modal dibuka, animasinya udah siap di
-    // cache dan langsung nongol tanpa jeda "memuat".
     function prefetchVisibleCharacters() {
         const chars = new Set();
         document.querySelectorAll('.kana-char').forEach((el) => {

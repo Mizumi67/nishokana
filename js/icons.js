@@ -1,5 +1,3 @@
-// ===== Ikon SVG custom (pengganti emote) =====
-// Data path ikon disimpan di sini supaya bisa dipakai ulang oleh script.js dan game.js
 const ICONS = {
     "icon-sun": { viewBox: "0 0 24 24", inner: `<circle cx="12" cy="12" r="4"/> <line x1="12" y1="2" x2="12" y2="4.5"/> <line x1="12" y1="19.5" x2="12" y2="22"/> <line x1="2" y1="12" x2="4.5" y2="12"/> <line x1="19.5" y1="12" x2="22" y2="12"/> <line x1="4.9" y1="4.9" x2="6.6" y2="6.6"/> <line x1="17.4" y1="17.4" x2="19.1" y2="19.1"/> <line x1="4.9" y1="19.1" x2="6.6" y2="17.4"/> <line x1="17.4" y1="6.6" x2="19.1" y2="4.9"/>` },
     "icon-moon": { viewBox: "0 0 24 24", inner: `<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/>` },
@@ -20,8 +18,6 @@ const ICONS = {
     "icon-medal": { viewBox: "0 0 24 24", inner: `<circle cx="12" cy="15" r="5.5"/> <path d="M9.5 10.2 7 3h3l2 5.4L14 3h3l-2.5 7.2"/>` },
 };
 
-// Menghasilkan markup <svg> inline untuk sebuah ikon.
-// extraClass: class tambahan opsional (mis. 'icon-fill' untuk ikon solid/filled).
 function iconSvg(iconId, extraClass) {
     const icon = ICONS[iconId];
     if (!icon) return '';
