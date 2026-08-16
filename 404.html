@@ -2,53 +2,10 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <script>
-        (function () {
-            var path = window.location.pathname;
-            var rootBase = path.split('/').slice(0, 2).join('/') + '/';
-            document.write('<base href="' + rootBase + '">');
-
-            var sections = ['hiragana', 'katakana', 'kotoba', 'games'];
-            var gameTypes = ['kana', 'kotoba', 'kanji', 'mix'];
-
-            var gameMatch = path.match(/\/game\/([a-z]+)\/?$/);
-            if (gameMatch) {
-                if (gameTypes.indexOf(gameMatch[1]) !== -1) {
-                    window.location.replace(rootBase + 'game.html?type=' + gameMatch[1]);
-                    return;
-                }
-                window.NISHO_ERROR = {
-                    label: 'Tipe Game Salah',
-                    title: 'Game-nya Nggak Ada',
-                    desc: 'Tipe game "' + gameMatch[1] + '" nggak dikenal sama NishoKana. Yang ada cuma kana, kotoba, kanji, sama mix.'
-                };
-            }
-
-            if (!window.NISHO_ERROR && path.match(/\/game\/?$/)) {
-                window.location.replace(rootBase + 'game.html');
-                return;
-            }
-
-            if (!window.NISHO_ERROR) {
-                for (var i = 0; i < sections.length; i++) {
-                    if (path.match(new RegExp('/' + sections[i] + '/?$'))) {
-                        window.location.replace(rootBase + '#' + sections[i]);
-                        return;
-                    }
-                }
-            }
-
-            if (!window.NISHO_ERROR) {
-                window.NISHO_ERROR = {
-                    label: 'Halaman Nggak Ada',
-                    title: 'Alamatnya Nyasar',
-                    desc: 'Halaman yang kamu tuju nggak ketemu di NishoKana. Coba cek lagi ejaan link-nya, atau mungkin halamannya emang udah dipindah.'
-                };
-            }
-
-            window.NISHO_PATH = path;
-        })();
-    </script>
+    <script src="frame-guard.js"></script>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <script src="error-redirect.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Nggak Ketemu - NishoKana</title>
     <link rel="icon" type="image/png" href="favicon.png?v=2">
@@ -59,11 +16,6 @@
     <link rel="stylesheet" href="error.css">
 </head>
 <body>
-    <script>
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-        }
-    </script>
     <div class="lost-page">
         <div class="lost-card">
             <div class="lost-stamp"><span>迷</span></div>
@@ -77,11 +29,6 @@
             </div>
         </div>
     </div>
-    <script>
-        document.getElementById('lost-label').textContent = window.NISHO_ERROR.label;
-        document.getElementById('lost-title').textContent = window.NISHO_ERROR.title;
-        document.getElementById('lost-desc').textContent = window.NISHO_ERROR.desc;
-        document.getElementById('lost-path').textContent = window.NISHO_PATH;
-    </script>
+    <script src="error-fill.js"></script>
 </body>
 </html>

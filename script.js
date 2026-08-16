@@ -344,5 +344,5 @@ function setupKotobaSearch() {
 
 // ===== Open Game =====
 function openGame(gameType) {
-    window.open(`game.html?type=${gameType}`, '_blank');
+    window.open(`game.html?type=${gameType}`, '_blank', 'noopener');
 }
