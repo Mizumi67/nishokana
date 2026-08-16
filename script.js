@@ -344,7 +344,12 @@ function setupKotobaSearch() {
 
 // ===== Open Game =====
 function openGame(gameType) {
-    window.open(`game.html?type=${gameType}`, '_blank', 'noopener');
+    // Pakai path absolut dari root situs (bukan relatif), soalnya address bar
+    // bisa aja lagi "disamarkan" (mis. .../games/) lewat replaceState di atas.
+    // Kalau pakai path relatif, browser bakal ngitung dari lokasi palsu itu
+    // dan hasilnya 404 (mis. jadi .../games/game.html yang nggak ada).
+    const rootBase = window.location.pathname.split('/').slice(0, 2).join('/') + '/';
+    window.open(`${rootBase}game.html?type=${gameType}`, '_blank', 'noopener');
 }
 
 // ===== Pretty URL untuk navigasi section =====
