@@ -7,6 +7,16 @@
     const SVG_FOLDER = scriptSrc.substring(0, scriptSrc.lastIndexOf('/') + 1) + 'stroke-svgs';
     const strokeSvgCache = {};
 
+    // File SVG dari AnimCJK ikut nyimpen <style> sendiri di dalamnya buat
+    // ngatur animasi goresan. Situs ini makein CSP yang ngelarang inline
+    // style, jadi <style> itu kepotong browser dan animasinya nggak pernah
+    // jalan (hurufnya cuma nongol diem, nggak gerak). CSS yang setara sudah
+    // dipindah ke styles.css (yang aman lewat CSP), makanya di sini
+    // <style>-nya dibuang dari markup sebelum ditempel ke halaman.
+    function stripEmbeddedStyle(svgText) {
+        return svgText.replace(/<style[\s\S]*?<\/style>/i, '');
+    }
+
     let activeChar = '';
     let requestToken = 0;
 
@@ -15,19 +25,15 @@
             return strokeSvgCache[codePoint];
         }
 
-        try {
-            const response = await fetch(`${SVG_FOLDER}/${codePoint}.svg`);
-            if (!response.ok) {
-                strokeSvgCache[codePoint] = null;
-                return null;
-            }
-            const svgText = await response.text();
-            strokeSvgCache[codePoint] = svgText;
-            return svgText;
-        } catch (err) {
-            strokeSvgCache[codePoint] = null;
-            return null;
-        }
+        const pending = fetch(`${SVG_FOLDER}/${codePoint}.svg`)
+            .then((response) => (response.ok ? response.text() : null))
+            .then((svgText) => (svgText ? stripEmbeddedStyle(svgText) : null))
+            .catch(() => null);
+
+        strokeSvgCache[codePoint] = pending;
+        const resolved = await pending;
+        strokeSvgCache[codePoint] = resolved;
+        return resolved;
     }
 
     function buildAnimationCard(char, svgText) {
@@ -56,8 +62,6 @@
         activeChar = char;
         const myToken = ++requestToken;
 
-        grid.innerHTML = '<div class="stroke-anim-loading">Memuat animasi...</div>';
-
         const chars = Array.from(char);
         const codePoints = chars.map((c) => c.codePointAt(0));
         const svgTexts = await Promise.all(codePoints.map((cp) => fetchStrokeSvg(cp)));
@@ -78,11 +82,24 @@
         }
     }
 
+    // Ambil semua huruf yang udah kelihatan di kartu-kartu kana pada halaman
+    // (hiragana/katakana) dan mulai unduh SVG-nya di belakang layar begitu
+    // halaman selesai dimuat. Jadi pas modal dibuka, animasinya udah siap di
+    // cache dan langsung nongol tanpa jeda "memuat".
+    function prefetchVisibleCharacters() {
+        const chars = new Set();
+        document.querySelectorAll('.kana-char').forEach((el) => {
+            Array.from(el.textContent || '').forEach((c) => chars.add(c));
+        });
+        chars.forEach((c) => fetchStrokeSvg(c.codePointAt(0)));
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         const replayBtn = document.getElementById('stroke-anim-replay');
         if (replayBtn) {
             replayBtn.addEventListener('click', replayStrokeAnimation);
         }
+        prefetchVisibleCharacters();
     });
 
     window.renderStrokeAnimation = renderStrokeAnimation;

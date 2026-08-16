@@ -967,6 +967,32 @@ body:not(.dark-mode) .moon-icon { display: none; }
     font-size: 0.9rem;
 }
 
+/* Animasi urutan goresan datang dari file SVG di /stroke-svgs, tapi CSS-nya
+   sengaja dipindah ke sini (bukan dibiarkan nempel sebagai <style> di dalam
+   tiap SVG) karena Content-Security-Policy situs ini melarang inline style.
+   Sekalian warnanya diselaraskan sama tema situs, bukan abu-abu generik. */
+.stroke-anim-card svg.acjk path[clip-path] {
+    --stroke-anim-duration: 0.8s;
+    animation: strokeDraw var(--stroke-anim-duration) linear forwards var(--d);
+    stroke-dasharray: 3337;
+    stroke-dashoffset: 3339;
+    stroke-width: 128;
+    stroke-linecap: round;
+    fill: none;
+    stroke: var(--red);
+}
+
+.stroke-anim-card svg.acjk path[id] {
+    fill: var(--ink);
+    opacity: 0.1;
+}
+
+@keyframes strokeDraw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
 /* ===== Footer ===== */
 .footer {
     background-color: var(--ink);
