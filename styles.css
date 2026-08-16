@@ -983,8 +983,12 @@ body:not(.dark-mode) .moon-icon { display: none; }
 }
 
 .stroke-anim-card svg.acjk path[id] {
-    fill: var(--ink);
-    opacity: 0.1;
+    /* Kotaknya sengaja tetap putih di light maupun dark mode (kayak kertas
+       tulis), jadi warna bayangan hurufnya juga dikunci gelap tetap -
+       kalau ikut var(--ink) (yang jadi terang pas dark mode), bayangannya
+       nyaris nggak kelihatan di atas kotak putih itu. */
+    fill: #292620;
+    opacity: 0.12;
 }
 
 @keyframes strokeDraw {
