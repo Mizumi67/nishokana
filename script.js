@@ -31,6 +31,19 @@ document.addEventListener('DOMContentLoaded', function() {
             navbar.classList.remove('scrolled');
         }
     });
+
+    // Tombol "Ayo Main Sekarang!" di tiap kartu game
+    document.querySelectorAll('[data-game-type]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            openGame(btn.getAttribute('data-game-type'));
+        });
+    });
+
+    // Tombol close pada modal detail karakter
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+    if (modalCloseBtn) {
+        modalCloseBtn.addEventListener('click', closeModal);
+    }
     
     // Hamburger menu
     const hamburger = document.getElementById('hamburger');
@@ -62,52 +75,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.classList.remove('menu-open');
         }
     });
-    
-    // Section links without hash in the URL
-    const basePath = window.location.pathname.replace(/index\.html$/, '');
-    const sectionIds = ['home', 'hiragana', 'katakana', 'kotoba', 'games'];
-
-    function sectionUrl(id) {
-        return id === 'home' ? basePath : basePath + id;
-    }
-
-    function goToSection(id, push) {
-        const target = document.getElementById(id);
-        if (!target) return;
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        const url = sectionUrl(id);
-        if (push) {
-            history.pushState({ section: id }, '', url);
-        } else {
-            history.replaceState({ section: id }, '', url);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
-        link.addEventListener('click', (e) => {
-            const id = link.getAttribute('href').slice(1);
-            if (!sectionIds.includes(id)) return;
-            e.preventDefault();
-            goToSection(id, true);
-        });
-    });
-
-    window.addEventListener('popstate', () => {
-        const id = window.location.pathname.replace(basePath, '').replace(/\/$/, '') || 'home';
-        goToSection(id, false);
-    });
-
-    if (window.location.hash) {
-        const id = window.location.hash.slice(1);
-        if (sectionIds.includes(id)) {
-            setTimeout(() => goToSection(id, false), 0);
-        }
-    } else {
-        const id = window.location.pathname.replace(basePath, '').replace(/\/$/, '');
-        if (sectionIds.includes(id)) {
-            setTimeout(() => goToSection(id, false), 0);
-        }
-    }
     
     // Render all kana
     renderKana('hiragana-dasar', hiragana_dasar);
@@ -222,7 +189,7 @@ function renderKotoba(kotobaList = currentKotoba) {
             card.className = 'kotoba-card';
             card.innerHTML = `
                 <div class="kotoba-jp">${item.jp}</div>
-                <div class="kotoba-romaji">${item.romaji}</div>
+                <div class="kotoba-romaji">${romajiText(item.romaji)}</div>
                 <div class="kotoba-meaning">${item.meaning}</div>
             `;
             container.appendChild(card);
@@ -249,7 +216,7 @@ function renderKotoba(kotobaList = currentKotoba) {
             card.className = 'kotoba-card';
             card.innerHTML = `
                 <div class="kotoba-jp">${item.jp}</div>
-                <div class="kotoba-romaji">${item.romaji}</div>
+                <div class="kotoba-romaji">${romajiText(item.romaji)}</div>
                 <div class="kotoba-meaning">${item.meaning}</div>
             `;
             container.appendChild(card);
@@ -314,6 +281,14 @@ function removePagination() {
     if (existing) existing.remove();
 }
 
+// Beberapa kotoba punya lebih dari satu cara baca yang sama-sama benar
+// (mis. 'shi'/'yon'), disimpan sebagai array di data.js. Helper ini
+// menyatukannya jadi satu string supaya aman dipakai untuk ditampilkan
+// maupun untuk pencarian (search).
+function romajiText(romaji) {
+    return Array.isArray(romaji) ? romaji.join(' / ') : romaji;
+}
+
 // ===== Kotoba Filters =====
 function setupKotobaFilters() {
     const filterBtns = document.querySelectorAll('.filter-btn');
@@ -339,7 +314,7 @@ function setupKotobaFilters() {
             if (searchTerm) {
                 displayed = currentKotoba.filter(k =>
                     k.jp.includes(searchTerm) ||
-                    k.romaji.toLowerCase().includes(searchTerm) ||
+                    romajiText(k.romaji).toLowerCase().includes(searchTerm) ||
                     k.meaning.toLowerCase().includes(searchTerm)
                 );
             }
@@ -359,7 +334,7 @@ function setupKotobaSearch() {
         
         const filtered = currentKotoba.filter(k => {
             return k.jp.includes(searchTerm) ||
-                   k.romaji.toLowerCase().includes(searchTerm) ||
+                   romajiText(k.romaji).toLowerCase().includes(searchTerm) ||
                    k.meaning.toLowerCase().includes(searchTerm);
         });
         
@@ -369,6 +344,5 @@ function setupKotobaSearch() {
 
 // ===== Open Game =====
 function openGame(gameType) {
-    const base = window.location.pathname.replace(/index\.html$/, '');
-    window.open(`${base}game.html?type=${gameType}`, '_blank');
+    window.open(`game.html?type=${gameType}`, '_blank');
 }
