@@ -96,11 +96,6 @@ body {
     padding: 0 var(--space-md);
 }
 
-::selection {
-    background-color: var(--gold);
-    color: #fff;
-}
-
 ::-webkit-scrollbar {
     width: 10px;
 }
