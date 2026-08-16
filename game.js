@@ -8,6 +8,8 @@ let timeRemaining = 60;
 let timerInterval = null;
 let startTime = null;
 let endTime = null;
+let noTimeLimit = false;
+let isGameInProgress = false;
 
 // ===== Audio Context for Timer Sounds =====
 let audioContext = null;
@@ -75,7 +77,117 @@ document.addEventListener('DOMContentLoaded', () => {
     answerInput.addEventListener('focus', () => {
         initAudio();
     });
+
+    // Tombol pilihan jenis game di selection screen
+    document.querySelectorAll('.game-type-btn[data-game-type]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            selectGameType(btn.getAttribute('data-game-type'));
+        });
+    });
+
+    // Checkbox "Tanpa Batas Waktu"
+    const noTimeLimitCheckbox = document.getElementById('no-time-limit');
+    if (noTimeLimitCheckbox) {
+        noTimeLimitCheckbox.addEventListener('change', toggleTimeLimit);
+    }
+
+    // Tombol "Mulai Game!"
+    const startGameBtn = document.getElementById('start-game-btn');
+    if (startGameBtn) {
+        startGameBtn.addEventListener('click', startGame);
+    }
+
+    // Tombol "Main Lagi"
+    const playAgainBtn = document.getElementById('play-again-btn');
+    if (playAgainBtn) {
+        playAgainBtn.addEventListener('click', playAgain);
+    }
+
+    // Tombol "Kembali" / "Pilih Game Lain" (muncul di beberapa screen)
+    document.querySelectorAll('.back-to-selection-btn').forEach((btn) => {
+        btn.addEventListener('click', backToSelection);
+    });
+
+    // Lapisan tambahan: kalau user coba refresh pakai keyboard (F5 /
+    // Ctrl+R / Cmd+R) saat game masih berlangsung, tampilkan modal
+    // konfirmasi custom (bukan dialog bawaan browser) dulu.
+    document.addEventListener('keydown', (e) => {
+        const isRefreshShortcut = e.key === 'F5' ||
+            ((e.ctrlKey || e.metaKey) && (e.key === 'r' || e.key === 'R'));
+
+        if (isRefreshShortcut && isGameInProgress) {
+            e.preventDefault();
+            showLeaveConfirm();
+        }
+    });
 });
+
+// ===== Leave/Refresh Confirm Modal (custom, bukan dialog bawaan browser) =====
+function showLeaveConfirm() {
+    const overlay = document.getElementById('leave-confirm-overlay');
+    const confirmBtn = document.getElementById('leave-confirm-yes');
+    const cancelBtn = document.getElementById('leave-confirm-cancel');
+
+    overlay.classList.add('active');
+    cancelBtn.focus();
+
+    function close() {
+        overlay.classList.remove('active');
+        confirmBtn.removeEventListener('click', onConfirm);
+        cancelBtn.removeEventListener('click', close);
+        overlay.removeEventListener('click', overlayClick);
+        document.removeEventListener('keydown', escClose);
+    }
+
+    function onConfirm() {
+        close();
+        isGameInProgress = false;
+        window.location.reload();
+    }
+
+    function overlayClick(e) {
+        if (e.target === overlay) close();
+    }
+
+    function escClose(e) {
+        if (e.key === 'Escape') close();
+    }
+
+    confirmBtn.addEventListener('click', onConfirm);
+    cancelBtn.addEventListener('click', close);
+    overlay.addEventListener('click', overlayClick);
+    document.addEventListener('keydown', escClose);
+}
+
+// ===== Custom Alert Modal (pengganti alert() bawaan browser) =====
+function showAlert(message) {
+    const overlay = document.getElementById('custom-alert-overlay');
+    const messageEl = document.getElementById('custom-alert-message');
+    const okBtn = document.getElementById('custom-alert-ok');
+
+    messageEl.textContent = message;
+    overlay.classList.add('active');
+    okBtn.focus();
+
+    function closeAlert() {
+        overlay.classList.remove('active');
+        okBtn.removeEventListener('click', closeAlert);
+        overlay.removeEventListener('click', overlayClick);
+        document.removeEventListener('keydown', escClose);
+    }
+
+    function overlayClick(e) {
+        if (e.target === overlay) closeAlert();
+    }
+
+    function escClose(e) {
+        if (e.key === 'Escape' || e.key === 'Enter') closeAlert();
+    }
+
+    okBtn.addEventListener('click', closeAlert);
+    overlay.addEventListener('click', overlayClick);
+    document.addEventListener('keydown', escClose);
+}
 
 // ===== Screen Navigation =====
 function showScreen(screenId) {
@@ -94,21 +206,89 @@ function backToSelection() {
     resetGame();
 }
 
+// ===== Toggle Time Limit =====
+function toggleTimeLimit() {
+    const checkbox = document.getElementById('no-time-limit');
+    const group = document.getElementById('time-limit-group');
+    const timeInput = document.getElementById('time-limit');
+
+    if (checkbox.checked) {
+        group.classList.add('disabled');
+        timeInput.disabled = true;
+    } else {
+        group.classList.remove('disabled');
+        timeInput.disabled = false;
+    }
+}
+
 // ===== Start Game =====
+// Sebelum benar-benar memulai game, tampilkan peringatan dulu bahwa
+// refresh/menutup halaman akan menghilangkan progres. Peringatan ini
+// cukup ditampilkan sekali per sesi tab (tersimpan di sessionStorage)
+// supaya tidak mengganggu kalau user main berkali-kali.
 function startGame() {
-    // Get settings
+    // Validate settings dulu sebelum munculin peringatan, biar user
+    // gak diminta konfirmasi kalau settingannya aja belum valid.
     const questionCount = parseInt(document.getElementById('question-count').value);
-    timeLimit = parseInt(document.getElementById('time-limit').value);
-    
-    // Validate settings
     if (questionCount < 5 || questionCount > 100) {
-        alert('Jumlah soal harus antara 5 dan 100');
+        showAlert('Jumlah soal harus antara 5 dan 100');
         return;
     }
-    
-    if (timeLimit < 10 || timeLimit > 120) {
-        alert('Batas waktu harus antara 10 dan 120 detik');
-        return;
+
+    const noTimeLimitCheck = document.getElementById('no-time-limit').checked;
+    if (!noTimeLimitCheck) {
+        const tl = parseInt(document.getElementById('time-limit').value);
+        if (tl < 10 || tl > 180) {
+            showAlert('Batas waktu harus antara 10 dan 180 detik');
+            return;
+        }
+    }
+
+    if (sessionStorage.getItem('nishokana_refresh_warning_seen') === '1') {
+        actuallyStartGame();
+    } else {
+        showRefreshWarning();
+    }
+}
+
+function showRefreshWarning() {
+    const overlay = document.getElementById('refresh-warning-overlay');
+    const okBtn = document.getElementById('refresh-warning-ok');
+
+    overlay.classList.add('active');
+    okBtn.focus();
+
+    function closeAndStart() {
+        overlay.classList.remove('active');
+        okBtn.removeEventListener('click', closeAndStart);
+        overlay.removeEventListener('click', overlayClick);
+        document.removeEventListener('keydown', enterClose);
+        sessionStorage.setItem('nishokana_refresh_warning_seen', '1');
+        actuallyStartGame();
+    }
+
+    function overlayClick(e) {
+        if (e.target === overlay) closeAndStart();
+    }
+
+    function enterClose(e) {
+        if (e.key === 'Enter' || e.key === 'Escape') closeAndStart();
+    }
+
+    okBtn.addEventListener('click', closeAndStart);
+    overlay.addEventListener('click', overlayClick);
+    document.addEventListener('keydown', enterClose);
+}
+
+function actuallyStartGame() {
+    // Get settings
+    const questionCount = parseInt(document.getElementById('question-count').value);
+    noTimeLimit = document.getElementById('no-time-limit').checked;
+
+    if (noTimeLimit) {
+        timeLimit = null;
+    } else {
+        timeLimit = parseInt(document.getElementById('time-limit').value);
     }
     
     // Generate questions
@@ -121,7 +301,7 @@ function startGame() {
     
     // Update UI
     document.getElementById('total-questions').textContent = questions.length;
-    document.getElementById('timer').textContent = timeRemaining;
+    updateTimerDisplay();
     document.getElementById('current-question').textContent = 1;
     document.getElementById('correct-count').textContent = 0;
     
@@ -137,6 +317,10 @@ function startGame() {
     
     // Focus on input
     document.getElementById('answer-input').focus();
+
+    // Aktifkan peringatan browser bawaan kalau user coba refresh/nutup tab
+    // di tengah game supaya ada lapisan pengingat tambahan selain modal.
+    isGameInProgress = true;
 }
 
 // ===== Generate Questions =====
@@ -158,10 +342,47 @@ function generateQuestions(count) {
         ];
     } else if (gameType === 'kotoba') {
         pool = [...kotoba];
+    } else if (gameType === 'kanji') {
+        pool = [...kanji];
+    } else if (gameType === 'mix') {
+        questions = generateMixQuestions(count);
+        return;
     }
     
     // Shuffle and take count
     questions = shuffleArray(pool).slice(0, Math.min(count, pool.length));
+}
+
+// Ambil soal campuran dari kana, kotoba, dan kanji dengan porsi rata
+function generateMixQuestions(count) {
+    const kanaPool = [
+        ...hiragana_dasar,
+        ...hiragana_dakuten,
+        ...hiragana_handakuten,
+        ...hiragana_youon,
+        ...katakana_dasar,
+        ...katakana_dakuten,
+        ...katakana_handakuten,
+        ...katakana_youon,
+        ...katakana_modern
+    ].map(item => ({ ...item, source: 'kana' }));
+
+    const kotobaPool = kotoba.map(item => ({ ...item, source: 'kotoba' }));
+    const kanjiPool = kanji.map(item => ({ ...item, source: 'kanji' }));
+
+    const groups = [kanaPool, kotobaPool, kanjiPool];
+    const base = Math.floor(count / groups.length);
+    let remainder = count % groups.length;
+
+    let selected = [];
+    groups.forEach(pool => {
+        let take = base + (remainder > 0 ? 1 : 0);
+        if (remainder > 0) remainder--;
+        take = Math.min(take, pool.length);
+        selected = selected.concat(shuffleArray(pool).slice(0, take));
+    });
+
+    return shuffleArray(selected);
 }
 
 function shuffleArray(array) {
@@ -184,12 +405,34 @@ function showQuestion() {
     const questionChar = document.getElementById('question-char');
     const answerInput = document.getElementById('answer-input');
     const feedback = document.getElementById('feedback');
+    const questionLabel = document.getElementById('question-label');
+    
+    // Untuk mode mix, tiap soal bisa berasal dari sumber berbeda (kana/kotoba/kanji)
+    const questionSource = question.source || gameType;
     
     // Set question
-    if (gameType === 'kana') {
+    if (questionSource === 'kana') {
         questionChar.textContent = question.char;
-    } else if (gameType === 'kotoba') {
+    } else {
         questionChar.textContent = question.jp;
+    }
+    
+    // Adjust font size for longer kanji words so they still fit nicely
+    if (questionSource === 'kanji' && question.jp.length > 2) {
+        questionChar.classList.add('question-text-small');
+    } else {
+        questionChar.classList.remove('question-text-small');
+    }
+    
+    // Adjust instruction label per game type
+    if (questionLabel) {
+        if (questionSource === 'kana') {
+            questionLabel.textContent = 'Tuliskan bacaan huruf di atas (romaji)';
+        } else if (questionSource === 'kotoba') {
+            questionLabel.textContent = 'Tuliskan cara baca kosakata di atas (romaji)';
+        } else if (questionSource === 'kanji') {
+            questionLabel.textContent = 'Tuliskan cara baca kanji di atas (romaji)';
+        }
     }
     
     // Clear input and feedback
@@ -202,29 +445,46 @@ function showQuestion() {
 }
 
 // ===== Check Answer =====
+// Mendapatkan semua kemungkinan jawaban yang benar untuk satu soal.
+// Mendukung romaji berupa string tunggal ATAU array (untuk kanji/kata yang
+// punya lebih dari satu cara baca yang sama-sama benar, mis. 何人 -> nanijin/nannin)
+function getAcceptedAnswers(question) {
+    const romaji = question.romaji;
+    const list = Array.isArray(romaji) ? romaji : [romaji];
+
+    const answers = new Set();
+    list.forEach(r => {
+        const normalized = r.toLowerCase().trim().replace(/\s+/g, ' ');
+        answers.add(normalized);
+
+        // Untuk kotoba/kanji yang terdiri dari lebih dari satu kata
+        // (mis. "ohayou gozaimasu"), terima juga versi tanpa spasi
+        // ("ohayougozaimasu") supaya user tidak perlu repot mengetik spasi.
+        if (normalized.includes(' ')) {
+            answers.add(normalized.replace(/\s+/g, ''));
+        }
+    });
+
+    return Array.from(answers);
+}
+
 function checkAnswer() {
     const answerInput = document.getElementById('answer-input');
-    const userAnswer = answerInput.value.trim().toLowerCase();
+    const userAnswer = answerInput.value.trim().toLowerCase().replace(/\s+/g, ' ');
     
     if (!userAnswer) return;
     
     const question = questions[currentQuestionIndex];
-    let correctAnswer = '';
+    const acceptedAnswers = getAcceptedAnswers(question);
     
-    if (gameType === 'kana') {
-        correctAnswer = question.romaji.toLowerCase();
-    } else if (gameType === 'kotoba') {
-        correctAnswer = question.romaji.toLowerCase();
-    }
-    
-    // Check if answer is correct (case insensitive)
-    if (userAnswer === correctAnswer) {
+    // Check if answer is correct (case insensitive, terima semua bacaan yang valid)
+    if (acceptedAnswers.includes(userAnswer)) {
         correctAnswers++;
         document.getElementById('correct-count').textContent = correctAnswers;
         
         // Show feedback briefly
         const feedback = document.getElementById('feedback');
-        feedback.textContent = '✓ Benar!';
+        feedback.innerHTML = iconSvg('icon-check') + 'Benar!';
         feedback.className = 'answer-feedback feedback-correct';
         
         // Move to next question
@@ -236,7 +496,25 @@ function checkAnswer() {
 }
 
 // ===== Timer =====
+function updateTimerDisplay() {
+    const timerElement = document.getElementById('timer');
+    if (noTimeLimit) {
+        timerElement.textContent = '∞';
+        timerElement.classList.remove('timer-warning');
+    } else {
+        timerElement.textContent = timeRemaining;
+    }
+}
+
 function startTimer() {
+    clearInterval(timerInterval);
+
+    // Mode tanpa batas waktu: jangan jalankan countdown sama sekali
+    if (noTimeLimit) {
+        updateTimerDisplay();
+        return;
+    }
+
     timerInterval = setInterval(() => {
         timeRemaining--;
         const timerElement = document.getElementById('timer');
@@ -261,6 +539,7 @@ function startTimer() {
 function endGame() {
     clearInterval(timerInterval);
     endTime = Date.now();
+    isGameInProgress = false;
     
     const timeUsed = Math.floor((endTime - startTime) / 1000);
     const totalQuestions = questions.length;
@@ -273,7 +552,7 @@ function endGame() {
     const icon = getGradeIcon(grade);
     
     // Update result screen
-    document.getElementById('result-icon').textContent = icon;
+    document.getElementById('result-icon').innerHTML = iconSvg(icon);
     document.getElementById('result-grade').textContent = grade;
     document.getElementById('final-correct').textContent = correctAnswers;
     document.getElementById('final-total').textContent = totalQuestions;
@@ -301,16 +580,16 @@ function calculateGrade(accuracy) {
 
 function getGradeIcon(grade) {
     const icons = {
-        'A+': '🏆',
-        'A': '🌟',
-        'B+': '⭐',
-        'B': '👍',
-        'C+': '😊',
-        'C': '😐',
-        'D': '😕',
-        'F': '😢'
+        'A+': 'icon-trophy',
+        'A': 'icon-star',
+        'B+': 'icon-star',
+        'B': 'icon-thumbs-up',
+        'C+': 'icon-smile',
+        'C': 'icon-meh',
+        'D': 'icon-frown',
+        'F': 'icon-sad'
     };
-    return icons[grade] || '🎮';
+    return icons[grade] || 'icon-medal';
 }
 
 // ===== Play Again =====
@@ -325,8 +604,8 @@ function playAgain() {
     timeRemaining = timeLimit;
     
     // Update UI
-    document.getElementById('timer').textContent = timeRemaining;
     document.getElementById('timer').classList.remove('timer-warning');
+    updateTimerDisplay();
     document.getElementById('current-question').textContent = 1;
     document.getElementById('correct-count').textContent = 0;
     
@@ -342,9 +621,9 @@ function playAgain() {
     
     // Focus on input
     document.getElementById('answer-input').focus();
-}
 
-// ===== Reset Game =====
+    isGameInProgress = true;
+}
 function resetGame() {
     clearInterval(timerInterval);
     questions = [];
@@ -352,4 +631,14 @@ function resetGame() {
     correctAnswers = 0;
     timeRemaining = 60;
     gameType = '';
+    noTimeLimit = false;
+    isGameInProgress = false;
+
+    // Reset UI batas waktu ke kondisi awal
+    const checkbox = document.getElementById('no-time-limit');
+    const group = document.getElementById('time-limit-group');
+    const timeInput = document.getElementById('time-limit');
+    if (checkbox) checkbox.checked = false;
+    if (group) group.classList.remove('disabled');
+    if (timeInput) timeInput.disabled = false;
 }

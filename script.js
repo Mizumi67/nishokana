@@ -1,7 +1,5 @@
 // ===== Wait for DOM to load =====
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Website loaded!');
-    
     // Dark Mode Toggle
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
@@ -33,6 +31,19 @@ document.addEventListener('DOMContentLoaded', function() {
             navbar.classList.remove('scrolled');
         }
     });
+
+    // Tombol "Ayo Main Sekarang!" di tiap kartu game
+    document.querySelectorAll('[data-game-type]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            openGame(btn.getAttribute('data-game-type'));
+        });
+    });
+
+    // Tombol close pada modal detail karakter
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+    if (modalCloseBtn) {
+        modalCloseBtn.addEventListener('click', closeModal);
+    }
     
     // Hamburger menu
     const hamburger = document.getElementById('hamburger');
@@ -86,10 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // ===== Render Kana =====
 function renderKana(containerId, dataArray) {
     const container = document.getElementById(containerId);
-    if (!container) {
-        console.log('Container not found:', containerId);
-        return;
-    }
+    if (!container) return;
     
     container.innerHTML = '';
     
@@ -122,10 +130,10 @@ function showCharacterModal(charData) {
     
     if (charData.strokes) {
         strokeDesc.textContent = charData.strokes;
-        strokeVisual.textContent = '📝 Tulis huruf ini dengan mengikuti urutan goresan dari atas ke bawah dan kiri ke kanan';
+        strokeVisual.innerHTML = iconSvg('icon-pencil') + 'Tulis huruf ini dengan mengikuti urutan goresan dari atas ke bawah dan kiri ke kanan';
     } else {
         strokeDesc.textContent = 'Urutan penulisan sama dengan huruf dasarnya';
-        strokeVisual.textContent = '💡 Ikuti urutan penulisan huruf dasar, lalu tambahkan tanda dakuten/handakuten di akhir';
+        strokeVisual.innerHTML = iconSvg('icon-bulb') + 'Ikuti urutan penulisan huruf dasar, lalu tambahkan tanda dakuten/handakuten di akhir';
     }
     
     modal.classList.add('active');
@@ -153,6 +161,7 @@ let currentKotoba = [...kotoba];
 let currentFilter = 'all';
 let currentPage = 0;
 const ITEMS_PER_PAGE = 20; // 20 cards per page (5 kolom x 4 baris)
+let kotobaGridFullHeight = 0; // tinggi grid saat halaman penuh, dipakai biar tinggi antar halaman konsisten
 
 function renderKotoba(kotobaList = currentKotoba) {
     const container = document.getElementById('kotoba-list');
@@ -161,8 +170,9 @@ function renderKotoba(kotobaList = currentKotoba) {
     container.innerHTML = '';
 
     if (kotobaList.length === 0) {
-        container.innerHTML = '<p style="text-align: center; grid-column: 1/-1; color: #8D99AE;">Tidak ada kotoba yang ditemukan</p>';
+        container.innerHTML = '<p class="kotoba-empty">Tidak ada kotoba yang ditemukan</p>';
         removePagination();
+        container.style.minHeight = '';
         return;
     }
 
@@ -179,22 +189,34 @@ function renderKotoba(kotobaList = currentKotoba) {
             card.className = 'kotoba-card';
             card.innerHTML = `
                 <div class="kotoba-jp">${item.jp}</div>
-                <div class="kotoba-romaji">${item.romaji}</div>
+                <div class="kotoba-romaji">${romajiText(item.romaji)}</div>
                 <div class="kotoba-meaning">${item.meaning}</div>
             `;
             container.appendChild(card);
         });
 
+        // Samakan tinggi grid di setiap halaman supaya halaman terakhir yang
+        // jumlah kartunya lebih sedikit tidak bikin tinggi halaman menyusut
+        // mendadak (ini yang bikin posisi scroll lompat ke section bawahnya)
+        if (pageItems.length === ITEMS_PER_PAGE) {
+            container.style.minHeight = '';
+            kotobaGridFullHeight = container.scrollHeight;
+        }
+        if (kotobaGridFullHeight) {
+            container.style.minHeight = kotobaGridFullHeight + 'px';
+        }
+
         renderPagination(totalPages, kotobaList);
     } else {
         // Mode normal untuk tab kategori — tampil semua tanpa pagination
         removePagination();
+        container.style.minHeight = '';
         kotobaList.forEach(item => {
             const card = document.createElement('div');
             card.className = 'kotoba-card';
             card.innerHTML = `
                 <div class="kotoba-jp">${item.jp}</div>
-                <div class="kotoba-romaji">${item.romaji}</div>
+                <div class="kotoba-romaji">${romajiText(item.romaji)}</div>
                 <div class="kotoba-meaning">${item.meaning}</div>
             `;
             container.appendChild(card);
@@ -259,6 +281,14 @@ function removePagination() {
     if (existing) existing.remove();
 }
 
+// Beberapa kotoba punya lebih dari satu cara baca yang sama-sama benar
+// (mis. 'shi'/'yon'), disimpan sebagai array di data.js. Helper ini
+// menyatukannya jadi satu string supaya aman dipakai untuk ditampilkan
+// maupun untuk pencarian (search).
+function romajiText(romaji) {
+    return Array.isArray(romaji) ? romaji.join(' / ') : romaji;
+}
+
 // ===== Kotoba Filters =====
 function setupKotobaFilters() {
     const filterBtns = document.querySelectorAll('.filter-btn');
@@ -284,7 +314,7 @@ function setupKotobaFilters() {
             if (searchTerm) {
                 displayed = currentKotoba.filter(k =>
                     k.jp.includes(searchTerm) ||
-                    k.romaji.toLowerCase().includes(searchTerm) ||
+                    romajiText(k.romaji).toLowerCase().includes(searchTerm) ||
                     k.meaning.toLowerCase().includes(searchTerm)
                 );
             }
@@ -304,7 +334,7 @@ function setupKotobaSearch() {
         
         const filtered = currentKotoba.filter(k => {
             return k.jp.includes(searchTerm) ||
-                   k.romaji.toLowerCase().includes(searchTerm) ||
+                   romajiText(k.romaji).toLowerCase().includes(searchTerm) ||
                    k.meaning.toLowerCase().includes(searchTerm);
         });
         
@@ -314,35 +344,5 @@ function setupKotobaSearch() {
 
 // ===== Open Game =====
 function openGame(gameType) {
-    console.log('Opening game:', gameType);
     window.open(`game.html?type=${gameType}`, '_blank');
 }
-
-// ===== Dark Mode Functionality =====
-(function() {
-    // Setup dark mode on load
-    const body = document.body;
-    const currentTheme = localStorage.getItem('theme') || 'light';
-    
-    if (currentTheme === 'dark') {
-        body.classList.add('dark-mode');
-    }
-    
-    // Wait for DOM
-    document.addEventListener('DOMContentLoaded', function() {
-        const themeToggle = document.getElementById('theme-toggle');
-        
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
-                body.classList.toggle('dark-mode');
-                
-                // Save preference
-                if (body.classList.contains('dark-mode')) {
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    localStorage.setItem('theme', 'light');
-                }
-            });
-        }
-    });
-})();
