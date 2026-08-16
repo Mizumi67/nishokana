@@ -11,6 +11,13 @@ let endTime = null;
 let noTimeLimit = false;
 let isGameInProgress = false;
 
+// Baca ?type= dari URL SEKARANG JUGA, jangan nanti di dalam DOMContentLoaded.
+// Soalnya game-init.js (dimuat setelah file ini) langsung ganti address bar
+// pakai replaceState begitu dia jalan, dan itu bikin query string ?type= ilang
+// dari URL. Kalau typeParam baru dibaca belakangan pas DOMContentLoaded,
+// nilainya udah keburu kosong duluan. Jadi diambil & disimpan di sini dulu.
+const initialTypeParam = new URLSearchParams(window.location.search).get('type');
+
 // ===== Audio Context for Timer Sounds =====
 let audioContext = null;
 
@@ -60,9 +67,10 @@ function playTimeUpSound() {
 
 // ===== Initialize Game =====
 document.addEventListener('DOMContentLoaded', () => {
-    // Get game type from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const typeParam = urlParams.get('type');
+    // Pakai nilai yang udah ditangkap di awal file (lihat komentar di atas),
+    // bukan baca ulang window.location.search di sini -- soalnya address bar
+    // udah keburu diubah sama game-init.js pas titik ini dieksekusi.
+    const typeParam = initialTypeParam;
     
     if (typeParam) {
         gameType = typeParam;
