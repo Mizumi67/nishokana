@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <script>
+        (function () {
+            var path = window.location.pathname;
+            var sections = ['hiragana', 'katakana', 'kotoba', 'games'];
+            var gameTypes = ['kana', 'kotoba', 'kanji', 'mix'];
+
+            var gameMatch = path.match(/\/game\/([a-z]+)\/?$/);
+            if (gameMatch && gameTypes.indexOf(gameMatch[1]) !== -1) {
+                var gameBase = path.slice(0, gameMatch.index + 1);
+                window.location.replace(gameBase + 'game.html?type=' + gameMatch[1]);
+                return;
+            }
+
+            var bareGameMatch = path.match(/\/game\/?$/);
+            if (bareGameMatch) {
+                var bareBase = path.slice(0, bareGameMatch.index + 1);
+                window.location.replace(bareBase + 'game.html');
+                return;
+            }
+
+            for (var i = 0; i < sections.length; i++) {
+                var re = new RegExp('/' + sections[i] + '/?$');
+                var match = path.match(re);
+                if (match) {
+                    var base = path.slice(0, match.index + 1);
+                    window.location.replace(base + '#' + sections[i]);
+                    return;
+                }
+            }
+
+            var rootBase = path.split('/').slice(0, 2).join('/') + '/';
+            window.location.replace(rootBase);
+        })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NishoKana</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 2rem;">
+        <div>
+            <p style="font-family: var(--font-jp); font-size: 3rem; color: var(--red); margin-bottom: 1rem;">迷子</p>
+            <p style="color: var(--ink-soft); margin-bottom: 1.5rem;">Halaman tidak ditemukan.</p>
+            <a href="./" class="btn btn-primary">Kembali ke Beranda</a>
+        </div>
+    </div>
+</body>
+</html>

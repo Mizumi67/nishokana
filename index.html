@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NishoKana - Belajar Hiragana & Katakana</title>
+    <title>パンミセ - Belajar Hiragana & Katakana</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&family=Yuji+Mai&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="protect-media.css">
 </head>
@@ -296,28 +296,28 @@
                     <div class="game-icon">あア</div>
                     <h3>Hiragana & Katakana Quiz</h3>
                     <p>Tebak bacaan huruf Hiragana dan Katakana secara acak!</p>
-                    <button class="btn btn-primary game-btn" data-game-type="kana">Ayo Main Sekarang!</button>
+                    <button class="btn btn-primary game-btn" onclick="openGame('kana')">Ayo Main Sekarang!</button>
                 </div>
 
                 <div class="game-card">
                     <div class="game-icon">ことば</div>
                     <h3>Kotoba Quiz</h3>
                     <p>Tebak bacaan kosakata dalam Hiragana dan Katakana!</p>
-                    <button class="btn btn-primary game-btn" data-game-type="kotoba">Ayo Main Sekarang!</button>
+                    <button class="btn btn-primary game-btn" onclick="openGame('kotoba')">Ayo Main Sekarang!</button>
                 </div>
 
                 <div class="game-card">
                     <div class="game-icon">漢字</div>
                     <h3>Kanji Quiz</h3>
                     <p>Tebak cara baca 100 Kanji dasar secara acak!</p>
-                    <button class="btn btn-primary game-btn" data-game-type="kanji">Ayo Main Sekarang!</button>
+                    <button class="btn btn-primary game-btn" onclick="openGame('kanji')">Ayo Main Sekarang!</button>
                 </div>
 
                 <div class="game-card">
                     <div class="game-icon">ミックス</div>
                     <h3>Mix Quiz</h3>
                     <p>Soal campuran dari Hiragana, Katakana, Kotoba, dan Kanji sekaligus!</p>
-                    <button class="btn btn-primary game-btn" data-game-type="mix">Ayo Main Sekarang!</button>
+                    <button class="btn btn-primary game-btn" onclick="openGame('mix')">Ayo Main Sekarang!</button>
                 </div>
             </div>
         </div>
@@ -326,7 +326,7 @@
     <!-- Character Detail Modal -->
     <div class="modal" id="char-modal">
         <div class="modal-content">
-            <span class="modal-close" id="modal-close-btn">&times;</span>
+            <span class="modal-close" onclick="closeModal()">&times;</span>
             <div class="modal-body">
                 <div class="char-display">
                     <div class="char-big" id="modal-char"></div>
@@ -356,7 +356,7 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>NishoKana</h3>
-                    <p>Website Belajar Hiragana & Katakana dengan mudah untuk pemula.</p>
+                    <p>Belajar Hiragana & Katakana dengan mudah dan menyenangkan</p>
                 </div>
                 <div class="footer-section">
                     <h4>Link</h4>

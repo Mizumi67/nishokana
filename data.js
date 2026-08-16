@@ -183,7 +183,7 @@ const katakana_modern = [
 // Data Kotoba - 200+ kosakata
 const kotoba = [
     // Greetings (Salam)
-    { jp: 'おはようございます', romaji: 'ohayou gozaimasu', meaning: 'Selamat Pagi', category: 'greetings' },
+    { jp: 'おはようございます', romaji: ['ohayou gozaimasu', 'ohayougozaimasu'], meaning: 'Selamat Pagi', category: 'greetings' },
     { jp: 'こんにちは', romaji: 'konnichiwa', meaning: 'Selamat Siang', category: 'greetings' },
     { jp: 'こんばんは', romaji: 'konbanwa', meaning: 'Selamat Malam', category: 'greetings' },
     { jp: 'おやすみなさい', romaji: 'oyasuminasai', meaning: 'Selamat Tidur', category: 'greetings' },
@@ -194,10 +194,10 @@ const kotoba = [
     { jp: 'いってきます', romaji: 'ittekimasu', meaning: 'Aku Pamit', category: 'greetings' },
     { jp: 'いってらっしゃい', romaji: 'itterasshai', meaning: 'Hati-hati', category: 'greetings' },
     { jp: 'またね', romaji: 'matane', meaning: 'Sampai Jumpa', category: 'greetings' },
-    { jp: 'げんきです', romaji: 'genki desu', meaning: 'Kabar baik', category: 'greetings' },
+    { jp: 'げんきです', romaji: ['genki desu', 'genkidesu'], meaning: 'Kabar baik', category: 'greetings' },
     { jp: 'おめでとう', romaji: 'omedetou', meaning: 'Selamat', category: 'greetings' },
-    { jp: 'おひさしぶりです', romaji: 'ohisashiburi desu', meaning: 'Sudah lama tidak bertemu', category: 'greetings' },
-    { jp: 'おまたせしました', romaji: 'omatase shimashita', meaning: 'Maaf lama menunggu', category: 'greetings' },
+    { jp: 'おひさしぶりです', romaji: ['ohisashiburi desu', 'ohisashiburidesu'], meaning: 'Sudah lama tidak bertemu', category: 'greetings' },
+    { jp: 'おまたせしました', romaji: ['omatase shimashita', 'omataseshimashita'], meaning: 'Maaf lama menunggu', category: 'greetings' },
     { jp: 'おねがいします', romaji: 'onegaishimasu', meaning: 'Mohon bantuannya', category: 'greetings' },
     { jp: 'すみません', romaji: 'sumimasen', meaning: 'Permisi / Maaf', category: 'greetings' },
     { jp: 'やめて', romaji: 'yamete', meaning: 'Berhenti', category: 'greetings' },
@@ -208,8 +208,8 @@ const kotoba = [
     { jp: 'だいじょうぶ', romaji: 'daijoubu', meaning: 'Tidak apa apa', category: 'greetings' },
     { jp: 'ありがとう', romaji: 'arigatou', meaning: 'Terima kasih', category: 'greetings' },
     { jp: 'どういたしまして', romaji: 'douitashimashite', meaning: 'Sama-sama', category: 'greetings' },
-    { jp: 'ちょっとまって', romaji: 'chotto matte', meaning: 'Tunggu sebentar', category: 'greetings' },
-    { jp: 'おつかれさまです', romaji: 'otsukaresama desu', meaning: 'Terimakasih atas kerja kerasnya', category: 'greetings' },
+    { jp: 'ちょっとまって', romaji: ['chotto matte', 'chottomatte'], meaning: 'Tunggu sebentar', category: 'greetings' },
+    { jp: 'おつかれさまです', romaji: ['otsukaresama desu', 'otsukaresamadesu'], meaning: 'Terimakasih atas kerja kerasnya', category: 'greetings' },
 
     // Basic Words (Kata Dasar)
     { jp: 'わたし', romaji: 'watashi', meaning: 'Saya', category: 'basic' },
@@ -262,15 +262,12 @@ const kotoba = [
     { jp: 'いち', romaji: 'ichi', meaning: 'Satu', category: 'numbers' },
     { jp: 'に', romaji: 'ni', meaning: 'Dua', category: 'numbers' },
     { jp: 'さん', romaji: 'san', meaning: 'Tiga', category: 'numbers' },
-    { jp: 'し', romaji: 'shi', meaning: 'Empat', category: 'numbers' },
-    { jp: 'よん', romaji: 'yon', meaning: 'Empat', category: 'numbers' },
+    { jp: 'し / よん', romaji: 'shi / yon', meaning: 'Empat', category: 'numbers' },
     { jp: 'ご', romaji: 'go', meaning: 'Lima', category: 'numbers' },
     { jp: 'ろく', romaji: 'roku', meaning: 'Enam', category: 'numbers' },
-    { jp: 'しち', romaji: 'shichi', meaning: 'Tujuh', category: 'numbers' },
-    { jp: 'なな', romaji: 'nana', meaning: 'Tujuh', category: 'numbers' },
+    { jp: 'しち / なな', romaji: 'shichi / nana', meaning: 'Tujuh', category: 'numbers' },
     { jp: 'はち', romaji: 'hachi', meaning: 'Delapan', category: 'numbers' },
-    { jp: 'きゅう', romaji: 'kyuu', meaning: 'Sembilan', category: 'numbers' },
-    { jp: 'く', romaji: 'ku', meaning: 'Sembilan', category: 'numbers' },
+    { jp: 'きゅう / く', romaji: 'kyuu / ku', meaning: 'Sembilan', category: 'numbers' },
     { jp: 'じゅう', romaji: 'juu', meaning: 'Sepuluh', category: 'numbers' },
     { jp: 'ひゃく', romaji: 'hyaku', meaning: 'Seratus', category: 'numbers' },
     { jp: 'せん', romaji: 'sen', meaning: 'Seribu', category: 'numbers' },
@@ -324,7 +321,7 @@ const kotoba = [
     { jp: 'よむ', romaji: 'yomu', meaning: 'Membaca', category: 'verbs' },
     { jp: 'かく', romaji: 'kaku', meaning: 'Menulis', category: 'verbs' },
     { jp: 'はなす', romaji: 'hanasu', meaning: 'Berbicara', category: 'verbs' },
-    { jp: 'べんきょうする', romaji: 'benkyou suru', meaning: 'Belajar', category: 'verbs' },
+    { jp: 'べんきょうする', romaji: ['benkyou suru', 'benkyousuru'], meaning: 'Belajar', category: 'verbs' },
 
     // Places (Tempat)
     { jp: 'がっこう', romaji: 'gakkou', meaning: 'Sekolah', category: 'places' },

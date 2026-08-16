@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Quiz - NishoKana</title>
+    <title>Game Quiz - パンミセ</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -41,41 +41,6 @@
         </div>
     </div>
 
-    <!-- Refresh Warning Modal -->
-    <div id="refresh-warning-overlay" class="custom-alert-overlay">
-        <div class="custom-alert-box" role="alertdialog" aria-modal="true" aria-labelledby="refresh-warning-message">
-            <div class="custom-alert-icon">
-                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-                    <circle cx="12" cy="12" r="9"/>
-                    <line x1="12" y1="8" x2="12" y2="13"/>
-                    <line x1="12" y1="16" x2="12.01" y2="16"/>
-                </svg>
-            </div>
-            <p class="custom-alert-title" id="refresh-warning-title">Perhatian</p>
-            <p id="refresh-warning-message" class="custom-alert-message">Jika halaman ini di-refresh atau ditutup saat game berlangsung, progres soal akan hilang dan game akan dimulai dari awal lagi.</p>
-            <button type="button" class="btn btn-primary custom-alert-ok" id="refresh-warning-ok">Mengerti, Mulai!</button>
-        </div>
-    </div>
-
-    <!-- Leave/Refresh Confirm Modal (custom, muncul saat user tekan F5 / Ctrl+R di tengah game) -->
-    <div id="leave-confirm-overlay" class="custom-alert-overlay">
-        <div class="custom-alert-box" role="alertdialog" aria-modal="true" aria-labelledby="leave-confirm-message">
-            <div class="custom-alert-icon">
-                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-                    <circle cx="12" cy="12" r="9"/>
-                    <line x1="12" y1="8" x2="12" y2="13"/>
-                    <line x1="12" y1="16" x2="12.01" y2="16"/>
-                </svg>
-            </div>
-            <p class="custom-alert-title" id="leave-confirm-title">Yakin mau refresh?</p>
-            <p id="leave-confirm-message" class="custom-alert-message">Progres game yang sedang berjalan akan hilang dan dimulai dari awal lagi.</p>
-            <div class="custom-alert-actions">
-                <button type="button" class="btn btn-secondary" id="leave-confirm-cancel">Batal</button>
-                <button type="button" class="btn btn-primary" id="leave-confirm-yes">Ya, Refresh</button>
-            </div>
-        </div>
-    </div>
-
     <div class="game-container">
         <div class="game-header">
             <h1 class="game-title">ゲーム</h1>
@@ -90,19 +55,19 @@
             </div>
             
             <div class="game-selection">
-                <button class="game-type-btn" data-game-type="kana">
+                <button class="game-type-btn" onclick="selectGameType('kana')">
                     <div class="game-type-icon">あア</div>
                     Hiragana & Katakana
                 </button>
-                <button class="game-type-btn" data-game-type="kotoba">
+                <button class="game-type-btn" onclick="selectGameType('kotoba')">
                     <div class="game-type-icon">ことば</div>
                     Kotoba Quiz
                 </button>
-                <button class="game-type-btn" data-game-type="kanji">
+                <button class="game-type-btn" onclick="selectGameType('kanji')">
                     <div class="game-type-icon">漢字</div>
                     Kanji Quiz
                 </button>
-                <button class="game-type-btn" data-game-type="mix">
+                <button class="game-type-btn" onclick="selectGameType('mix')">
                     <div class="game-type-icon">ミックス</div>
                     Mix Quiz
                 </button>
@@ -125,13 +90,13 @@
 
             <div class="settings-group settings-checkbox-group">
                 <label class="checkbox-label" for="no-time-limit">
-                    <input type="checkbox" id="no-time-limit">
+                    <input type="checkbox" id="no-time-limit" onchange="toggleTimeLimit()">
                     <span>Tanpa Batas Waktu (mode santai)</span>
                 </label>
             </div>
             
-            <button class="btn btn-primary" id="start-game-btn">Mulai Game!</button>
-            <button class="btn btn-secondary back-to-selection-btn">Kembali</button>
+            <button class="btn btn-primary" onclick="startGame()">Mulai Game!</button>
+            <button class="btn btn-secondary" onclick="backToSelection()">Kembali</button>
         </div>
         
         <!-- Game Screen -->
@@ -197,8 +162,8 @@
                     </div>
                 </div>
                 
-                <button class="btn btn-primary" id="play-again-btn">Main Lagi</button>
-                <button class="btn btn-secondary back-to-selection-btn">Pilih Game Lain</button>
+                <button class="btn btn-primary" onclick="playAgain()">Main Lagi</button>
+                <button class="btn btn-secondary" onclick="backToSelection()">Pilih Game Lain</button>
             </div>
         </div>
     </div>
@@ -207,7 +172,6 @@
     <script src="data.js"></script>
     <script src="game.js"></script>
     <script src="game-init.js"></script>
-    <script src="script-bg.js"></script>
     <script src="protect-media.js"></script>
 </body>
 </html>
