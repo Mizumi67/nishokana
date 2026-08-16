@@ -156,7 +156,17 @@ function showLeaveConfirm() {
     function onConfirm() {
         close();
         isGameInProgress = false;
-        window.location.reload();
+        // Sengaja BUKAN window.location.reload() - soalnya alamat di address
+        // bar saat ini biasanya udah "dipercantik" (mis. .../game/kana/)
+        // lewat replaceState di game-init.js, bukan alamat file yang
+        // beneran ada di server. Kalau di-reload apa adanya, browser bakal
+        // minta path itu ke server, nggak ketemu, dan malah nyasar ke
+        // halaman 404. Jadi di sini diarahkan langsung ke file game.html
+        // yang asli, dengan tipe game yang lagi dimainkan tetap dibawa lewat
+        // ?type=.
+        const rootBase = window.location.pathname.split('/').slice(0, 2).join('/') + '/';
+        const target = gameType ? `${rootBase}game.html?type=${gameType}` : `${rootBase}game.html`;
+        window.location.href = target;
     }
 
     function overlayClick(e) {
