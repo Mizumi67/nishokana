@@ -65,28 +65,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    function safeRender(fn) {
-        try {
-            fn();
-        } catch (err) {
-            console.error(err);
-        }
-    }
-
-    safeRender(() => renderKana('hiragana-dasar', hiragana_dasar));
-    safeRender(() => renderKana('hiragana-dakuten', hiragana_dakuten));
-    safeRender(() => renderKana('hiragana-handakuten', hiragana_handakuten));
-    safeRender(() => renderKana('hiragana-youon', hiragana_youon));
+    renderKana('hiragana-dasar', hiragana_dasar);
+    renderKana('hiragana-dakuten', hiragana_dakuten);
+    renderKana('hiragana-handakuten', hiragana_handakuten);
+    renderKana('hiragana-youon', hiragana_youon);
     
-    safeRender(() => renderKana('katakana-dasar', katakana_dasar));
-    safeRender(() => renderKana('katakana-dakuten', katakana_dakuten));
-    safeRender(() => renderKana('katakana-handakuten', katakana_handakuten));
-    safeRender(() => renderKana('katakana-youon', katakana_youon));
-    safeRender(() => renderKana('katakana-modern', katakana_modern));
+    renderKana('katakana-dasar', katakana_dasar);
+    renderKana('katakana-dakuten', katakana_dakuten);
+    renderKana('katakana-handakuten', katakana_handakuten);
+    renderKana('katakana-youon', katakana_youon);
+    renderKana('katakana-modern', katakana_modern);
     
-    safeRender(() => renderKotoba());
-    safeRender(() => setupKotobaFilters());
-    safeRender(() => setupKotobaSearch());
+    renderKotoba();
+    setupKotobaFilters();
+    setupKotobaSearch();
 });
 
 function renderKana(containerId, dataArray) {
