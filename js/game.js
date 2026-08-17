@@ -268,8 +268,19 @@ function actuallyStartGame() {
     } else {
         timeLimit = parseInt(document.getElementById('time-limit').value);
     }
-    
-    generateQuestions(questionCount);
+
+    try {
+        generateQuestions(questionCount);
+    } catch (err) {
+        console.error(err);
+        showAlert('Soal gagal dimuat. Coba refresh halaman ini.');
+        return;
+    }
+
+    if (!questions.length) {
+        showAlert('Soal gagal dimuat. Coba refresh halaman ini.');
+        return;
+    }
     
     currentQuestionIndex = 0;
     correctAnswers = 0;
