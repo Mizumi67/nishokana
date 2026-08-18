@@ -105,15 +105,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (isRefreshShortcut && isGameInProgress) {
             e.preventDefault();
-            showLeaveConfirm();
+            showLeaveConfirm('refresh');
         }
     });
+
+    const backBtn = document.getElementById('game-back-btn');
+    if (backBtn) {
+        backBtn.addEventListener('click', handleBackClick);
+    }
 });
 
-function showLeaveConfirm() {
+function handleBackClick() {
+    if (isGameInProgress) {
+        showLeaveConfirm('back');
+    } else {
+        goToGamesHome();
+    }
+}
+
+function goToGamesHome() {
+    const rootBase = window.location.pathname.split('/').slice(0, 2).join('/') + '/';
+    window.location.href = `${rootBase}#games`;
+}
+
+function showLeaveConfirm(reason) {
     const overlay = document.getElementById('leave-confirm-overlay');
     const confirmBtn = document.getElementById('leave-confirm-yes');
     const cancelBtn = document.getElementById('leave-confirm-cancel');
+    const titleEl = document.getElementById('leave-confirm-title');
+    const messageEl = document.getElementById('leave-confirm-message');
+
+    if (reason === 'back') {
+        titleEl.textContent = 'Yakin mau kembali?';
+        messageEl.textContent = 'Game yang sedang berjalan akan diulang dari awal kalau kamu kembali sekarang.';
+        confirmBtn.textContent = 'Ya, Kembali';
+    } else {
+        titleEl.textContent = 'Yakin mau refresh?';
+        messageEl.textContent = 'Progres game yang sedang berjalan akan hilang dan dimulai dari awal lagi.';
+        confirmBtn.textContent = 'Ya, Refresh';
+    }
 
     overlay.classList.add('active');
     cancelBtn.focus();

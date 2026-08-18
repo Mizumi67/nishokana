@@ -37,6 +37,35 @@ body {
     border-color: var(--ink-soft);
 }
 
+.game-back-btn {
+    position: fixed;
+    top: 16px;
+    left: 20px;
+    z-index: 100;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 0.4rem 0.75rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: var(--font-main);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--ink);
+    transition: border-color 0.15s ease;
+}
+
+.game-back-btn:hover {
+    border-color: var(--ink-soft);
+}
+
+.game-back-btn .icon {
+    width: 16px;
+    height: 16px;
+}
+
 .game-container {
     background: var(--paper-raised);
     border-radius: var(--radius-lg);
@@ -351,6 +380,11 @@ html.has-type-param #settings-screen {
     .question-text { font-size: 3rem; }
     .question-text.question-text-small { font-size: 1.8rem; }
     .status-item { flex: 1 1 45%; }
+}
+
+@media (max-width: 420px) {
+    .game-back-btn span { display: none; }
+    .game-back-btn { padding: 0.4rem 0.55rem; }
 }
 
 .custom-alert-overlay {
