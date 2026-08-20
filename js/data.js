@@ -472,6 +472,6 @@ const kanji = [
     { jp: '雨', romaji: 'ame', meaning: 'Hujan', category: 'alam' },
     { jp: '雪', romaji: 'yuki', meaning: 'Salju', category: 'alam' },
     { jp: '天気', romaji: 'tenki', meaning: 'Cuaca', category: 'alam' },
-    { jp: '晴れ', romaji: 'hare', meaning: 'Cerah', category: 'alam' }
+    { jp: '晴れ', romaji: 'hare', meaning: 'Cerah', category: 'alam' },
     { jp: '雲', romaji: 'kumo', meaning: 'Awan', category: 'alam' }
 ];
