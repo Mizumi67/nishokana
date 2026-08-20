@@ -161,6 +161,16 @@ html.has-type-param #settings-screen {
     border-radius: var(--radius-sm);
 }
 
+.kana-focus-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+#kana-focus-group.hidden {
+    display: none;
+}
+
 .checkbox-label {
     display: flex !important;
     align-items: center;

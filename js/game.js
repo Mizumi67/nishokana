@@ -9,6 +9,7 @@ let startTime = null;
 let endTime = null;
 let noTimeLimit = false;
 let isGameInProgress = false;
+let kanaFocus = 'all';
 
 const initialTypeParam = new URLSearchParams(window.location.search).get('type');
 
@@ -63,6 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (typeParam) {
         gameType = typeParam;
+        const kanaFocusGroup = document.getElementById('kana-focus-group');
+        if (kanaFocusGroup) {
+            kanaFocusGroup.classList.toggle('hidden', typeParam !== 'kana');
+        }
         showScreen('settings-screen');
         document.documentElement.classList.remove('has-type-param');
     }
@@ -84,6 +89,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (noTimeLimitCheckbox) {
         noTimeLimitCheckbox.addEventListener('change', toggleTimeLimit);
     }
+
+    document.querySelectorAll('[data-kana-focus]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            kanaFocus = btn.getAttribute('data-kana-focus');
+            document.querySelectorAll('[data-kana-focus]').forEach((b) => {
+                b.classList.toggle('active', b === btn);
+            });
+        });
+    });
 
     const startGameBtn = document.getElementById('start-game-btn');
     if (startGameBtn) {
@@ -185,6 +199,12 @@ function showScreen(screenId) {
 
 function selectGameType(type) {
     gameType = type;
+
+    const kanaFocusGroup = document.getElementById('kana-focus-group');
+    if (kanaFocusGroup) {
+        kanaFocusGroup.classList.toggle('hidden', type !== 'kana');
+    }
+
     showScreen('settings-screen');
 }
 
@@ -296,17 +316,27 @@ function generateQuestions(count) {
     let pool = [];
     
     if (gameType === 'kana') {
-        pool = [
+        const hiraganaPool = [
             ...hiragana_dasar,
             ...hiragana_dakuten,
             ...hiragana_handakuten,
-            ...hiragana_youon,
+            ...hiragana_youon
+        ];
+        const katakanaPool = [
             ...katakana_dasar,
             ...katakana_dakuten,
             ...katakana_handakuten,
             ...katakana_youon,
             ...katakana_modern
         ];
+
+        if (kanaFocus === 'hiragana') {
+            pool = hiraganaPool;
+        } else if (kanaFocus === 'katakana') {
+            pool = katakanaPool;
+        } else {
+            pool = [...hiraganaPool, ...katakanaPool];
+        }
     } else if (gameType === 'kotoba') {
         pool = [...kotoba];
     } else if (gameType === 'kanji') {
@@ -564,6 +594,7 @@ function resetGame() {
     gameType = '';
     noTimeLimit = false;
     isGameInProgress = false;
+    kanaFocus = 'all';
 
     const checkbox = document.getElementById('no-time-limit');
     const group = document.getElementById('time-limit-group');
@@ -571,4 +602,8 @@ function resetGame() {
     if (checkbox) checkbox.checked = false;
     if (group) group.classList.remove('disabled');
     if (timeInput) timeInput.disabled = false;
+
+    document.querySelectorAll('[data-kana-focus]').forEach((btn) => {
+        btn.classList.toggle('active', btn.getAttribute('data-kana-focus') === 'all');
+    });
 }

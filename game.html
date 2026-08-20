@@ -115,6 +115,16 @@
         </div>
         
         <div id="settings-screen" class="screen">
+            <div class="settings-group hidden" id="kana-focus-group">
+                <label>Fokus Huruf</label>
+                <div class="kana-focus-options">
+                    <button type="button" class="filter-btn active" data-kana-focus="all">Semua</button>
+                    <button type="button" class="filter-btn" data-kana-focus="hiragana">Hiragana Saja</button>
+                    <button type="button" class="filter-btn" data-kana-focus="katakana">Katakana Saja</button>
+                </div>
+                <div class="settings-info">Biarkan di "Semua" kalau mau soal hiragana dan katakana diacak bareng</div>
+            </div>
+
             <div class="settings-group">
                 <label for="question-count">Jumlah Soal</label>
                 <input type="number" id="question-count" min="5" max="100" value="20">
