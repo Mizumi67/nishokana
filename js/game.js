@@ -109,9 +109,25 @@ document.addEventListener('DOMContentLoaded', () => {
         playAgainBtn.addEventListener('click', playAgain);
     }
 
+    const settingsBackBtn = document.getElementById('settings-back-btn');
+    if (settingsBackBtn) {
+        settingsBackBtn.addEventListener('click', goToGamesHome);
+    }
+
     document.querySelectorAll('.back-to-selection-btn').forEach((btn) => {
         btn.addEventListener('click', backToSelection);
     });
+
+    const gameBackBtn = document.getElementById('game-back-btn');
+    if (gameBackBtn) {
+        gameBackBtn.addEventListener('click', () => {
+            if (isGameInProgress) {
+                showGameBackConfirm();
+            } else {
+                goToGamesHome();
+            }
+        });
+    }
 
     document.addEventListener('keydown', (e) => {
         const isRefreshShortcut = e.key === 'F5' ||
@@ -146,6 +162,48 @@ function showLeaveConfirm() {
         const rootBase = window.location.pathname.split('/').slice(0, 2).join('/') + '/';
         const target = gameType ? `${rootBase}game.html?type=${gameType}` : `${rootBase}game.html`;
         window.location.href = target;
+    }
+
+    function overlayClick(e) {
+        if (e.target === overlay) close();
+    }
+
+    function escClose(e) {
+        if (e.key === 'Escape') close();
+    }
+
+    confirmBtn.addEventListener('click', onConfirm);
+    cancelBtn.addEventListener('click', close);
+    overlay.addEventListener('click', overlayClick);
+    document.addEventListener('keydown', escClose);
+}
+
+function goToGamesHome() {
+    const rootBase = window.location.pathname.split('/').slice(0, 2).join('/') + '/';
+    window.location.href = `${rootBase}index.html#games`;
+}
+
+function showGameBackConfirm() {
+    const overlay = document.getElementById('game-back-confirm-overlay');
+    const confirmBtn = document.getElementById('game-back-confirm-yes');
+    const cancelBtn = document.getElementById('game-back-confirm-cancel');
+
+    overlay.classList.add('active');
+    cancelBtn.focus();
+
+    function close() {
+        overlay.classList.remove('active');
+        confirmBtn.removeEventListener('click', onConfirm);
+        cancelBtn.removeEventListener('click', close);
+        overlay.removeEventListener('click', overlayClick);
+        document.removeEventListener('keydown', escClose);
+    }
+
+    function onConfirm() {
+        close();
+        clearInterval(timerInterval);
+        isGameInProgress = false;
+        showScreen('settings-screen');
     }
 
     function overlayClick(e) {

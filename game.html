@@ -21,6 +21,10 @@
 </head>
 <body>
     <script src="js/theme-init.js"></script>
+    <button class="game-back-btn" id="game-back-btn" title="Kembali">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        <span>Kembali</span>
+    </button>
     <button class="game-theme-toggle" id="game-theme-toggle" title="Toggle Dark/Light Mode">
         <span class="sun-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/>
             <line x1="12" y1="2" x2="12" y2="4.5"/>
@@ -78,6 +82,24 @@
             <div class="custom-alert-actions">
                 <button type="button" class="btn btn-secondary" id="leave-confirm-cancel">Batal</button>
                 <button type="button" class="btn btn-primary" id="leave-confirm-yes">Ya, Refresh</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="game-back-confirm-overlay" class="custom-alert-overlay">
+        <div class="custom-alert-box" role="alertdialog" aria-modal="true" aria-labelledby="game-back-confirm-message">
+            <div class="custom-alert-icon">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9"/>
+                    <line x1="12" y1="8" x2="12" y2="13"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+            </div>
+            <p class="custom-alert-title" id="game-back-confirm-title">Yakin mau kembali?</p>
+            <p id="game-back-confirm-message" class="custom-alert-message">Soal yang sedang berjalan akan dihentikan dan game bakal dimulai dari awal lagi kalau kamu main lagi nanti.</p>
+            <div class="custom-alert-actions">
+                <button type="button" class="btn btn-secondary" id="game-back-confirm-cancel">Batal</button>
+                <button type="button" class="btn btn-primary" id="game-back-confirm-yes">Ya, Kembali</button>
             </div>
         </div>
     </div>
@@ -145,7 +167,7 @@
             </div>
             
             <button class="btn btn-primary" id="start-game-btn">Mulai Game!</button>
-            <button class="btn btn-secondary back-to-selection-btn">Kembali</button>
+            <button class="btn btn-secondary" id="settings-back-btn">Kembali</button>
         </div>
         
         <div id="game-screen" class="screen">

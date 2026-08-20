@@ -314,7 +314,7 @@ function setupKotobaSearch() {
 
 function openGame(gameType) {
     const rootBase = window.location.pathname.split('/').slice(0, 2).join('/') + '/';
-    window.open(`${rootBase}game.html?type=${gameType}`, '_blank', 'noopener');
+    window.location.href = `${rootBase}game.html?type=${gameType}`;
 }
 
 (function() {
