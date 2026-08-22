@@ -1,3 +1,5 @@
+const initialHash = window.location.hash;
+
 document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
@@ -79,6 +81,11 @@ document.addEventListener('DOMContentLoaded', function() {
     renderKotoba();
     setupKotobaFilters();
     setupKotobaSearch();
+
+    if (initialHash) {
+        const target = document.querySelector(initialHash);
+        if (target) target.scrollIntoView({ behavior: 'instant', block: 'start' });
+    }
 });
 
 function renderKana(containerId, dataArray) {
@@ -142,8 +149,8 @@ document.addEventListener('click', (e) => {
 let currentKotoba = [...kotoba];
 let currentFilter = 'all';
 let currentPage = 0;
-const ITEMS_PER_PAGE = 20; // 20 cards per page (5 kolom x 4 baris)
-let kotobaGridFullHeight = 0; // tinggi grid saat halaman penuh, dipakai biar tinggi antar halaman konsisten
+const ITEMS_PER_PAGE = 20;
+let kotobaGridFullHeight = 0;
 
 function renderKotoba(kotobaList = currentKotoba) {
     const container = document.getElementById('kotoba-list');
@@ -271,7 +278,7 @@ function setupKotobaFilters() {
             btn.classList.add('active');
             
             currentFilter = btn.getAttribute('data-filter');
-            currentPage = 0; // reset ke halaman pertama saat ganti filter
+            currentPage = 0;
 
             const searchTerm = document.getElementById('kotoba-search').value.toLowerCase();
 
@@ -300,7 +307,7 @@ function setupKotobaSearch() {
     
     searchInput.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase();
-        currentPage = 0; // reset halaman saat search
+        currentPage = 0;
         
         const filtered = currentKotoba.filter(k => {
             return k.jp.includes(searchTerm) ||
