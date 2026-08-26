@@ -473,7 +473,7 @@ const kanji = [
     { jp: '雪', romaji: 'yuki', meaning: 'Salju', category: 'alam' },
     { jp: '天気', romaji: 'tenki', meaning: 'Cuaca', category: 'alam' },
     { jp: '晴れ', romaji: 'hare', meaning: 'Cerah', category: 'alam' },
-    { jp: '雲', romaji: 'kumo', meaning: 'Awan', category: 'alam' }
+    { jp: '雲', romaji: 'kumo', meaning: 'Awan', category: 'alam' },
     { jp: '空', romaji: 'sora', meaning: 'Langit / Udara', category: 'alam' },
     { jp: '風', romaji: 'kaze', meaning: 'Angin', category: 'alam' },
     { jp: '町', romaji: 'machi', meaning: 'Kota / Kota kecil', category: 'tempat' },

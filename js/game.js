@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         showScreen('settings-screen');
         document.documentElement.classList.remove('has-type-param');
+        updateQuestionCountLimits();
     }
     
     const answerInput = document.getElementById('answer-input');
@@ -96,8 +97,33 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('[data-kana-focus]').forEach((b) => {
                 b.classList.toggle('active', b === btn);
             });
+            updateQuestionCountLimits();
         });
     });
+
+    const questionCountMaxBtn = document.getElementById('question-count-max-btn');
+    const questionCountInput = document.getElementById('question-count');
+    if (questionCountMaxBtn && questionCountInput) {
+        questionCountMaxBtn.addEventListener('click', () => {
+            questionCountInput.value = getMaxQuestionCount();
+            questionCountMaxBtn.classList.add('active');
+        });
+        questionCountInput.addEventListener('input', () => {
+            questionCountMaxBtn.classList.remove('active');
+        });
+    }
+
+    const timeLimitMaxBtn = document.getElementById('time-limit-max-btn');
+    const timeLimitInput = document.getElementById('time-limit');
+    if (timeLimitMaxBtn && timeLimitInput) {
+        timeLimitMaxBtn.addEventListener('click', () => {
+            timeLimitInput.value = 600;
+            timeLimitMaxBtn.classList.add('active');
+        });
+        timeLimitInput.addEventListener('input', () => {
+            timeLimitMaxBtn.classList.remove('active');
+        });
+    }
 
     const startGameBtn = document.getElementById('start-game-btn');
     if (startGameBtn) {
@@ -263,7 +289,27 @@ function selectGameType(type) {
         kanaFocusGroup.classList.toggle('hidden', type !== 'kana');
     }
 
+    updateQuestionCountLimits();
     showScreen('settings-screen');
+}
+
+function updateQuestionCountLimits() {
+    const max = getMaxQuestionCount();
+    const input = document.getElementById('question-count');
+    const info = document.getElementById('question-count-info');
+    const maxBtn = document.getElementById('question-count-max-btn');
+
+    input.max = max;
+    if (parseInt(input.value) > max) {
+        input.value = max;
+    }
+    if (maxBtn) {
+        maxBtn.classList.toggle('active', parseInt(input.value) === max);
+    }
+
+    if (info) {
+        info.textContent = `Maksimal ${max} soal`;
+    }
 }
 
 function backToSelection() {
@@ -287,16 +333,17 @@ function toggleTimeLimit() {
 
 function startGame() {
     const questionCount = parseInt(document.getElementById('question-count').value);
-    if (isNaN(questionCount) || questionCount < 5 || questionCount > 100) {
-        showAlert('Jumlah soal harus antara 5 dan 100');
+    const maxQuestions = getMaxQuestionCount();
+    if (isNaN(questionCount) || questionCount < 5 || questionCount > maxQuestions) {
+        showAlert(`Jumlah soal harus antara 5 dan ${maxQuestions}`);
         return;
     }
 
     const noTimeLimitCheck = document.getElementById('no-time-limit').checked;
     if (!noTimeLimitCheck) {
         const tl = parseInt(document.getElementById('time-limit').value);
-        if (isNaN(tl) || tl < 10 || tl > 180) {
-            showAlert('Batas waktu harus antara 10 dan 180 detik');
+        if (isNaN(tl) || tl < 10 || tl > 600) {
+            showAlert('Batas waktu harus antara 10 dan 600 detik');
             return;
         }
     }
@@ -374,27 +421,7 @@ function generateQuestions(count) {
     let pool = [];
     
     if (gameType === 'kana') {
-        const hiraganaPool = [
-            ...hiragana_dasar,
-            ...hiragana_dakuten,
-            ...hiragana_handakuten,
-            ...hiragana_youon
-        ];
-        const katakanaPool = [
-            ...katakana_dasar,
-            ...katakana_dakuten,
-            ...katakana_handakuten,
-            ...katakana_youon,
-            ...katakana_modern
-        ];
-
-        if (kanaFocus === 'hiragana') {
-            pool = hiraganaPool;
-        } else if (kanaFocus === 'katakana') {
-            pool = katakanaPool;
-        } else {
-            pool = [...hiraganaPool, ...katakanaPool];
-        }
+        pool = getKanaPool();
     } else if (gameType === 'kotoba') {
         pool = [...kotoba];
     } else if (gameType === 'kanji') {
@@ -405,6 +432,40 @@ function generateQuestions(count) {
     }
     
     questions = shuffleArray(pool).slice(0, Math.min(count, pool.length));
+}
+
+function getKanaPool() {
+    const hiraganaPool = [
+        ...hiragana_dasar,
+        ...hiragana_dakuten,
+        ...hiragana_handakuten,
+        ...hiragana_youon
+    ];
+    const katakanaPool = [
+        ...katakana_dasar,
+        ...katakana_dakuten,
+        ...katakana_handakuten,
+        ...katakana_youon,
+        ...katakana_modern
+    ];
+
+    if (kanaFocus === 'hiragana') return hiraganaPool;
+    if (kanaFocus === 'katakana') return katakanaPool;
+    return [...hiraganaPool, ...katakanaPool];
+}
+
+function getMaxQuestionCount() {
+    if (gameType === 'kana') return getKanaPool().length;
+    if (gameType === 'kotoba') return kotoba.length;
+    if (gameType === 'kanji') return kanji.length;
+    if (gameType === 'mix') {
+        const kanaAll = [
+            ...hiragana_dasar, ...hiragana_dakuten, ...hiragana_handakuten, ...hiragana_youon,
+            ...katakana_dasar, ...katakana_dakuten, ...katakana_handakuten, ...katakana_youon, ...katakana_modern
+        ];
+        return kanaAll.length + kotoba.length + kanji.length;
+    }
+    return 100;
 }
 
 function generateMixQuestions(count) {
@@ -423,16 +484,30 @@ function generateMixQuestions(count) {
     const kotobaPool = kotoba.map(item => ({ ...item, source: 'kotoba' }));
     const kanjiPool = kanji.map(item => ({ ...item, source: 'kanji' }));
 
-    const groups = [kanaPool, kotobaPool, kanjiPool];
-    const base = Math.floor(count / groups.length);
-    let remainder = count % groups.length;
+    const groups = [shuffleArray(kanaPool), shuffleArray(kotobaPool), shuffleArray(kanjiPool)];
+    const quotas = groups.map(() => 0);
+    let remaining = count;
+    let active = groups.map((_, i) => i);
+
+    while (remaining > 0 && active.length > 0) {
+        const share = Math.ceil(remaining / active.length);
+        const stillActive = [];
+
+        for (const i of active) {
+            if (remaining <= 0) break;
+            const room = groups[i].length - quotas[i];
+            const take = Math.min(share, room, remaining);
+            quotas[i] += take;
+            remaining -= take;
+            if (quotas[i] < groups[i].length) stillActive.push(i);
+        }
+
+        active = stillActive;
+    }
 
     let selected = [];
-    groups.forEach(pool => {
-        let take = base + (remainder > 0 ? 1 : 0);
-        if (remainder > 0) remainder--;
-        take = Math.min(take, pool.length);
-        selected = selected.concat(shuffleArray(pool).slice(0, take));
+    groups.forEach((pool, i) => {
+        selected = selected.concat(pool.slice(0, quotas[i]));
     });
 
     return shuffleArray(selected);
@@ -664,4 +739,20 @@ function resetGame() {
     document.querySelectorAll('[data-kana-focus]').forEach((btn) => {
         btn.classList.toggle('active', btn.getAttribute('data-kana-focus') === 'all');
     });
+
+    const questionCountInput = document.getElementById('question-count');
+    const questionCountInfo = document.getElementById('question-count-info');
+    const questionCountMaxBtn = document.getElementById('question-count-max-btn');
+    if (questionCountInput) {
+        questionCountInput.max = 100;
+        questionCountInput.value = 20;
+    }
+    if (questionCountInfo) {
+        questionCountInfo.textContent = 'Maksimal 100 soal';
+    }
+    if (questionCountMaxBtn) questionCountMaxBtn.classList.remove('active');
+
+    const timeLimitMaxBtn = document.getElementById('time-limit-max-btn');
+    if (timeLimitMaxBtn) timeLimitMaxBtn.classList.remove('active');
+    if (timeInput) timeInput.value = 60;
 }

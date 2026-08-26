@@ -149,14 +149,20 @@
 
             <div class="settings-group">
                 <label for="question-count">Jumlah Soal</label>
-                <input type="number" id="question-count" min="5" max="100" value="20">
-                <div class="settings-info">Maksimal 100 soal</div>
+                <div class="input-with-max">
+                    <input type="number" id="question-count" min="5" max="100" value="20">
+                    <button type="button" class="btn-max" id="question-count-max-btn">Max</button>
+                </div>
+                <div class="settings-info" id="question-count-info">Maksimal 100 soal</div>
             </div>
             
             <div class="settings-group" id="time-limit-group">
                 <label for="time-limit">Batas Waktu (detik)</label>
-                <input type="number" id="time-limit" min="10" max="180" value="60">
-                <div class="settings-info">Maksimal 180 detik (3 menit)</div>
+                <div class="input-with-max">
+                    <input type="number" id="time-limit" min="10" max="600" value="60">
+                    <button type="button" class="btn-max" id="time-limit-max-btn">Max</button>
+                </div>
+                <div class="settings-info">Maksimal 600 detik (10 menit)</div>
             </div>
 
             <div class="settings-group settings-checkbox-group">

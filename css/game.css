@@ -177,6 +177,38 @@ html.has-type-param #settings-screen {
     border-color: var(--red);
 }
 
+.input-with-max {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.input-with-max input {
+    flex: 1;
+}
+
+.btn-max {
+    padding: 0 1rem;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+    color: var(--ink-soft);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+}
+
+.btn-max:hover {
+    border-color: var(--red);
+    color: var(--red);
+}
+
+.btn-max.active {
+    background-color: var(--red);
+    border-color: var(--red);
+    color: var(--paper);
+}
+
 .settings-info {
     color: var(--ink-soft);
     font-size: 0.85rem;
