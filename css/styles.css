@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+html.has-hash-target body {
+    visibility: hidden;
+}
+
 .icon {
     width: 1em;
     height: 1em;

@@ -82,9 +82,13 @@ document.addEventListener('DOMContentLoaded', function() {
     setupKotobaFilters();
     setupKotobaSearch();
 
-    if (initialHash) {
-        const target = document.querySelector(initialHash);
-        if (target) target.scrollIntoView({ behavior: 'instant', block: 'start' });
+    try {
+        if (initialHash) {
+            const target = document.querySelector(initialHash);
+            if (target) target.scrollIntoView({ behavior: 'instant', block: 'start' });
+        }
+    } finally {
+        document.documentElement.classList.remove('has-hash-target');
     }
 });
 
