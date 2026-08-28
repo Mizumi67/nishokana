@@ -2,6 +2,8 @@ let gameType = '';
 let questions = [];
 let currentQuestionIndex = 0;
 let correctAnswers = 0;
+let skippedCount = 0;
+let hintsUsed = 0;
 let timeLimit = 60;
 let timeRemaining = 60;
 let timerInterval = null;
@@ -155,6 +157,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const hintBtn = document.getElementById('hint-btn');
+    if (hintBtn) {
+        hintBtn.addEventListener('click', useHint);
+    }
+
+    const skipBtn = document.getElementById('skip-btn');
+    if (skipBtn) {
+        skipBtn.addEventListener('click', skipQuestion);
+    }
+
+    const surrenderBtn = document.getElementById('surrender-btn');
+    if (surrenderBtn) {
+        surrenderBtn.addEventListener('click', showSurrenderConfirm);
+    }
+
     document.addEventListener('keydown', (e) => {
         const isRefreshShortcut = e.key === 'F5' ||
             ((e.ctrlKey || e.metaKey) && (e.key === 'r' || e.key === 'R'));
@@ -244,6 +261,45 @@ function showGameBackConfirm() {
     cancelBtn.addEventListener('click', close);
     overlay.addEventListener('click', overlayClick);
     document.addEventListener('keydown', escClose);
+}
+
+function showSurrenderConfirm() {
+    const overlay = document.getElementById('surrender-confirm-overlay');
+    const confirmBtn = document.getElementById('surrender-confirm-yes');
+    const cancelBtn = document.getElementById('surrender-confirm-cancel');
+
+    overlay.classList.add('active');
+    cancelBtn.focus();
+
+    function close() {
+        overlay.classList.remove('active');
+        confirmBtn.removeEventListener('click', onConfirm);
+        cancelBtn.removeEventListener('click', close);
+        overlay.removeEventListener('click', overlayClick);
+        document.removeEventListener('keydown', escClose);
+    }
+
+    function onConfirm() {
+        close();
+        surrenderGame();
+    }
+
+    function overlayClick(e) {
+        if (e.target === overlay) close();
+    }
+
+    function escClose(e) {
+        if (e.key === 'Escape') close();
+    }
+
+    confirmBtn.addEventListener('click', onConfirm);
+    cancelBtn.addEventListener('click', close);
+    overlay.addEventListener('click', overlayClick);
+    document.addEventListener('keydown', escClose);
+}
+
+function surrenderGame() {
+    endGame();
 }
 
 function showAlert(message) {
@@ -398,6 +454,7 @@ function actuallyStartGame() {
     
     currentQuestionIndex = 0;
     correctAnswers = 0;
+    skippedCount = 0;
     timeRemaining = timeLimit;
     
     document.getElementById('total-questions').textContent = questions.length;
@@ -563,6 +620,45 @@ function showQuestion() {
     feedback.className = 'answer-feedback';
     
     document.getElementById('current-question').textContent = currentQuestionIndex + 1;
+
+    hintsUsed = 0;
+    document.getElementById('hint-display').textContent = '';
+    updateHintButton();
+}
+
+function updateHintButton() {
+    const hintBtn = document.getElementById('hint-btn');
+    if (!hintBtn) return;
+
+    const remaining = 3 - hintsUsed;
+    hintBtn.querySelector('span').textContent = `Hint (${remaining})`;
+    hintBtn.disabled = remaining <= 0;
+}
+
+function useHint() {
+    if (hintsUsed >= 3) return;
+
+    const question = questions[currentQuestionIndex];
+    const answer = getAcceptedAnswers(question)[0];
+    const letterCount = answer.replace(/\s/g, '').length;
+
+    if (hintsUsed >= letterCount) return;
+
+    hintsUsed++;
+
+    const revealed = answer.split('').map((ch, i) => {
+        if (ch === ' ') return ' ';
+        return i < hintsUsed ? ch : '_';
+    }).join(' ');
+
+    document.getElementById('hint-display').textContent = `Petunjuk: ${revealed}`;
+    updateHintButton();
+}
+
+function skipQuestion() {
+    skippedCount++;
+    currentQuestionIndex++;
+    showQuestion();
 }
 
 function getAcceptedAnswers(question) {
@@ -649,8 +745,7 @@ function endGame() {
     
     const timeUsed = Math.floor((endTime - startTime) / 1000);
     const totalQuestions = questions.length;
-    const answeredQuestions = currentQuestionIndex;
-    const wrongAnswers = answeredQuestions - correctAnswers;
+    const wrongAnswers = totalQuestions - correctAnswers;
     const accuracy = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
     
     const grade = calculateGrade(accuracy);
@@ -662,6 +757,7 @@ function endGame() {
     document.getElementById('final-total').textContent = totalQuestions;
     document.getElementById('stat-total').textContent = totalQuestions;
     document.getElementById('stat-correct').textContent = correctAnswers;
+    document.getElementById('stat-skipped').textContent = skippedCount;
     document.getElementById('stat-wrong').textContent = wrongAnswers;
     document.getElementById('stat-accuracy').textContent = accuracy + '%';
     document.getElementById('stat-time').textContent = timeUsed + ' detik';
@@ -700,6 +796,7 @@ function playAgain() {
     
     currentQuestionIndex = 0;
     correctAnswers = 0;
+    skippedCount = 0;
     timeRemaining = timeLimit;
     
     document.getElementById('timer').classList.remove('timer-warning');
@@ -723,6 +820,7 @@ function resetGame() {
     questions = [];
     currentQuestionIndex = 0;
     correctAnswers = 0;
+    skippedCount = 0;
     timeRemaining = 60;
     gameType = '';
     noTimeLimit = false;

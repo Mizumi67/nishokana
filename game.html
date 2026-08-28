@@ -104,6 +104,24 @@
         </div>
     </div>
 
+    <div id="surrender-confirm-overlay" class="custom-alert-overlay">
+        <div class="custom-alert-box" role="alertdialog" aria-modal="true" aria-labelledby="surrender-confirm-message">
+            <div class="custom-alert-icon">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9"/>
+                    <line x1="12" y1="8" x2="12" y2="13"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+            </div>
+            <p class="custom-alert-title" id="surrender-confirm-title">Yakin mau menyerah?</p>
+            <p id="surrender-confirm-message" class="custom-alert-message">Game bakal langsung berhenti dan hasil akhir dihitung dari soal yang udah kamu kerjain sejauh ini.</p>
+            <div class="custom-alert-actions">
+                <button type="button" class="btn btn-secondary" id="surrender-confirm-cancel">Batal</button>
+                <button type="button" class="btn btn-primary" id="surrender-confirm-yes">Ya, Menyerah</button>
+            </div>
+        </div>
+    </div>
+
     <div class="game-container">
         <div class="game-header">
             <h1 class="game-title">ゲーム</h1>
@@ -195,10 +213,26 @@
             <div class="question-card">
                 <div class="question-text" id="question-char">あ</div>
                 <div class="question-label" id="question-label">Tuliskan bacaan huruf di atas</div>
+                <div class="hint-display" id="hint-display"></div>
             </div>
             
             <input type="text" class="answer-input" id="answer-input" placeholder="Ketik jawabanmu..." autocomplete="off" aria-label="Jawaban">
             <div class="answer-feedback" id="feedback"></div>
+
+            <div class="game-tools">
+                <button type="button" class="game-tool-btn" id="hint-btn">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1.1 1.3 1.2 2.2h4.8c.1-.9.6-1.7 1.2-2.2A6 6 0 0 0 12 3Z"/></svg>
+                    <span>Hint (3)</span>
+                </button>
+                <button type="button" class="game-tool-btn" id="skip-btn">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="5 4 13 12 5 20"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+                    <span>Lewati</span>
+                </button>
+                <button type="button" class="game-tool-btn game-tool-btn-danger" id="surrender-btn">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4"/><path d="M6 4h12l-3 4 3 4H6"/></svg>
+                    <span>Menyerah</span>
+                </button>
+            </div>
         </div>
         
         <div id="result-screen" class="screen">
@@ -222,6 +256,10 @@
                     <div class="stat-row">
                         <span class="stat-label">Jawaban Benar</span>
                         <span class="stat-value" id="stat-correct">15</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Dilewati</span>
+                        <span class="stat-value" id="stat-skipped">0</span>
                     </div>
                     <div class="stat-row">
                         <span class="stat-label">Jawaban Salah</span>
