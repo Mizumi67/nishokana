@@ -528,7 +528,7 @@ body:not(.dark-mode) .moon-icon { display: none; }
 
 .gojuon-row {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     gap: var(--space-sm);
     margin-bottom: 0.6rem;
 }
@@ -539,18 +539,23 @@ body:not(.dark-mode) .moon-icon { display: none; }
 
 .gojuon-row-label {
     flex-shrink: 0;
-    width: 32px;
-    text-align: center;
+    width: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: var(--font-jp);
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     font-weight: 700;
     color: var(--red);
+    background-color: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
 }
 
 .gojuon-row-items {
     flex: 1;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
     gap: 0.6rem;
 }
 
@@ -1148,8 +1153,8 @@ body.dark-mode .footer-bottom {
     .kana-grid { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); }
     .kana-char { font-size: 1.8rem; }
 
-    .gojuon-row-items { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); }
-    .gojuon-row-label { width: 24px; font-size: 1.05rem; }
+    .gojuon-row-items { grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); }
+    .gojuon-row-label { width: 40px; font-size: 1.1rem; }
 
     .kotoba-grid { grid-template-columns: 1fr; }
     .games-grid { grid-template-columns: 1fr; }
