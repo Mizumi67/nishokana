@@ -92,25 +92,68 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+const gojuonRows = [
+    { label: 'A', count: 5 },
+    { label: 'K', count: 5 },
+    { label: 'S', count: 5 },
+    { label: 'T', count: 5 },
+    { label: 'N', count: 5 },
+    { label: 'H', count: 5 },
+    { label: 'M', count: 5 },
+    { label: 'Y', count: 3 },
+    { label: 'R', count: 5 },
+    { label: 'W', count: 2 },
+    { label: 'N', count: 1 }
+];
+
+function buildKanaItem(item) {
+    const kanaItem = document.createElement('div');
+    kanaItem.className = 'kana-item';
+    kanaItem.innerHTML = `
+        <span class="kana-char">${item.char}</span>
+        <span class="kana-romaji">${item.romaji}</span>
+    `;
+    kanaItem.addEventListener('click', () => {
+        showCharacterModal(item);
+    });
+    return kanaItem;
+}
+
 function renderKana(containerId, dataArray) {
     const container = document.getElementById(containerId);
     if (!container) return;
-    
+
     container.innerHTML = '';
-    
-    dataArray.forEach(item => {
-        const kanaItem = document.createElement('div');
-        kanaItem.className = 'kana-item';
-        kanaItem.innerHTML = `
-            <span class="kana-char">${item.char}</span>
-            <span class="kana-romaji">${item.romaji}</span>
-        `;
-        
-        kanaItem.addEventListener('click', () => {
-            showCharacterModal(item);
+
+    if (containerId === 'hiragana-dasar' || containerId === 'katakana-dasar') {
+        let cursor = 0;
+        gojuonRows.forEach(rowInfo => {
+            const rowItems = dataArray.slice(cursor, cursor + rowInfo.count);
+            cursor += rowInfo.count;
+            if (rowItems.length === 0) return;
+
+            const row = document.createElement('div');
+            row.className = 'gojuon-row';
+
+            const label = document.createElement('div');
+            label.className = 'gojuon-row-label';
+            label.textContent = rowInfo.label;
+            row.appendChild(label);
+
+            const itemsWrap = document.createElement('div');
+            itemsWrap.className = 'gojuon-row-items';
+            rowItems.forEach(item => {
+                itemsWrap.appendChild(buildKanaItem(item));
+            });
+            row.appendChild(itemsWrap);
+
+            container.appendChild(row);
         });
-        
-        container.appendChild(kanaItem);
+        return;
+    }
+
+    dataArray.forEach(item => {
+        container.appendChild(buildKanaItem(item));
     });
 }
 

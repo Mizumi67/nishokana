@@ -522,6 +522,34 @@ body:not(.dark-mode) .moon-icon { display: none; }
     white-space: nowrap;
 }
 
+.gojuon-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: 0.6rem;
+}
+
+.gojuon-row:last-child {
+    margin-bottom: 0;
+}
+
+.gojuon-row-label {
+    flex-shrink: 0;
+    width: 32px;
+    text-align: center;
+    font-family: var(--font-jp);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--red);
+}
+
+.gojuon-row-items {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: 0.6rem;
+}
+
 .rule-section {
     margin-bottom: var(--space-md);
 }
@@ -1115,6 +1143,9 @@ body.dark-mode .footer-bottom {
 
     .kana-grid { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); }
     .kana-char { font-size: 1.8rem; }
+
+    .gojuon-row-items { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); }
+    .gojuon-row-label { width: 24px; font-size: 1.05rem; }
 
     .kotoba-grid { grid-template-columns: 1fr; }
     .games-grid { grid-template-columns: 1fr; }
