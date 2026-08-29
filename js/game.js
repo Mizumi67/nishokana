@@ -404,11 +404,7 @@ function startGame() {
         }
     }
 
-    if (sessionStorage.getItem('nishokana_refresh_warning_seen') === '1') {
-        actuallyStartGame();
-    } else {
-        showRefreshWarning();
-    }
+    showRefreshWarning();
 }
 
 function showRefreshWarning() {
@@ -423,7 +419,6 @@ function showRefreshWarning() {
         okBtn.removeEventListener('click', closeAndStart);
         overlay.removeEventListener('click', overlayClick);
         document.removeEventListener('keydown', enterClose);
-        sessionStorage.setItem('nishokana_refresh_warning_seen', '1');
         actuallyStartGame();
     }
 
@@ -692,19 +687,20 @@ function checkAnswer() {
         document.getElementById('correct-count').textContent = correctAnswers;
         
         const feedback = document.getElementById('feedback');
-        // Di mode santai (tanpa batas waktu), sempatkan tampilkan arti katanya
-        // sebentar biar user bisa ingat-ingat. Kalau lagi kejar waktu, langsung
-        // lanjut soal berikutnya tanpa jeda arti biar nggak buang-buang waktu.
-        const showMeaning = noTimeLimit && question.meaning;
+        // Arti katanya selalu ditampilin sebentar. Kalau lagi mode santai
+        // (tanpa batas waktu) jedanya agak lama biar sempat dibaca dan
+        // diinget-inget. Kalau lagi ngejar waktu, jedanya dipercepat biar
+        // nggak makan waktu berharga.
+        const hasMeaning = Boolean(question.meaning);
         
         let feedbackHtml = iconSvg('icon-check') + 'Benar!';
-        if (showMeaning) {
+        if (hasMeaning) {
             feedbackHtml += ` <span class="feedback-meaning">${question.meaning}</span>`;
         }
         feedback.innerHTML = feedbackHtml;
         feedback.className = 'answer-feedback feedback-correct';
         
-        const nextDelay = showMeaning ? 1100 : 300;
+        const nextDelay = hasMeaning ? (noTimeLimit ? 1100 : 400) : 300;
         
         setTimeout(() => {
             currentQuestionIndex++;
