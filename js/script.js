@@ -132,6 +132,16 @@ const youonRows = [
     { label: 'P', count: 3 }
 ];
 
+const modernRows = [
+    { label: 'W', count: 3 },
+    { label: 'V', count: 5 },
+    { label: 'F', count: 5 },
+    { label: 'TS', count: 4 },
+    { label: 'T', count: 2 },
+    { label: 'D', count: 3 },
+    { label: '・', count: 3 }
+];
+
 function buildKanaItem(item) {
     const kanaItem = document.createElement('div');
     kanaItem.className = 'kana-item';
@@ -155,7 +165,8 @@ function renderKana(containerId, dataArray) {
         dasar: gojuonRows,
         dakuten: dakutenRows,
         handakuten: handakutenRows,
-        youon: youonRows
+        youon: youonRows,
+        modern: modernRows
     };
     const group = containerId.split('-')[1];
     const rows = rowsByGroup[group];
