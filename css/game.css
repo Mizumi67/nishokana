@@ -358,6 +358,11 @@ html.has-type-param #settings-screen {
     color: var(--green);
 }
 
+.feedback-meaning {
+    font-weight: 500;
+    opacity: 0.85;
+}
+
 .hint-display {
     margin-top: var(--space-sm);
     font-family: 'Courier New', monospace;

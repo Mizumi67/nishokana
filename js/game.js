@@ -692,13 +692,24 @@ function checkAnswer() {
         document.getElementById('correct-count').textContent = correctAnswers;
         
         const feedback = document.getElementById('feedback');
-        feedback.innerHTML = iconSvg('icon-check') + 'Benar!';
+        // Di mode santai (tanpa batas waktu), sempatkan tampilkan arti katanya
+        // sebentar biar user bisa ingat-ingat. Kalau lagi kejar waktu, langsung
+        // lanjut soal berikutnya tanpa jeda arti biar nggak buang-buang waktu.
+        const showMeaning = noTimeLimit && question.meaning;
+        
+        let feedbackHtml = iconSvg('icon-check') + 'Benar!';
+        if (showMeaning) {
+            feedbackHtml += ` <span class="feedback-meaning">${question.meaning}</span>`;
+        }
+        feedback.innerHTML = feedbackHtml;
         feedback.className = 'answer-feedback feedback-correct';
+        
+        const nextDelay = showMeaning ? 1100 : 300;
         
         setTimeout(() => {
             currentQuestionIndex++;
             showQuestion();
-        }, 300);
+        }, nextDelay);
     }
 }
 
