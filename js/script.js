@@ -106,6 +106,32 @@ const gojuonRows = [
     { label: 'N', count: 1 }
 ];
 
+const dakutenRows = [
+    { label: 'G', count: 5 },
+    { label: 'Z', count: 5 },
+    { label: 'D', count: 5 },
+    { label: 'B', count: 5 }
+];
+
+const handakutenRows = [
+    { label: 'P', count: 5 }
+];
+
+const youonRows = [
+    { label: 'K', count: 3 },
+    { label: 'S', count: 3 },
+    { label: 'T', count: 3 },
+    { label: 'N', count: 3 },
+    { label: 'H', count: 3 },
+    { label: 'M', count: 3 },
+    { label: 'R', count: 3 },
+    { label: 'G', count: 3 },
+    { label: 'Z', count: 3 },
+    { label: 'D', count: 3 },
+    { label: 'B', count: 3 },
+    { label: 'P', count: 3 }
+];
+
 function buildKanaItem(item) {
     const kanaItem = document.createElement('div');
     kanaItem.className = 'kana-item';
@@ -125,9 +151,18 @@ function renderKana(containerId, dataArray) {
 
     container.innerHTML = '';
 
-    if (containerId === 'hiragana-dasar' || containerId === 'katakana-dasar') {
+    const rowsByGroup = {
+        dasar: gojuonRows,
+        dakuten: dakutenRows,
+        handakuten: handakutenRows,
+        youon: youonRows
+    };
+    const group = containerId.split('-')[1];
+    const rows = rowsByGroup[group];
+
+    if (rows) {
         let cursor = 0;
-        gojuonRows.forEach(rowInfo => {
+        rows.forEach(rowInfo => {
             const rowItems = dataArray.slice(cursor, cursor + rowInfo.count);
             cursor += rowInfo.count;
             if (rowItems.length === 0) return;
