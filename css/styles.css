@@ -516,6 +516,12 @@ body:not(.dark-mode) .moon-icon { display: none; }
     font-weight: 500;
 }
 
+#hiragana-youon .kana-char,
+#katakana-youon .kana-char,
+#katakana-modern .kana-char {
+    white-space: nowrap;
+}
+
 .rule-section {
     margin-bottom: var(--space-md);
 }
