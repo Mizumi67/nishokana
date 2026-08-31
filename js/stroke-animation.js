@@ -86,6 +86,9 @@
         document.querySelectorAll('.kana-char').forEach((el) => {
             Array.from(el.textContent || '').forEach((c) => chars.add(c));
         });
+        document.querySelectorAll('.kanji-jp').forEach((el) => {
+            Array.from(el.textContent || '').forEach((c) => chars.add(c));
+        });
         chars.forEach((c) => fetchStrokeSvg(c.codePointAt(0)));
     }
 

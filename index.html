@@ -58,6 +58,7 @@
                 <li><a href="#hiragana" class="nav-link">Hiragana</a></li>
                 <li><a href="#katakana" class="nav-link">Katakana</a></li>
                 <li><a href="#kotoba" class="nav-link">Kotoba</a></li>
+                <li><a href="#kanji" class="nav-link">Kanji</a></li>
                 <li><a href="#games" class="nav-link">Games</a></li>
             </ul>
             <div class="hamburger" id="hamburger">
@@ -300,6 +301,58 @@
         </div>
     </section>
 
+    <section id="kanji" class="section kanji-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="jp">漢字</span>
+                <span class="romaji">Kanji</span>
+            </h2>
+
+            <div class="content-card">
+                <h3>Pengertian Kanji</h3>
+                <p>Kanji adalah huruf yang dipinjam dari bahasa China dan dipakai bersama Hiragana dan Katakana dalam penulisan bahasa Jepang. Bedanya dengan Hiragana dan Katakana yang cuma mewakili bunyi, satu huruf Kanji biasanya sudah punya arti sendiri. Misalnya 火 artinya "api" dan 水 artinya "air".</p>
+            </div>
+
+            <div class="content-card">
+                <h3>Ciri-ciri Kanji</h3>
+                <ul class="feature-list">
+                    <li>Satu huruf Kanji bisa punya lebih dari satu cara baca, tergantung dipakai sendiri atau digabung dengan kata lain</li>
+                    <li>Cara bacanya terbagi dua: Onyomi (cara baca yang mirip bahasa China) dan Kunyomi (cara baca asli Jepang)</li>
+                    <li>Jumlahnya ribuan, tapi untuk kebutuhan sehari-hari cukup menguasai sekitar 2000 huruf yang paling umum dipakai (Jōyō Kanji)</li>
+                    <li>Sering ditulis bergabung dengan Hiragana, contoh: 食べます (makan) terdiri dari Kanji 食 digabung Hiragana べます</li>
+                    <li>Punya urutan goresan (stroke order) sendiri yang perlu diikuti supaya tulisannya benar dan rapi</li>
+                </ul>
+            </div>
+
+            <div class="content-card note-card">
+                <p><svg class="icon note-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21Z"/>
+            <circle cx="12" cy="9.5" r="2.3"/></svg><strong>Catatan Penting:</strong></p>
+                <p>Kanji yang ditampilkan di sini hanya sebagian kecil yang sering dipakai sehari-hari, dan akan terus ditambah seiring waktu. Untuk belajar Kanji secara lebih lengkap, kamu bisa cari referensi tambahan di buku, kamus Kanji, atau aplikasi khusus lainnya.</p>
+            </div>
+
+            <div class="content-card">
+                <h3>Daftar Kanji</h3>
+                <p class="instruction">Klik pada Kanji untuk melihat detail dan animasi urutan goresan</p>
+
+                <div class="kanji-filters-bar">
+                    <button type="button" class="kanji-filters-arrow" id="kanji-filters-prev" aria-label="Geser kategori ke kiri">
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <div class="kanji-filters" id="kanji-filters"></div>
+                    <button type="button" class="kanji-filters-arrow" id="kanji-filters-next" aria-label="Geser kategori ke kanan">
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+
+                <div class="search-box">
+                    <input type="text" id="kanji-search" placeholder="Cari kanji..." aria-label="Cari kanji" />
+                </div>
+
+                <div class="kanji-grid" id="kanji-list"></div>
+            </div>
+        </div>
+    </section>
+
     <section id="games" class="section games-section">
         <div class="container">
             <h2 class="section-title">
@@ -384,6 +437,7 @@
                         <li><a href="#hiragana">Hiragana</a></li>
                         <li><a href="#katakana">Katakana</a></li>
                         <li><a href="#kotoba">Kotoba</a></li>
+                        <li><a href="#kanji">Kanji</a></li>
                         <li><a href="#games">Games</a></li>
                     </ul>
                 </div>

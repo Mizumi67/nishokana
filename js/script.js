@@ -82,6 +82,22 @@ document.addEventListener('DOMContentLoaded', function() {
     setupKotobaFilters();
     setupKotobaSearch();
 
+    renderKanjiFilters();
+    renderKanjiList();
+    setupKanjiSearch();
+
+    const kanjiFiltersTrack = document.getElementById('kanji-filters');
+    const kanjiFiltersPrev = document.getElementById('kanji-filters-prev');
+    const kanjiFiltersNext = document.getElementById('kanji-filters-next');
+    if (kanjiFiltersTrack && kanjiFiltersPrev && kanjiFiltersNext) {
+        kanjiFiltersPrev.addEventListener('click', () => {
+            kanjiFiltersTrack.scrollBy({ left: -160, behavior: 'smooth' });
+        });
+        kanjiFiltersNext.addEventListener('click', () => {
+            kanjiFiltersTrack.scrollBy({ left: 160, behavior: 'smooth' });
+        });
+    }
+
     try {
         if (initialHash) {
             const target = document.querySelector(initialHash);
@@ -415,4 +431,219 @@ function setupKotobaSearch() {
 function openGame(gameType) {
     const rootBase = window.location.pathname.split('/').slice(0, 2).join('/') + '/';
     window.location.href = `${rootBase}game.html?type=${gameType}`;
+}
+
+function normalizeKanjiCategory(category) {
+    return category.replace(/_/g, ' ').trim().toLowerCase();
+}
+
+function prettifyKanjiCategory(category) {
+    const normalized = normalizeKanjiCategory(category);
+    return normalized.replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+let currentKanjiFilter = 'all';
+let currentKanjiPage = 0;
+let kanjiGridFullHeight = 0;
+
+function renderKanjiFilters() {
+    const container = document.getElementById('kanji-filters');
+    if (!container) return;
+
+    const seen = new Map();
+    kanji.forEach((item) => {
+        const key = normalizeKanjiCategory(item.category);
+        if (!seen.has(key)) {
+            seen.set(key, prettifyKanjiCategory(item.category));
+        }
+    });
+
+    container.innerHTML = '';
+
+    const allBtn = document.createElement('button');
+    allBtn.type = 'button';
+    allBtn.className = 'kanji-filter-btn active';
+    allBtn.setAttribute('data-filter', 'all');
+    allBtn.textContent = 'Semua';
+    container.appendChild(allBtn);
+
+    Array.from(seen.entries())
+        .sort((a, b) => a[1].localeCompare(b[1]))
+        .forEach(([key, label]) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'kanji-filter-btn';
+            btn.setAttribute('data-filter', key);
+            btn.textContent = label;
+            container.appendChild(btn);
+        });
+
+    container.querySelectorAll('.kanji-filter-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            container.querySelectorAll('.kanji-filter-btn').forEach((b) => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentKanjiFilter = btn.getAttribute('data-filter');
+            currentKanjiPage = 0;
+            renderKanjiList();
+        });
+    });
+}
+
+function buildKanjiCard(item) {
+    const card = document.createElement('div');
+    card.className = 'kanji-card';
+    card.innerHTML = `
+        <div class="kanji-jp">${item.jp}</div>
+        <div class="kanji-romaji">${romajiText(item.romaji)}</div>
+        <div class="kanji-meaning">${item.meaning}</div>
+    `;
+    card.addEventListener('click', () => {
+        showKanjiModal(item);
+    });
+    return card;
+}
+
+function renderKanjiList() {
+    const container = document.getElementById('kanji-list');
+    if (!container) return;
+
+    const searchInput = document.getElementById('kanji-search');
+    const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+
+    let list = currentKanjiFilter === 'all'
+        ? [...kanji]
+        : kanji.filter((k) => normalizeKanjiCategory(k.category) === currentKanjiFilter);
+
+    if (searchTerm) {
+        list = list.filter((k) =>
+            k.jp.includes(searchTerm) ||
+            romajiText(k.romaji).toLowerCase().includes(searchTerm) ||
+            k.meaning.toLowerCase().includes(searchTerm)
+        );
+    }
+
+    container.innerHTML = '';
+
+    if (list.length === 0) {
+        container.innerHTML = '<p class="kanji-empty">Tidak ada kanji yang ditemukan</p>';
+        removeKanjiPagination();
+        container.style.minHeight = '';
+        return;
+    }
+
+    if (currentKanjiFilter === 'all' && !searchTerm) {
+        const totalPages = Math.ceil(list.length / ITEMS_PER_PAGE);
+        if (currentKanjiPage >= totalPages) currentKanjiPage = 0;
+
+        const start = currentKanjiPage * ITEMS_PER_PAGE;
+        const pageItems = list.slice(start, start + ITEMS_PER_PAGE);
+
+        pageItems.forEach((item) => {
+            container.appendChild(buildKanjiCard(item));
+        });
+
+        if (pageItems.length === ITEMS_PER_PAGE) {
+            container.style.minHeight = '';
+            kanjiGridFullHeight = container.scrollHeight;
+        }
+        if (kanjiGridFullHeight) {
+            container.style.minHeight = kanjiGridFullHeight + 'px';
+        }
+
+        renderKanjiPagination(totalPages);
+    } else {
+        removeKanjiPagination();
+        container.style.minHeight = '';
+        list.forEach((item) => {
+            container.appendChild(buildKanjiCard(item));
+        });
+    }
+}
+
+function renderKanjiPagination(totalPages) {
+    removeKanjiPagination();
+    if (totalPages <= 1) return;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'kanji-pagination';
+    wrapper.id = 'kanji-pagination';
+
+    const prevBtn = document.createElement('button');
+    prevBtn.type = 'button';
+    prevBtn.className = 'pagination-btn' + (currentKanjiPage === 0 ? ' disabled' : '');
+    prevBtn.innerHTML = '&#8592;';
+    prevBtn.disabled = currentKanjiPage === 0;
+    prevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (currentKanjiPage > 0) {
+            const scrollY = window.scrollY;
+            currentKanjiPage--;
+            renderKanjiList();
+            window.scrollTo({ top: scrollY, behavior: 'instant' });
+        }
+    });
+
+    const pageInfo = document.createElement('span');
+    pageInfo.className = 'pagination-info';
+    pageInfo.textContent = `${currentKanjiPage + 1} / ${totalPages}`;
+
+    const nextBtn = document.createElement('button');
+    nextBtn.type = 'button';
+    nextBtn.className = 'pagination-btn' + (currentKanjiPage === totalPages - 1 ? ' disabled' : '');
+    nextBtn.innerHTML = '&#8594;';
+    nextBtn.disabled = currentKanjiPage === totalPages - 1;
+    nextBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (currentKanjiPage < totalPages - 1) {
+            const scrollY = window.scrollY;
+            currentKanjiPage++;
+            renderKanjiList();
+            window.scrollTo({ top: scrollY, behavior: 'instant' });
+        }
+    });
+
+    wrapper.appendChild(prevBtn);
+    wrapper.appendChild(pageInfo);
+    wrapper.appendChild(nextBtn);
+
+    const gridContainer = document.getElementById('kanji-list');
+    gridContainer.insertAdjacentElement('afterend', wrapper);
+}
+
+function removeKanjiPagination() {
+    const existing = document.getElementById('kanji-pagination');
+    if (existing) existing.remove();
+}
+
+function setupKanjiSearch() {
+    const searchInput = document.getElementById('kanji-search');
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', () => {
+        currentKanjiPage = 0;
+        renderKanjiList();
+    });
+}
+
+function showKanjiModal(item) {
+    const modal = document.getElementById('char-modal');
+    const modalChar = document.getElementById('modal-char');
+    const modalRomaji = document.getElementById('modal-romaji');
+    const strokeDesc = document.getElementById('stroke-desc');
+    const strokeVisual = document.getElementById('stroke-visual');
+
+    modalChar.textContent = item.jp;
+    modalChar.classList.toggle('char-big-small', Array.from(item.jp).length > 2);
+    modalRomaji.textContent = romajiText(item.romaji).toUpperCase();
+
+    strokeDesc.textContent = `${item.jp} dibaca "${romajiText(item.romaji)}", artinya "${item.meaning}".`;
+    strokeVisual.innerHTML = iconSvg('icon-pencil') + 'Ikuti animasi urutan goresan di bawah, satu per satu dari kartu paling kiri';
+
+    modal.classList.add('active');
+
+    if (typeof renderStrokeAnimation === 'function') {
+        renderStrokeAnimation(item.jp);
+    }
 }
