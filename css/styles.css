@@ -181,7 +181,42 @@ a {
     font-weight: 500;
     font-size: 0.95rem;
     border-radius: var(--radius-sm);
+    overflow: hidden;
     transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.nav-link-inner {
+    position: relative;
+    display: block;
+    height: 1.3em;
+}
+
+.nav-link-en,
+.nav-link-jp {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    white-space: nowrap;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.nav-link-jp {
+    font-family: var(--font-jp);
+    transform: translateY(100%);
+    opacity: 0;
+}
+
+.nav-link:hover .nav-link-en,
+.nav-link:focus-visible .nav-link-en {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+.nav-link:hover .nav-link-jp,
+.nav-link:focus-visible .nav-link-jp {
+    transform: translateY(0);
+    opacity: 1;
 }
 
 .nav-link:hover,
