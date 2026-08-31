@@ -1,5 +1,5 @@
 (function() {
-    const prettySections = ['home', 'hiragana', 'katakana', 'kotoba', 'games'];
+    const prettySections = ['home', 'hiragana', 'katakana', 'kotoba', 'kanji', 'games'];
 
     function getRootBase() {
         return window.location.pathname.split('/').slice(0, 2).join('/') + '/';

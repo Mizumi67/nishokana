@@ -3,7 +3,7 @@
     var rootBase = path.split('/').slice(0, 2).join('/') + '/';
     document.write('<base href="' + rootBase + '">');
 
-    var sections = ['hiragana', 'katakana', 'kotoba', 'games'];
+    var sections = ['hiragana', 'katakana', 'kotoba', 'kanji', 'games'];
     var gameTypes = ['kana', 'kotoba', 'kanji', 'mix'];
 
     var gameMatch = path.match(/\/game\/([a-z]+)\/?$/);

@@ -21,6 +21,11 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://mizumi67.github.io/nishokana/kanji</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://mizumi67.github.io/nishokana/games</loc>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>

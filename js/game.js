@@ -687,10 +687,6 @@ function checkAnswer() {
         document.getElementById('correct-count').textContent = correctAnswers;
         
         const feedback = document.getElementById('feedback');
-        // Arti katanya selalu ditampilin sebentar. Kalau lagi mode santai
-        // (tanpa batas waktu) jedanya agak lama biar sempat dibaca dan
-        // diinget-inget. Kalau lagi ngejar waktu, jedanya dipercepat biar
-        // nggak makan waktu berharga.
         const hasMeaning = Boolean(question.meaning);
         
         let feedbackHtml = iconSvg('icon-check') + 'Benar!';
