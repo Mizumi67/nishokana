@@ -683,7 +683,7 @@ body:not(.dark-mode) .moon-icon { display: none; }
 
 .kotoba-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
     gap: var(--space-sm);
     min-height: 600px;
     align-content: start;
@@ -728,7 +728,7 @@ body:not(.dark-mode) .moon-icon { display: none; }
 
 .kanji-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
     gap: var(--space-sm);
     align-content: start;
 }
