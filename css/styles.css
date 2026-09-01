@@ -1006,6 +1006,12 @@ body:not(.dark-mode) .moon-icon { display: none; }
     font-weight: 600;
 }
 
+.char-meaning {
+    font-size: 1rem;
+    color: var(--ink-soft);
+    margin-top: 0.35rem;
+}
+
 .modal-cta {
     margin-top: var(--space-md);
     padding: var(--space-md);

@@ -1,5 +1,89 @@
 const initialHash = window.location.hash;
 
+const romajiKanaTable = {
+    a: 'あ', i: 'い', u: 'う', e: 'え', o: 'お',
+    ka: 'か', ki: 'き', ku: 'く', ke: 'け', ko: 'こ',
+    kya: 'きゃ', kyu: 'きゅ', kyo: 'きょ',
+    sa: 'さ', shi: 'し', su: 'す', se: 'せ', so: 'そ',
+    sha: 'しゃ', shu: 'しゅ', sho: 'しょ',
+    ta: 'た', chi: 'ち', tsu: 'つ', te: 'て', to: 'と',
+    cha: 'ちゃ', chu: 'ちゅ', cho: 'ちょ',
+    na: 'な', ni: 'に', nu: 'ぬ', ne: 'ね', no: 'の',
+    nya: 'にゃ', nyu: 'にゅ', nyo: 'にょ',
+    ha: 'は', hi: 'ひ', fu: 'ふ', he: 'へ', ho: 'ほ',
+    hya: 'ひゃ', hyu: 'ひゅ', hyo: 'ひょ',
+    ma: 'ま', mi: 'み', mu: 'む', me: 'め', mo: 'も',
+    mya: 'みゃ', myu: 'みゅ', myo: 'みょ',
+    ya: 'や', yu: 'ゆ', yo: 'よ',
+    ra: 'ら', ri: 'り', ru: 'る', re: 'れ', ro: 'ろ',
+    rya: 'りゃ', ryu: 'りゅ', ryo: 'りょ',
+    wa: 'わ', wo: 'を',
+    ga: 'が', gi: 'ぎ', gu: 'ぐ', ge: 'げ', go: 'ご',
+    gya: 'ぎゃ', gyu: 'ぎゅ', gyo: 'ぎょ',
+    za: 'ざ', ji: 'じ', zu: 'ず', ze: 'ぜ', zo: 'ぞ',
+    ja: 'じゃ', ju: 'じゅ', jo: 'じょ',
+    da: 'だ', di: 'ぢ', du: 'づ', de: 'で', do: 'ど',
+    ba: 'ば', bi: 'び', bu: 'ぶ', be: 'べ', bo: 'ぼ',
+    bya: 'びゃ', byu: 'びゅ', byo: 'びょ',
+    pa: 'ぱ', pi: 'ぴ', pu: 'ぷ', pe: 'ぺ', po: 'ぽ',
+    pya: 'ぴゃ', pyu: 'ぴゅ', pyo: 'ぴょ'
+};
+
+const kanaOverrides = {
+    kinyoubi: 'きんようび',
+    senen: 'せんえん',
+    ichimanen: 'いちまんえん'
+};
+
+function romajiToHiragana(text) {
+    const s = text.toLowerCase().replace(/[^a-z]/g, '');
+
+    if (kanaOverrides[s]) {
+        return kanaOverrides[s];
+    }
+
+    let out = '';
+    let i = 0;
+
+    while (i < s.length) {
+        const c = s[i];
+        const nextChar = s[i + 1];
+
+        if (c === nextChar && c !== 'n' && 'kstpgzdb'.includes(c)) {
+            out += 'っ';
+            i += 1;
+            continue;
+        }
+
+        let found = false;
+        for (let len = 3; len >= 1; len--) {
+            const chunk = s.substr(i, len);
+            if (romajiKanaTable[chunk]) {
+                out += romajiKanaTable[chunk];
+                i += len;
+                found = true;
+                break;
+            }
+        }
+        if (found) continue;
+
+        if (c === 'n') {
+            out += 'ん';
+            i += 1;
+            continue;
+        }
+
+        i += 1;
+    }
+
+    return out;
+}
+
+function romajiToKanaDisplay(romaji) {
+    const list = Array.isArray(romaji) ? romaji : [romaji];
+    return list.map(romajiToHiragana).join(' / ');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
@@ -223,9 +307,12 @@ function showCharacterModal(charData) {
     const modal = document.getElementById('char-modal');
     const modalChar = document.getElementById('modal-char');
     const modalRomaji = document.getElementById('modal-romaji');
+    const modalMeaning = document.getElementById('modal-meaning');
     
     modalChar.textContent = charData.char;
     modalRomaji.textContent = charData.romaji.toUpperCase();
+    modalMeaning.textContent = '';
+    modalMeaning.style.display = 'none';
     
     modal.classList.add('active');
 
@@ -621,10 +708,19 @@ function showKanjiModal(item) {
     const modal = document.getElementById('char-modal');
     const modalChar = document.getElementById('modal-char');
     const modalRomaji = document.getElementById('modal-romaji');
+    const modalMeaning = document.getElementById('modal-meaning');
 
     modalChar.textContent = item.jp;
     modalChar.classList.toggle('char-big-small', Array.from(item.jp).length > 2);
-    modalRomaji.textContent = romajiText(item.romaji).toUpperCase();
+    modalRomaji.textContent = romajiText(item.romaji).toUpperCase() + ' / ' + romajiToKanaDisplay(item.romaji);
+
+    if (item.meaning) {
+        modalMeaning.textContent = item.meaning;
+        modalMeaning.style.display = '';
+    } else {
+        modalMeaning.textContent = '';
+        modalMeaning.style.display = 'none';
+    }
 
     modal.classList.add('active');
 
