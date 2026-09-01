@@ -1006,38 +1006,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
     font-weight: 600;
 }
 
-.stroke-order h3 {
-    color: var(--ink);
-    margin-bottom: var(--space-sm);
-    font-size: 1.1rem;
-    font-weight: 600;
-}
-
-.stroke-description {
-    background-color: var(--paper-sunken);
-    padding: var(--space-sm);
-    border-radius: var(--radius-sm);
-    margin-bottom: var(--space-sm);
-    line-height: 1.65;
-    font-size: 0.92rem;
-    color: var(--ink-soft);
-}
-
-.stroke-visual {
-    text-align: center;
-    padding: var(--space-md);
-    background-color: var(--paper-sunken);
-    border-radius: var(--radius-sm);
-    font-size: 1rem;
-    color: var(--ink);
-}
-
-.stroke-visual .icon {
-    color: var(--gold);
-    margin-right: 0.4em;
-    vertical-align: -0.15em;
-}
-
 .modal-cta {
     margin-top: var(--space-md);
     padding: var(--space-md);

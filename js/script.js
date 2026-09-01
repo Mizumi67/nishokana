@@ -223,12 +223,9 @@ function showCharacterModal(charData) {
     const modal = document.getElementById('char-modal');
     const modalChar = document.getElementById('modal-char');
     const modalRomaji = document.getElementById('modal-romaji');
-    const strokeOrder = document.querySelector('.stroke-order');
     
     modalChar.textContent = charData.char;
     modalRomaji.textContent = charData.romaji.toUpperCase();
-    
-    if (strokeOrder) strokeOrder.style.display = 'none';
     
     modal.classList.add('active');
 
@@ -624,17 +621,10 @@ function showKanjiModal(item) {
     const modal = document.getElementById('char-modal');
     const modalChar = document.getElementById('modal-char');
     const modalRomaji = document.getElementById('modal-romaji');
-    const strokeOrder = document.querySelector('.stroke-order');
-    const strokeDesc = document.getElementById('stroke-desc');
-    const strokeVisual = document.getElementById('stroke-visual');
 
     modalChar.textContent = item.jp;
     modalChar.classList.toggle('char-big-small', Array.from(item.jp).length > 2);
     modalRomaji.textContent = romajiText(item.romaji).toUpperCase();
-
-    if (strokeOrder) strokeOrder.style.display = '';
-    strokeDesc.textContent = `${item.jp} dibaca "${romajiText(item.romaji)}", artinya "${item.meaning}".`;
-    strokeVisual.innerHTML = iconSvg('icon-pencil') + 'Ikuti animasi urutan goresan di bawah, satu per satu dari kartu paling kiri';
 
     modal.classList.add('active');
 
