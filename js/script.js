@@ -170,18 +170,6 @@ document.addEventListener('DOMContentLoaded', function() {
     renderKanjiList();
     setupKanjiSearch();
 
-    const kanjiFiltersTrack = document.getElementById('kanji-filters');
-    const kanjiFiltersPrev = document.getElementById('kanji-filters-prev');
-    const kanjiFiltersNext = document.getElementById('kanji-filters-next');
-    if (kanjiFiltersTrack && kanjiFiltersPrev && kanjiFiltersNext) {
-        kanjiFiltersPrev.addEventListener('click', () => {
-            kanjiFiltersTrack.scrollBy({ left: -160, behavior: 'smooth' });
-        });
-        kanjiFiltersNext.addEventListener('click', () => {
-            kanjiFiltersTrack.scrollBy({ left: 160, behavior: 'smooth' });
-        });
-    }
-
     try {
         if (initialHash) {
             const target = document.querySelector(initialHash);
