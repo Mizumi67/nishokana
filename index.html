@@ -1,454 +1,183 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <script src="js/frame-guard.js"></script>
-    <script src="js/hash-preselect.js"></script>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NishoKana - Belajar Hiragana & Katakana</title>
-    <meta name="description" content="Belajar huruf Hiragana dan Katakana dari nol, lengkap dengan kosakata, kanji dasar, dan game quiz interaktif. Gratis dan bisa dipakai langsung dari browser.">
-    <meta name="theme-color" content="#faf7f0">
-    <link rel="canonical" href="https://mizumi67.github.io/nishokana/">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mizumi67.github.io/nishokana/">
-    <meta property="og:title" content="NishoKana - Belajar Hiragana & Katakana">
-    <meta property="og:description" content="Belajar huruf Hiragana dan Katakana dari nol, lengkap dengan kosakata, kanji dasar, dan game quiz interaktif.">
-    <meta property="og:image" content="https://mizumi67.github.io/nishokana/assets/images/og-preview.png">
-    <meta property="og:locale" content="id_ID">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="NishoKana - Belajar Hiragana & Katakana">
-    <meta name="twitter:description" content="Belajar huruf Hiragana dan Katakana dari nol, lengkap dengan kosakata, kanji dasar, dan game quiz interaktif.">
-    <meta name="twitter:image" content="https://mizumi67.github.io/nishokana/assets/images/og-preview.png">
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" sizes="32x32" href="/nishokana/assets/images/favicon-32.png?v=4">
-    <link rel="apple-touch-icon" href="/nishokana/assets/images/favicon-180.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&family=Yuji+Mai&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/protect-media.css">
+    <title>NishoKana - SYSTEM UPDATE</title>
+    <style>
+        /* Setup Dasar Cyberpunk */
+        @import url('https://googleapis.com');
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #0a0a12;
+            color: #00fedc;
+            font-family: 'Orbitron', 'Noto Sans JP', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Efek Garis TV Jadul / Scanlines */
+        body::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            border: 3px solid #ff0055;
+            background: rgba(10, 10, 18, 0.9);
+            box-shadow: 0 0 20px #ff0055, inset 0 0 20px #ff0055;
+            position: relative;
+            max-width: 600px;
+            width: 90%;
+            clip-path: polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%); /* Potongan Sudut Cyberpunk */
+        }
+
+        /* Animasi Glitch Teks Utama */
+        .glitch {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            position: relative;
+            color: #fff;
+            text-shadow: 0 0 10px #00fedc;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            animation: blink 2s infinite;
+        }
+
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a12;
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff0055;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00fedc, 0 2px #ff0055;
+            clip: rect(85px, 450px, 140px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        /* Teks Deskripsi */
+        .sub-text {
+            color: #00fedc;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-shadow: 0 0 5px rgba(0, 254, 220, 0.5);
+        }
+
+        /* Animasi Loading Bar Cyberpunk */
+        .loader-bar {
+            width: 80%;
+            height: 8px;
+            background: #111;
+            margin: 30px auto 10px auto;
+            position: relative;
+            border: 1px solid #00fedc;
+            overflow: hidden;
+        }
+
+        .loader-fill {
+            height: 100%;
+            background: #ff0055;
+            box-shadow: 0 0 10px #ff0055;
+            width: 0%;
+            animation: load 3s infinite ease-in-out;
+        }
+
+        .status-code {
+            font-size: 0.8rem;
+            color: #ff0055;
+            text-shadow: 0 0 5px #ff0055;
+            margin-top: 15px;
+            letter-spacing: 2px;
+        }
+
+        /* KEYFRAMES ANIMASI LOOPING */
+        @keyframes glitch-anim {
+            0% { clip: rect(15px, 9999px, 66px, 0); }
+            10% { clip: rect(34px, 9999px, 55px, 0); }
+            20% { clip: rect(81px, 9999px, 100px, 0); }
+            30% { clip: rect(12px, 9999px, 85px, 0); }
+            40% { clip: rect(63px, 9999px, 14px, 0); }
+            50% { clip: rect(77px, 9999px, 95px, 0); }
+            60% { clip: rect(2px, 9999px, 40px, 0); }
+            70% { clip: rect(110px, 9999px, 125px, 0); }
+            80% { clip: rect(56px, 9999px, 80px, 0); }
+            90% { clip: rect(92px, 9999px, 115px, 0); }
+            100% { clip: rect(5px, 9999px, 30px, 0); }
+        }
+
+        @keyframes glitch-anim2 {
+            0% { clip: rect(65px, 9999px, 100px, 0); }
+            11% { clip: rect(12px, 9999px, 45px, 0); }
+            25% { clip: rect(88px, 9999px, 120px, 0); }
+            42% { clip: rect(5px, 9999px, 35px, 0); }
+            57% { clip: rect(99px, 9999px, 150px, 0); }
+            74% { clip: rect(33px, 9999px, 75px, 0); }
+            90% { clip: rect(140px, 9999px, 170px, 0); }
+            100% { clip: rect(20px, 9999px, 60px, 0); }
+        }
+
+        @keyframes load {
+            0% { width: 0%; left: 0; }
+            50% { width: 100%; left: 0; }
+            100% { width: 0%; left: 100%; }
+        }
+
+        @keyframes blink {
+            0%, 49%, 55%, 100% { opacity: 1; }
+            50%, 54% { opacity: 0.5; }
+        }
+    </style>
 </head>
 <body>
-    <script src="js/theme-init.js"></script>
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="#home" class="logo-link">
-                <div class="logo">
-                    <img src="assets/images/logo.png" alt="NishoKana" class="logo-img" draggable="false">
-                    <span class="logo-jp">NishoKana</span>
-                </div>
-            </a>
-            <ul class="nav-menu" id="nav-menu">
-                <li>
-                    <button class="theme-toggle" id="theme-toggle" title="Toggle Dark/Light Mode">
-                        <span class="sun-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/>
-            <line x1="12" y1="2" x2="12" y2="4.5"/>
-            <line x1="12" y1="19.5" x2="12" y2="22"/>
-            <line x1="2" y1="12" x2="4.5" y2="12"/>
-            <line x1="19.5" y1="12" x2="22" y2="12"/>
-            <line x1="4.9" y1="4.9" x2="6.6" y2="6.6"/>
-            <line x1="17.4" y1="17.4" x2="19.1" y2="19.1"/>
-            <line x1="4.9" y1="19.1" x2="6.6" y2="17.4"/>
-            <line x1="17.4" y1="6.6" x2="19.1" y2="4.9"/></svg></span>
-                        <span class="moon-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg></span>
-                    </button>
-                </li>
-                <li><a href="#home" class="nav-link"><span class="nav-link-inner"><span class="nav-link-en">Home</span><span class="nav-link-jp">ホーム</span></span></a></li>
-                <li><a href="#hiragana" class="nav-link"><span class="nav-link-inner"><span class="nav-link-en">Hiragana</span><span class="nav-link-jp">ひらがな</span></span></a></li>
-                <li><a href="#katakana" class="nav-link"><span class="nav-link-inner"><span class="nav-link-en">Katakana</span><span class="nav-link-jp">カタカナ</span></span></a></li>
-                <li><a href="#kotoba" class="nav-link"><span class="nav-link-inner"><span class="nav-link-en">Kotoba</span><span class="nav-link-jp">ことば</span></span></a></li>
-                <li><a href="#kanji" class="nav-link"><span class="nav-link-inner"><span class="nav-link-en">Kanji</span><span class="nav-link-jp">漢字</span></span></a></li>
-                <li><a href="#games" class="nav-link"><span class="nav-link-inner"><span class="nav-link-en">Games</span><span class="nav-link-jp">ゲーム</span></span></a></li>
-            </ul>
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </nav>
 
-    <section id="home" class="section home-section">
-        <div class="bg-characters" id="bg-characters"></div>
+    <div class="container">
+        <!-- Pastikan data-text sama dengan isi teks di dalam tag agar efek glitch rapi -->
+        <h1 class="glitch" data-text="システム再構築中...">システム再構築中...</h1>
         
-        <div class="container">
-            <div class="hero-centered">
-                <h1 class="hero-welcome">
-                    <span class="sparkle-text">ようこそ</span>
-                    <span class="welcome-subtitle"></span>
-                </h1>
-                <h2 class="hero-main-title">Website Untuk Belajar<br>Hiragana & Katakana Dasar</h2>
-                <p class="hero-intro">Mulai belajar huruf dasar bahasa Jepang dengan cara yang sederhana, bertahap, dan mudah dipahami. Cocok buat pemula yang baru mulai dari nol.</p>
-                <p class="ganbatte"><svg class="icon ganbatte-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c1.5 2.2 2.2 3.9 2.2 5.4 0 .9-.3 1.6-.9 2.2.8-.2 1.4-.7 1.8-1.4.7 1.2 1 2.3 1 3.4 0 3-2.7 5.4-6.1 5.4S3.9 15.6 3.9 12.6c0-2.2 1.3-3.9 2.9-5.3-.1.5-.1.9-.1 1.3 0 .8.3 1.5.8 2-.2-3 .8-5.7 4.5-7.6Z"/></svg>がんばって！</p>
-            </div>
+        <p class="sub-text">
+            次世代の <strong>NishoKana</strong> へ進化中。<br>
+            大幅なアップデートのため、現在システムを停止しています。しばらくお待ちください。
+        </p>
+
+        <!-- Animasi Loading Loop -->
+        <div class="loader-bar">
+            <div class="loader-fill"></div>
         </div>
-    </section>
 
-    <section id="hiragana" class="section hiragana-section">
-        <div class="container">
-            <h2 class="section-title">
-                <span class="jp">ひらがな</span>
-                <span class="romaji">Hiragana</span>
-            </h2>
-            
-            <div class="content-card">
-                <h3>Pengertian Hiragana</h3>
-                <p>Hiragana adalah huruf dasar dalam bahasa Jepang. Setiap huruf Hiragana punya bunyinya sendiri, misalnya あ dibaca "a", い dibaca "i". Dengan menggabungkan huruf-huruf ini, kita bisa menulis kata dalam bahasa Jepang. Hiragana juga merupakan huruf pertama yang dipelajari oleh anak-anak di Jepang maupun pembelajaran asing.</p>
-            </div>
-
-            <div class="content-card">
-                <h3>Ciri-ciri Hiragana</h3>
-                <ul class="feature-list">
-                    <li>Bentuknya melengkung dan halus, beda dengan Katakana yang lebih kaku dan bersudut</li>
-                    <li>Jumlah huruf dasarnya ada 46 huruf</li>
-                    <li>Setiap huruf mewakili bunyi (suku kata), bukan huruf per huruf seperti alfabet</li>
-                    <li>Bisa diberi tanda khusus:
-                        <ul>
-                            <li><strong>Dakuten/Tenten (゛)</strong> → mengubah bunyi lebih bergetar, contoh: か (ka) → が (ga)</li>
-                            <li><strong>Handakuten/Maru (゜)</strong> → khusus untuk deret "h", contoh: は (ha) → ぱ (pa)</li>
-                        </ul>
-                    </li>
-                    <li>Digunakan sehari-hari di Jepang</li>
-                </ul>
-            </div>
-
-            <div class="content-card">
-                <h3>Hiragana Dasar (46 Huruf)</h3>
-                <p class="instruction">Klik pada huruf untuk melihat detail dan urutan penulisan</p>
-                <div class="gojuon-list" id="hiragana-dasar"></div>
-            </div>
-
-            <div class="content-card">
-                <h3>Hiragana Dakuten / Tenten (゛)</h3>
-                <div class="gojuon-list" id="hiragana-dakuten"></div>
-            </div>
-
-            <div class="content-card">
-                <h3>Hiragana Handakuten / Maru (゜)</h3>
-                <div class="gojuon-list" id="hiragana-handakuten"></div>
-            </div>
-
-            <div class="content-card">
-                <h3>Hiragana Youon</h3>
-                <p>Gabungan huruf konsonan + huruf kecil や (ya), ゆ (yu), よ (yo)</p>
-                <div class="gojuon-list" id="hiragana-youon"></div>
-            </div>
-
-            <div class="content-card">
-                <h3>Aturan Khusus</h3>
-                
-                <div class="rule-section">
-                    <h4>Sokuon (促音)</h4>
-                    <p>Tanda っ (tsu kecil) untuk menggandakan bunyi konsonan setelahnya.</p>
-                    <div class="examples">
-                        <div class="example">がんば<strong>っ</strong>て → <span class="romaji-text">ganbatte</span> (semangat)</div>
-                        <div class="example">や<strong>っ</strong>た → <span class="romaji-text">yatta</span> (berhasil)</div>
-                    </div>
-                </div>
-
-                <div class="rule-section">
-                    <h4>Chōon (長音)</h4>
-                    <p>Bunyi panjang ditulis dengan menambahkan huruf vokal.</p>
-                    <div class="examples">
-                        <div class="example">おば<strong>あ</strong>さん → <span class="romaji-text">obaasan</span> (nenek)</div>
-                        <div class="example">お<strong>お</strong>き<strong>い</strong> → <span class="romaji-text">ookii</span> (besar)</div>
-                    </div>
-                </div>
-
-                <div class="rule-section">
-                    <h4>Hatsuon (撥音)</h4>
-                    <p>Huruf ん (n) adalah satu-satunya konsonan yang bisa berdiri sendiri. Khusus di depan bunyi P dan B, pengucapan ん berubah menjadi bunyi "m". Lalu, jika di depan nya adalah huruf K atau G,  pengucapan ん berubah menjadi bunyi "ng".</p>
-                    <div class="examples">
-                        <div class="example">し<strong>ん</strong>ぶん → <span class="romaji-text">shimbun</span> (koran)</div>
-                        <div class="example">て<strong>ん</strong>き → <span class="romaji-text">tengki</span> (cuaca)</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="katakana" class="section katakana-section">
-        <div class="container">
-            <h2 class="section-title">
-                <span class="jp">カタカナ</span>
-                <span class="romaji">Katakana</span>
-            </h2>
-            
-            <div class="content-card">
-                <h3>Pengertian Katakana</h3>
-                <p>Katakana adalah salah satu huruf dasar dalam bahasa Jepang yang wajib diketahui selain Hiragana. Katakana digunakan untuk serapan bahasa asing, nama orang, tempat asing, istilah ilmiah/teknis, serta bunyi tiruan. Bentuk Katakana lebih tegas dan bersudut dibandingkan dengan Hiragana.</p>
-            </div>
-
-            <div class="content-card">
-                <h3>Ciri-ciri Katakana</h3>
-                <ul class="feature-list">
-                    <li>Bentuknya lurus, tegas, dan bersudut</li>
-                    <li>Jumlah huruf dasarnya 46</li>
-                    <li>Sama seperti Hiragana, setiap huruf mewakili bunyi (suku kata)</li>
-                    <li>Bisa diberi tanda khusus Dakuten (゛) dan Handakuten (゜)</li>
-                    <li>Digunakan untuk menulis kata serapan dari bahasa asing, nama orang, nama tempat, istilah ilmiah, serta bunyi tiruan</li>
-                </ul>
-            </div>
-
-            <div class="content-card">
-                <h3>Katakana Dasar (46 Huruf)</h3>
-                <p class="instruction">Klik pada huruf untuk melihat detail dan urutan penulisan</p>
-                <div class="gojuon-list" id="katakana-dasar"></div>
-            </div>
-
-            <div class="content-card">
-                <h3>Katakana Dakuten / Tenten (゛)</h3>
-                <div class="gojuon-list" id="katakana-dakuten"></div>
-            </div>
-
-            <div class="content-card">
-                <h3>Katakana Handakuten / Maru (゜)</h3>
-                <div class="gojuon-list" id="katakana-handakuten"></div>
-            </div>
-
-            <div class="content-card">
-                <h3>Katakana Youon</h3>
-                <p>Gabungan huruf konsonan + huruf kecil ヤ (ya), ユ (yu), ヨ (yo)</p>
-                <div class="gojuon-list" id="katakana-youon"></div>
-            </div>
-
-            <div class="content-card">
-                <h3>Katakana Modern (拗音拡張)</h3>
-                <p>Huruf tambahan untuk menuliskan bunyi dari bahasa asing yang tidak ada dalam bahasa Jepang asli.</p>
-                <div class="gojuon-list" id="katakana-modern"></div>
-            </div>
-
-            <div class="content-card">
-                <h3>Aturan Khusus</h3>
-                
-                <div class="rule-section">
-                    <h4>Sokuon (促音)</h4>
-                    <p>Tanda ッ (tsu kecil) untuk menggandakan bunyi konsonan.</p>
-                    <div class="examples">
-                        <div class="example">カ<strong>ッ</strong>プ → <span class="romaji-text">kappu</span> (cangkir)</div>
-                        <div class="example">サ<strong>ッ</strong>カー → <span class="romaji-text">sakkaa</span> (sepak bola)</div>
-                    </div>
-                </div>
-
-                <div class="rule-section">
-                    <h4>Chōon (長音)</h4>
-                    <p>Bunyi panjang dituliskan dengan tanda ー</p>
-                    <div class="examples">
-                        <div class="example">コ<strong>ー</strong>ヒ<strong>ー</strong> → <span class="romaji-text">koohii</span> (kopi)</div>
-                        <div class="example">ケ<strong>ー</strong>キ → <span class="romaji-text">keeki</span> (kue)</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="kotoba" class="section kotoba-section">
-        <div class="container">
-            <h2 class="section-title">
-                <span class="jp">ことば</span>
-                <span class="romaji">Kotoba (Kosakata)</span>
-            </h2>
-            
-            <div class="content-card">
-                <h3>Apa itu Kotoba?</h3>
-                <p>Kotoba artinya <strong>kata</strong> atau <strong>kosakata</strong> dalam bahasa Jepang. Kalau huruf Hiragana dan Katakana itu ibaratnya "abjad"-nya, maka Kotoba itu "kata"-nya.</p>
-                
-                <p>Setelah kamu menguasai huruf Hiragana dan Katakana, langkah selanjutnya adalah mempelajari Kotoba. Dengan mengetahui banyak Kotoba, kamu bisa mulai memahami dan membuat kalimat sederhana dalam bahasa Jepang!</p>
-
-                
-            </div>
-
-            <div class="content-card note-card">
-                <p><svg class="icon note-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21Z"/>
-            <circle cx="12" cy="9.5" r="2.3"/></svg><strong>Catatan Penting:</strong></p>
-                <p>Kotoba yang ditampilkan di website ini hanya beberapa kotoba umum yang sering digunakan. Untuk mempelajari lebih banyak kosakata, kamu bisa mencari di artikel lain, kamus online, atau membeli beberapa buku maupun E-Book yang berisi materi lebih lengkap!</p>
-            </div>
-
-            <div class="content-card">
-                <h3>Daftar Kotoba Dasar</h3>
-                <div class="kotoba-filters">
-                    <button class="filter-btn active" data-filter="all">Semua</button>
-                    <button class="filter-btn" data-filter="greetings">Salam</button>
-                    <button class="filter-btn" data-filter="basic">Dasar</button>
-                    <button class="filter-btn" data-filter="food">Makanan</button>
-                    <button class="filter-btn" data-filter="family">Keluarga</button>
-                    <button class="filter-btn" data-filter="numbers">Angka</button>
-                    <button class="filter-btn" data-filter="counters">Satuan</button>
-                    <button class="filter-btn" data-filter="time">Waktu</button>
-                    <button class="filter-btn" data-filter="adjectives">Sifat</button>
-                    <button class="filter-btn" data-filter="verbs">Kata Kerja</button>
-                    <button class="filter-btn" data-filter="adverbs">Keterangan</button>
-                    <button class="filter-btn" data-filter="places">Tempat</button>
-                    <button class="filter-btn" data-filter="nature">Alam</button>
-                    <button class="filter-btn" data-filter="animals">Hewan</button>
-                    <button class="filter-btn" data-filter="body">Tubuh</button>
-                    <button class="filter-btn" data-filter="clothing">Pakaian</button>
-                    <button class="filter-btn" data-filter="school">Sekolah</button>
-                    <button class="filter-btn" data-filter="house">Rumah</button>
-                    <button class="filter-btn" data-filter="transportation">Transportasi</button>
-                    <button class="filter-btn" data-filter="directions">Arah</button>
-                    <button class="filter-btn" data-filter="hobbies">Hobi</button>
-                    <button class="filter-btn" data-filter="katakana">Katakana</button>
-                </div>
-                
-                <div class="search-box">
-                    <input type="text" id="kotoba-search" placeholder="Cari kotoba..." aria-label="Cari kosakata" />
-                </div>
-
-                <div class="kotoba-grid" id="kotoba-list"></div>
-            </div>
-        </div>
-    </section>
-
-    <section id="kanji" class="section kanji-section">
-        <div class="container">
-            <h2 class="section-title">
-                <span class="jp">漢字</span>
-                <span class="romaji">Kanji</span>
-            </h2>
-
-            <div class="content-card">
-                <h3>Pengertian Kanji</h3>
-                <p>Kanji adalah huruf yang dipinjam dari bahasa China dan dipakai bersama Hiragana dan Katakana dalam penulisan bahasa Jepang. Bedanya dengan Hiragana dan Katakana yang cuma mewakili bunyi, satu huruf Kanji biasanya sudah punya arti sendiri. Misalnya 火 artinya "api" dan 水 artinya "air".</p>
-            </div>
-
-            <div class="content-card">
-                <h3>Ciri-ciri Kanji</h3>
-                <ul class="feature-list">
-                    <li>Satu huruf Kanji bisa punya lebih dari satu cara baca, tergantung dipakai sendiri atau digabung dengan kata lain</li>
-                    <li>Cara bacanya terbagi dua: Onyomi (cara baca yang mirip bahasa China) dan Kunyomi (cara baca asli Jepang)</li>
-                    <li>Jumlahnya ribuan, tapi untuk kebutuhan sehari-hari cukup menguasai sekitar 2000 huruf yang paling umum dipakai (Jōyō Kanji)</li>
-                    <li>Sering ditulis bergabung dengan Hiragana, contoh: 食べます (makan) terdiri dari Kanji 食 digabung Hiragana べます</li>
-                    <li>Punya urutan goresan (stroke order) sendiri yang perlu diikuti supaya tulisannya benar dan rapi</li>
-                </ul>
-            </div>
-
-            <div class="content-card note-card">
-                <p><svg class="icon note-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-11.5A7 7 0 0 0 5 9.5C5 14.9 12 21 12 21Z"/>
-            <circle cx="12" cy="9.5" r="2.3"/></svg><strong>Catatan Penting:</strong></p>
-                <p>Kanji yang ditampilkan di sini hanya sebagian kecil yang sering dipakai sehari-hari, dan akan terus ditambah seiring waktu. Untuk belajar Kanji secara lebih lengkap, kamu bisa cari referensi tambahan di buku, kamus Kanji, atau aplikasi khusus lainnya.</p>
-            </div>
-
-            <div class="content-card">
-                <h3>Daftar Kanji</h3>
-                <p class="instruction">Klik pada Kanji untuk melihat detail dan animasi urutan goresan</p>
-
-                <div class="kanji-filters" id="kanji-filters"></div>
-
-                <div class="search-box">
-                    <input type="text" id="kanji-search" placeholder="Cari kanji..." aria-label="Cari kanji" />
-                </div>
-
-                <div class="kanji-grid" id="kanji-list"></div>
-            </div>
-        </div>
-    </section>
-
-    <section id="games" class="section games-section">
-        <div class="container">
-            <h2 class="section-title">
-                <span class="jp">ゲーム</span>
-                <span class="romaji">Games</span>
-            </h2>
-            
-            <div class="content-card">
-                <h3>Latihan dengan Games!</h3>
-                <p>Uji kemampuan Hiragana, Katakana, Kotoba, dan Kanji kamu dengan games interaktif! Pilih tingkat kesulitan, atur waktu, dan lihat seberapa cepat kamu bisa menjawab!</p>
-            </div>
-
-            <div class="games-grid">
-                <div class="game-card">
-                    <div class="game-icon">あア</div>
-                    <h3>Hiragana & Katakana Quiz</h3>
-                    <p>Tebak bacaan huruf Hiragana dan Katakana secara acak!</p>
-                    <button class="btn btn-primary game-btn" data-game-type="kana">Ayo Main Sekarang!</button>
-                </div>
-
-                <div class="game-card">
-                    <div class="game-icon">ことば</div>
-                    <h3>Kotoba Quiz</h3>
-                    <p>Tebak bacaan kosakata dalam Hiragana dan Katakana!</p>
-                    <button class="btn btn-primary game-btn" data-game-type="kotoba">Ayo Main Sekarang!</button>
-                </div>
-
-                <div class="game-card">
-                    <div class="game-icon">漢字</div>
-                    <h3>Kanji Quiz</h3>
-                    <p>Tebak cara baca 100 Kanji dasar secara acak!</p>
-                    <button class="btn btn-primary game-btn" data-game-type="kanji">Ayo Main Sekarang!</button>
-                </div>
-
-                <div class="game-card">
-                    <div class="game-icon">ミックス</div>
-                    <h3>Mix Quiz</h3>
-                    <p>Soal campuran dari Hiragana, Katakana, Kotoba, dan Kanji sekaligus!</p>
-                    <button class="btn btn-primary game-btn" data-game-type="mix">Ayo Main Sekarang!</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="modal" id="char-modal">
-        <div class="modal-content">
-            <span class="modal-close" id="modal-close-btn">&times;</span>
-            <div class="modal-body">
-                <div class="char-display">
-                    <div class="char-big" id="modal-char"></div>
-                    <div class="char-romaji" id="modal-romaji"></div>
-                    <div class="char-meaning" id="modal-meaning"></div>
-                </div>
-                <div class="stroke-anim-section">
-                    <div class="stroke-anim-header">
-                        <h4><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20c2.5-.3 4.2-1 5.6-2.4L18 9.2a2.2 2.2 0 0 0-3.1-3.1L6.4 14.4C5 15.8 4.3 17.5 4 20Z"/>
-            <path d="M14.5 5.1 18.9 9.5"/></svg>Animasi Urutan Goresan</h4>
-                        <button type="button" class="stroke-anim-replay" id="stroke-anim-replay"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.7-6"/>
-            <polyline points="20 4 20 9 15 9"/></svg>Ulangi</button>
-                    </div>
-                    <div class="stroke-anim-grid" id="stroke-anim-grid"></div>
-                </div>
-            </div>
-        </div>
+        <div class="status-code">STATUS: CORE_EVOLUTION_IN_PROGRESS // VER 2.0</div>
     </div>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>NishoKana</h3>
-                    <p>Website Belajar Hiragana & Katakana dengan mudah untuk pemula.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Link</h4>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#hiragana">Hiragana</a></li>
-                        <li><a href="#katakana">Katakana</a></li>
-                        <li><a href="#kotoba">Kotoba</a></li>
-                        <li><a href="#kanji">Kanji</a></li>
-                        <li><a href="#games">Games</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="https://lynk.id/panmise" target="_blank" rel="noopener noreferrer">Lynk.id</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 NishoKana. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="js/icons.js"></script>
-    <script src="js/data.js"></script>
-    <script src="js/script.js"></script>
-    <script src="js/stroke-animation.js"></script>
-    <script src="js/script-bg.js"></script>
-    <script src="js/protect-media.js"></script>
-    <script src="js/prettify-url.js"></script>
 </body>
 </html>
