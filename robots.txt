@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /game.html
-
-Sitemap: https://mizumi67.github.io/nishokana/sitemap.xml
