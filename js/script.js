@@ -321,6 +321,16 @@ let currentPage = 0;
 const ITEMS_PER_PAGE = 18;
 let kotobaGridFullHeight = 0;
 
+function isKatakanaWord(text) {
+    return Array.from(text).some(ch => ch >= '\u30A0' && ch <= '\u30FF');
+}
+
+function matchesKotobaFilter(item, filter) {
+    if (item.category === filter) return true;
+    if (filter === 'katakana' && isKatakanaWord(item.jp)) return true;
+    return false;
+}
+
 function renderKotoba(kotobaList = currentKotoba) {
     const container = document.getElementById('kotoba-list');
     if (!container) return;
@@ -454,7 +464,7 @@ function setupKotobaFilters() {
             if (currentFilter === 'all') {
                 currentKotoba = [...kotoba];
             } else {
-                currentKotoba = kotoba.filter(k => k.category === currentFilter);
+                currentKotoba = kotoba.filter(k => matchesKotobaFilter(k, currentFilter));
             }
 
             let displayed = currentKotoba;
