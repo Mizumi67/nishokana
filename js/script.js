@@ -323,7 +323,7 @@ document.addEventListener('click', (e) => {
 let currentKotoba = [...kotoba];
 let currentFilter = 'all';
 let currentPage = 0;
-const ITEMS_PER_PAGE = 20;
+const ITEMS_PER_PAGE = 18;
 let kotobaGridFullHeight = 0;
 
 function renderKotoba(kotobaList = currentKotoba) {

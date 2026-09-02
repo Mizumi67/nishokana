@@ -682,8 +682,8 @@ body:not(.dark-mode) .moon-icon { display: none; }
 }
 
 .kotoba-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--space-sm);
     min-height: 600px;
     align-content: flex-start;
@@ -696,7 +696,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
 }
 
 .kotoba-card {
-    flex: 1 1 230px;
     background-color: var(--paper-raised);
     padding: var(--space-md);
     border-radius: var(--radius-sm);
@@ -728,8 +727,8 @@ body:not(.dark-mode) .moon-icon { display: none; }
 }
 
 .kanji-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--space-sm);
     align-content: flex-start;
 }
@@ -741,7 +740,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
 }
 
 .kanji-card {
-    flex: 1 1 230px;
     background-color: var(--paper-raised);
     padding: var(--space-md);
     border-radius: var(--radius-sm);
@@ -1190,6 +1188,7 @@ body.dark-mode .footer-bottom {
 
 @media (max-width: 1024px) and (min-width: 769px) {
     .games-grid { grid-template-columns: repeat(2, 1fr); }
+    .kotoba-grid, .kanji-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -1258,7 +1257,7 @@ body.dark-mode .footer-bottom {
     .gojuon-row-items { grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); }
     .gojuon-row-label { width: 40px; font-size: 1.1rem; }
 
-    .kotoba-card, .kanji-card { flex-basis: 100%; }
+    .kotoba-grid, .kanji-grid { grid-template-columns: repeat(2, 1fr); }
     .games-grid { grid-template-columns: 1fr; }
 
     .footer-content { grid-template-columns: 1fr; text-align: center; gap: var(--space-md); }
@@ -1273,6 +1272,7 @@ body.dark-mode .footer-bottom {
     .char-romaji { font-size: 1.1rem; }
     .modal-body { padding: var(--space-md); }
     .stroke-anim-card { width: 42vw; max-width: 140px; }
+    .kotoba-grid, .kanji-grid { grid-template-columns: 1fr; }
 }
 
 @media print {
