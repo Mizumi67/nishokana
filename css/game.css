@@ -418,11 +418,6 @@ html.has-type-param #settings-screen {
     color: var(--red-deep);
 }
 
-.feedback-wrong {
-    background: rgba(179, 71, 58, 0.13);
-    color: var(--red);
-}
-
 .result-card {
     text-align: center;
     padding: var(--space-md) 0;
@@ -539,10 +534,6 @@ html.has-type-param #settings-screen {
     font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: var(--space-xs);
-}
-
-.custom-alert-icon.icon-warning {
-    color: var(--accent, var(--red));
 }
 
 .custom-alert-actions {

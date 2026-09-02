@@ -21,11 +21,6 @@ html.has-hash-target body {
     flex-shrink: 0;
 }
 
-.icon.icon-fill {
-    fill: currentColor;
-    stroke: none;
-}
-
 :root {
     --ink: #292620;
     --ink-soft: #6f6a5e;
@@ -431,13 +426,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
     transform: translateY(1px);
 }
 
-.cta-buttons {
-    display: flex;
-    gap: var(--space-md);
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
 .content-card {
     background-color: var(--paper-raised);
     padding: var(--space-lg);
@@ -515,13 +503,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
 .feature-list ul li::before {
     content: "·";
     font-weight: bold;
-}
-
-.kana-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
-    gap: 0.6rem;
-    margin-top: var(--space-sm);
 }
 
 .kana-item {
@@ -1005,18 +986,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
     margin-top: 0.35rem;
 }
 
-.modal-cta {
-    margin-top: var(--space-md);
-    padding: var(--space-md);
-    background: var(--paper-sunken);
-    border-radius: var(--radius-sm);
-    text-align: center;
-}
-
-.modal-cta p {
-    margin-bottom: var(--space-xs);
-}
-
 .stroke-anim-section {
     margin-top: var(--space-md);
     padding-top: var(--space-md);
@@ -1116,12 +1085,6 @@ body:not(.dark-mode) .moon-icon { display: none; }
     font-size: 0.78rem;
     color: var(--ink-soft);
     background-image: none;
-}
-
-.stroke-anim-loading {
-    padding: var(--space-sm);
-    color: var(--ink-soft);
-    font-size: 0.9rem;
 }
 
 .stroke-anim-card svg.acjk path[clip-path] {
@@ -1283,7 +1246,6 @@ body.dark-mode .footer-bottom {
 
     .content-card { padding: var(--space-md); }
 
-    .kana-grid { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); }
     .kana-char { font-size: 1.8rem; }
 
     .gojuon-row-items { grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); }
@@ -1294,7 +1256,6 @@ body.dark-mode .footer-bottom {
 
     .footer-content { grid-template-columns: 1fr; text-align: center; gap: var(--space-md); }
 
-    .cta-buttons { flex-direction: column; }
     .btn { width: 100%; }
 }
 
