@@ -3,181 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NishoKana - SYSTEM UPDATE</title>
+    <title>NishoKana - 新しい時代へ</title>
     <style>
-        /* Setup Dasar Cyberpunk */
+        /* Mengambil font bernuansa kuas Jepang tradisional */
         @import url('https://googleapis.com');
-        
+
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            background-color: #0a0a12;
-            color: #00fedc;
-            font-family: 'Orbitron', 'Noto Sans JP', sans-serif;
+            font-family: 'Noto Serif JP', serif;
+            /* Latar belakang gelap mistis dengan semburat merah di tengah */
+            background: radial-gradient(circle at center, #1a0808 0%, #0a0202 100%);
+            color: #f5edd6;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             overflow: hidden;
             position: relative;
         }
 
-        /* Efek Garis TV Jadul / Scanlines */
-        body::before {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 2;
-            background-size: 100% 2px, 3px 100%;
-            pointer-events: none;
-        }
-
-        .container {
-            text-align: center;
-            padding: 40px;
-            border: 3px solid #ff0055;
-            background: rgba(10, 10, 18, 0.9);
-            box-shadow: 0 0 20px #ff0055, inset 0 0 20px #ff0055;
-            position: relative;
-            max-width: 600px;
-            width: 90%;
-            clip-path: polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%); /* Potongan Sudut Cyberpunk */
-        }
-
-        /* Animasi Glitch Teks Utama */
-        .glitch {
-            font-size: 2.5rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            position: relative;
-            color: #fff;
-            text-shadow: 0 0 10px #00fedc;
-            letter-spacing: 3px;
-            margin-bottom: 20px;
-            animation: blink 2s infinite;
-        }
-
-        .glitch::before, .glitch::after {
-            content: attr(data-text);
+        /* Wadah untuk animasi kelopak sakura */
+        .sakura-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #0a0a12;
+            pointer-events: none;
+            z-index: 1;
         }
 
-        .glitch::before {
-            left: 2px;
-            text-shadow: -2px 0 #ff0055;
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim 5s infinite linear alternate-reverse;
+        /* Struktur bentuk kelopak bunga */
+        .petal {
+            position: absolute;
+            background: linear-gradient(135deg, #ffb7c5, #ff99ad);
+            border-radius: 150% 0 150% 150%;
+            opacity: 0.8;
+            animation: fall linear infinite;
         }
 
-        .glitch::after {
-            left: -2px;
-            text-shadow: -2px 0 #00fedc, 0 2px #ff0055;
-            clip: rect(85px, 450px, 140px, 0);
-            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        /* Jalur animasi guguran sakura dari atas ke bawah */
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) translateX(120px) rotate(720deg);
+                opacity: 0;
+            }
         }
 
-        /* Teks Deskripsi */
-        .sub-text {
-            color: #00fedc;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            text-shadow: 0 0 5px rgba(0, 254, 220, 0.5);
+        /* Efek cahaya lingkaran matahari terbit Jepang */
+        .sun-bg {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, #bc002d 0%, #8a0022 100%);
+            border-radius: 50%;
+            z-index: 0;
+            opacity: 0.25;
+            filter: blur(10px);
+            animation: pulseSun 8s ease-in-out infinite alternate;
         }
 
-        /* Animasi Loading Bar Cyberpunk */
-        .loader-bar {
-            width: 80%;
-            height: 8px;
-            background: #111;
-            margin: 30px auto 10px auto;
+        @keyframes pulseSun {
+            0% { transform: scale(1); opacity: 0.2; }
+            100% { transform: scale(1.15); opacity: 0.35; }
+        }
+
+        /* Kotak pengumuman utama */
+        .container {
             position: relative;
-            border: 1px solid #00fedc;
-            overflow: hidden;
+            z-index: 2;
+            text-align: center;
+            background: rgba(15, 5, 5, 0.8);
+            padding: 3.5rem;
+            border-radius: 4px;
+            border: 1px solid rgba(188, 0, 45, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 30px rgba(188, 0, 45, 0.15);
+            backdrop-filter: blur(10px);
+            max-width: 600px;
+            width: 90%;
         }
 
-        .loader-fill {
-            height: 100%;
-            background: #ff0055;
-            box-shadow: 0 0 10px #ff0055;
-            width: 0%;
-            animation: load 3s infinite ease-in-out;
+        /* Ornamen sudut khas gerbang/arsitektur jepang */
+        .container::before, .container::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #bc002d;
+        }
+        .container::before { top: 15px; left: 15px; border-right: none; border-bottom: none; }
+        .container::after { bottom: 15px; right: 15px; border-left: none; border-top: none; }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            letter-spacing: 0.4rem;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 15px rgba(255,255,255,0.15);
         }
 
-        .status-code {
+        .subtitle {
+            font-size: 1.1rem;
+            color: #bc002d;
+            letter-spacing: 0.6rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        /* Area pembungkus status teks */
+        .status-box {
+            border-top: 1px dashed rgba(245, 237, 214, 0.2);
+            border-bottom: 1px dashed rgba(245, 237, 214, 0.2);
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+        }
+
+        p {
+            font-size: 1.05rem;
+            line-height: 2.2;
+            color: #d4cbb3;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Efek lampu neon/bernafas pada tombol status */
+        .status-badge {
+            display: inline-block;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            letter-spacing: 0.15rem;
+            color: #ffcbd5;
+            background: rgba(188, 0, 45, 0.25);
+            padding: 0.5rem 1.5rem;
+            border-radius: 2px;
+            border: 1px solid rgba(188, 0, 45, 0.5);
+            animation: breath 2.5s ease-in-out infinite;
+        }
+
+        @keyframes breath {
+            0%, 100% { opacity: 0.7; box-shadow: 0 0 5px rgba(188,0,45,0.2); }
+            50% { opacity: 1; box-shadow: 0 0 20px rgba(188,0,45,0.6); }
+        }
+
+        .version {
             font-size: 0.8rem;
-            color: #ff0055;
-            text-shadow: 0 0 5px #ff0055;
-            margin-top: 15px;
-            letter-spacing: 2px;
-        }
-
-        /* KEYFRAMES ANIMASI LOOPING */
-        @keyframes glitch-anim {
-            0% { clip: rect(15px, 9999px, 66px, 0); }
-            10% { clip: rect(34px, 9999px, 55px, 0); }
-            20% { clip: rect(81px, 9999px, 100px, 0); }
-            30% { clip: rect(12px, 9999px, 85px, 0); }
-            40% { clip: rect(63px, 9999px, 14px, 0); }
-            50% { clip: rect(77px, 9999px, 95px, 0); }
-            60% { clip: rect(2px, 9999px, 40px, 0); }
-            70% { clip: rect(110px, 9999px, 125px, 0); }
-            80% { clip: rect(56px, 9999px, 80px, 0); }
-            90% { clip: rect(92px, 9999px, 115px, 0); }
-            100% { clip: rect(5px, 9999px, 30px, 0); }
-        }
-
-        @keyframes glitch-anim2 {
-            0% { clip: rect(65px, 9999px, 100px, 0); }
-            11% { clip: rect(12px, 9999px, 45px, 0); }
-            25% { clip: rect(88px, 9999px, 120px, 0); }
-            42% { clip: rect(5px, 9999px, 35px, 0); }
-            57% { clip: rect(99px, 9999px, 150px, 0); }
-            74% { clip: rect(33px, 9999px, 75px, 0); }
-            90% { clip: rect(140px, 9999px, 170px, 0); }
-            100% { clip: rect(20px, 9999px, 60px, 0); }
-        }
-
-        @keyframes load {
-            0% { width: 0%; left: 0; }
-            50% { width: 100%; left: 0; }
-            100% { width: 0%; left: 100%; }
-        }
-
-        @keyframes blink {
-            0%, 49%, 55%, 100% { opacity: 1; }
-            50%, 54% { opacity: 0.5; }
+            color: rgba(245, 237, 214, 0.4);
+            letter-spacing: 0.1rem;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Pastikan data-text sama dengan isi teks di dalam tag agar efek glitch rapi -->
-        <h1 class="glitch" data-text="システム再構築中...">システム再構築中...</h1>
-        
-        <p class="sub-text">
-            次世代の <strong>NishoKana</strong> へ進化中。<br>
-            大幅なアップデートのため、現在システムを停止しています。しばらくお待ちください。
-        </p>
+    <!-- Komponen efek latar belakang bergoyang dan bersinar -->
+    <div class="sun-bg"></div>
+    <div class="sakura-container" id="sakura"></div>
 
-        <!-- Animasi Loading Loop -->
-        <div class="loader-bar">
-            <div class="loader-fill"></div>
+    <!-- Konten Box Tengah -->
+    <div class="container">
+        <h1>NishoKana</h1>
+        <div class="subtitle">システム再構築中</div>
+        
+        <div class="status-box">
+            <p>次世代の NishoKana へ進化中。</p>
+            <p>大幅なアップデートのため、現在システムを停止しています。</p>
+            <p>しばらくお待ちください。</p>
         </div>
 
-        <div class="status-code">STATUS: CORE_EVOLUTION_IN_PROGRESS // VER 2.0</div>
+        <div class="status-badge">CORE EVOLUTION IN PROGRESS</div>
+        <div class="version" style="margin-top: 1rem;">VER 2.0</div>
     </div>
 
+    <!-- Script logika pemicu guguran kelopak bunga sakura secara berkala -->
+    <script>
+        function createSakura() {
+            const container = document.getElementById('sakura');
+            const maxPetals = 35; // Batas total kelopak bunga yang aktif di layar
+
+            for (let i = 0; i < maxPetals; i++) {
+                let petal = document.createElement('div');
+                petal.classList.add('petal');
+                
+                // Mengatur dimensi kelopak secara acak agar bervariasi
+                let size = Math.random() * 10 + 7;
+                petal.style.width = `${size}px`;
+                petal.style.height = `${size * 1.3}px`;
+                
+                // Posisi awal sebaran kelopak horizontal secara acak
+                petal.style.left = `${Math.random() * 100}vw`;
+                
+                // Mengacak jeda masuk dan durasi jatuh agar menciptakan efek alami
+                let duration = Math.random() * 5 + 6;
+                let delay = Math.random() * -12;
+                petal.style.animationDuration = `${duration}s`;
+                petal.style.animationDelay = `${delay}s`;
+
+                container.appendChild(petal);
+            }
+        }
+        // Jalankan fungsi setelah struktur dokumen selesai dimuat
+        window.addEventListener('DOMContentLoaded', createSakura);
+    </script>
 </body>
 </html>
