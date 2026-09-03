@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NishoKana - 新しい時代へ</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png">
+    <title>NishoKana - ドメイン移転のお知らせ</title>
     <style>
-        /* Mengambil font bernuansa kuas Jepang tradisional */
+        /* Font bernuansa kuas Jepang tradisional */
         @import url('https://googleapis.com');
 
         * {
@@ -16,8 +17,8 @@
 
         body {
             font-family: 'Noto Serif JP', serif;
-            /* Latar belakang gelap mistis dengan semburat merah di tengah */
-            background: radial-gradient(circle at center, #1a0808 0%, #0a0202 100%);
+            /* Latar belakang diubah menjadi MEDIUM GRAY agar tidak terlalu gelap gulita */
+            background: radial-gradient(circle at center, #2e2424 0%, #1a1414 100%);
             color: #f5edd6;
             min-height: 100vh;
             display: flex;
@@ -67,14 +68,14 @@
             background: radial-gradient(circle, #bc002d 0%, #8a0022 100%);
             border-radius: 50%;
             z-index: 0;
-            opacity: 0.25;
-            filter: blur(10px);
+            opacity: 0.2;
+            filter: blur(15px);
             animation: pulseSun 8s ease-in-out infinite alternate;
         }
 
         @keyframes pulseSun {
-            0% { transform: scale(1); opacity: 0.2; }
-            100% { transform: scale(1.15); opacity: 0.35; }
+            0% { transform: scale(1); opacity: 0.15; }
+            100% { transform: scale(1.1); opacity: 0.28; }
         }
 
         /* Kotak pengumuman utama */
@@ -82,17 +83,17 @@
             position: relative;
             z-index: 2;
             text-align: center;
-            background: rgba(15, 5, 5, 0.8);
+            background: rgba(35, 25, 25, 0.85); /* Diubah agar serasi dengan latar medium */
             padding: 3.5rem;
-            border-radius: 4px;
-            border: 1px solid rgba(188, 0, 45, 0.3);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 30px rgba(188, 0, 45, 0.15);
+            border-radius: 6px;
+            border: 1px solid rgba(188, 0, 45, 0.4);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(188, 0, 45, 0.2);
             backdrop-filter: blur(10px);
-            max-width: 600px;
+            max-width: 650px;
             width: 90%;
         }
 
-        /* Ornamen sudut khas gerbang/arsitektur jepang */
+        /* Ornamen sudut khas arsitektur Jepang */
         .container::before, .container::after {
             content: '';
             position: absolute;
@@ -104,60 +105,79 @@
         .container::after { bottom: 15px; right: 15px; border-left: none; border-top: none; }
 
         h1 {
-            font-size: 3rem;
+            font-size: 2.8rem;
             font-weight: 600;
             letter-spacing: 0.4rem;
             color: #ffffff;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
             text-shadow: 0 0 15px rgba(255,255,255,0.15);
         }
 
         .subtitle {
             font-size: 1.1rem;
-            color: #bc002d;
-            letter-spacing: 0.6rem;
+            color: #e63946;
+            letter-spacing: 0.4rem;
             margin-bottom: 2rem;
             font-weight: 600;
         }
 
         /* Area pembungkus status teks */
         .status-box {
-            border-top: 1px dashed rgba(245, 237, 214, 0.2);
-            border-bottom: 1px dashed rgba(245, 237, 214, 0.2);
-            padding: 1.5rem 0;
+            border-top: 1px dashed rgba(245, 237, 214, 0.3);
+            border-bottom: 1px dashed rgba(245, 237, 214, 0.3);
+            padding: 1.8rem 0;
             margin-bottom: 2rem;
         }
 
         p {
             font-size: 1.05rem;
             line-height: 2.2;
-            color: #d4cbb3;
+            color: #f5edd6;
             margin-bottom: 0.5rem;
         }
 
-        /* Efek lampu neon/bernafas pada tombol status */
-        .status-badge {
+        .old-domain {
+            text-decoration: line-through;
+            color: #a09885;
+            font-family: monospace;
+        }
+
+        /* Tombol Link Domain Baru dengan Animasi Berdenyut */
+        .new-link {
             display: inline-block;
-            margin-top: 1.5rem;
-            font-size: 0.85rem;
-            letter-spacing: 0.15rem;
-            color: #ffcbd5;
-            background: rgba(188, 0, 45, 0.25);
-            padding: 0.5rem 1.5rem;
-            border-radius: 2px;
-            border: 1px solid rgba(188, 0, 45, 0.5);
-            animation: breath 2.5s ease-in-out infinite;
-        }
-
-        @keyframes breath {
-            0%, 100% { opacity: 0.7; box-shadow: 0 0 5px rgba(188,0,45,0.2); }
-            50% { opacity: 1; box-shadow: 0 0 20px rgba(188,0,45,0.6); }
-        }
-
-        .version {
-            font-size: 0.8rem;
-            color: rgba(245, 237, 214, 0.4);
+            margin-top: 1rem;
+            font-size: 1.3rem;
+            font-weight: 600;
             letter-spacing: 0.1rem;
+            color: #ffffff;
+            background: linear-gradient(135deg, #bc002d, #e63946);
+            padding: 0.8rem 2.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(188, 0, 45, 0.4);
+            transition: all 0.3s ease;
+            animation: pulseButton 2s infinite;
+        }
+
+        .new-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(230, 57, 70, 0.7);
+            background: linear-gradient(135deg, #e63946, #ff4d6d);
+        }
+
+        @keyframes pulseButton {
+            0% { box-shadow: 0 0 0 0 rgba(188, 0, 45, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(188, 0, 45, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(188, 0, 45, 0); }
+        }
+
+        .progress-text {
+            font-size: 0.85rem;
+            color: #ffcbd5;
+            margin-top: 1.5rem;
+            letter-spacing: 0.1rem;
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -170,17 +190,18 @@
     <!-- Konten Box Tengah -->
     <div class="container">
         <h1>NishoKana</h1>
-        <div class="subtitle">システム再構築中</div>
+        <div class="subtitle">公式サイト移転のお知らせ</div>
         
         <div class="status-box">
-            <p>次世代の NishoKana へ進化中。</p>
-            <p>大幅なアップデートのため、現在システムを停止しています。</p>
-            <p>しばらくお待ちください。</p>
-        </div>
+            <p>当ウェブサイトは <span class="old-domain" style="text-decoration: none;">github.io</span> ドメインでの運用を終了いたしました。</p>
+            <p>新しい公式サイトは、下記の新しいドメインへと移行いたしました。</p>
+            <p style="margin-top: 1rem; font-weight: 600;">下記のリンクをクリックして新しいサイトへお越しください：</p>
+            
+            <!-- Link menuju domain baru (Sudah ganti teks & otomatis buka di tab baru) -->
+<a href="https://nishokana.my.id" class="new-link" target="_blank" style="display: inline-block; position: relative; z-index: 9999; cursor: pointer;">NishoKana</a>
 
-        <div class="status-badge">CORE EVOLUTION IN PROGRESS</div>
-        <div class="version" style="margin-top: 1rem;">VER 2.0</div>
-    </div>
+        </div>
+    
 
     <!-- Script logika pemicu guguran kelopak bunga sakura secara berkala -->
     <script>
